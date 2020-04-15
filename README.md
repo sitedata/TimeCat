@@ -5,7 +5,7 @@
 
 ### 不可思议的Web录屏器
 
-[🖥 DEMO](https://oct16.github.io/WebReplay) 用浏览器打开吧
+[🖥 DEMO](https://oct16.github.io/WebReplay) Chrome浏览器
 
 如果你爱打游戏，一定打过魔兽争霸3（暴露年纪🤣），你也许会游戏导出的录像文件感到好奇，明明打了一个小时游戏，为什么录像才几百KB而已。不过很快你又发现另一个问题，在每次导入录像的时候需要重新加载一次地图，否则就不能播放。
 
@@ -168,8 +168,8 @@ li2 add textNode 4
 我们只需要把这个蠢萌的结果优化一下就可以提升一倍的性能了
 ```
 li0 modify textNode 1 to 2
-li0 modify textNode 2 to 3
-li0 modify textNode 3 to 4
+li1 modify textNode 2 to 3
+li2 modify textNode 3 to 4
 ```
 
 
@@ -231,7 +231,7 @@ li0 modify textNode 3 to 4
 
 快进：加速采集速率的倍速
 
-跳转：跳转相当于一个最快速的快进功能，但是如果跳转的距离太远，性能会非常差，这时需要按一定的距离对播放轴插入预先的snapshot，再从最近的snapshot进行跳转
+跳转：通过virtualDom实现计算
 
 ##### 在客户端进行的Gzip压缩
 
