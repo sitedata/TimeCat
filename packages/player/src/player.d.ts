@@ -9,6 +9,7 @@ export declare class PlayerComponent {
     index: number;
     frameIndex: number;
     lastPercentage: number;
+    isFirstTimePlay: boolean;
     frames: number[];
     requestID: number;
     startTime: number;
