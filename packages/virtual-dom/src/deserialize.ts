@@ -1,5 +1,5 @@
 import { setAttribute } from './dom'
-import { nodeStore, isDev, isCommentStr } from '@WebReplay/utils'
+import { nodeStore, isDev, isCommentStr, isHideComment } from '@WebReplay/utils'
 import { VNode } from './types'
 
 export function convertVNode(vNode: VNode | string | null, node: Element | null): Element | null {
@@ -17,6 +17,7 @@ export function convertVNode(vNode: VNode | string | null, node: Element | null)
         travel(vNode, output)
     }
     createAttributes(vNode, output)
+    createProps(vNode, output)
     return output
 }
 
@@ -27,9 +28,21 @@ function travel(vNode: VNode, node: Element): void {
         let child = nodeChildren.pop() as Element | null
         child = convertVNode(vChild, child)
         if (child) {
+            if (isHideComment(node.lastChild)) {
+                setAttribute(child as HTMLElement, 'style', 'visibility: hidden')
+            }
             node.appendChild(child)
         }
     })
+}
+
+function createProps(vNode: VNode, node: Element): void {
+    const { props } = vNode.extra
+    if (props) {
+        for (let [key, val] of Object.entries(props)) {
+            ;(node as any)[key] = val
+        }
+    }
 }
 
 function createAttributes(vNode: VNode, node: Element): void {
