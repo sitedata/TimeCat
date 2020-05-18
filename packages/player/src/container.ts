@@ -1,23 +1,21 @@
-import { VNode, convertVNode } from '@WebReplay/virtual-dom'
+import { VNode, convertVNode } from '@TimeCat/virtual-dom'
+import { filteringTemplate, disableScrolling, nodeStore } from '@TimeCat/utils'
 import HTML from './ui.html'
-import STYLE from './ui.css'
+import CSS from './ui.css'
 import FIXED from './fixed.css'
-import { filteringTemplate, disableScrolling } from '@WebReplay/utils'
+import { SnapshotData } from '@TimeCat/snapshot'
 
 export class ContainerComponent {
     container: HTMLElement
     sandBox: HTMLIFrameElement
     sandBoxDoc: Document
 
-    vNode: VNode
-    width: number
-    height: number
-
-    constructor(params: { vNode: VNode; width: number; height: number }) {
-        this.vNode = params.vNode
-        this.width = params.width
-        this.height = params.height
+    constructor() {
         this.init()
+    }
+
+    getSnapshot() {
+        return window.__ReplayData__.snapshot
     }
 
     init() {
@@ -26,48 +24,57 @@ export class ContainerComponent {
     }
 
     initSandbox() {
-        this.sandBox = this.container.querySelector('#wr-sandbox') as HTMLIFrameElement
-        this.sandBox.style.width = this.width + 'px'
-        this.sandBox.style.height = this.height + 'px'
+        this.sandBox = this.container.querySelector('#cat-sandbox') as HTMLIFrameElement
+        this.sandBox.style.width = this.getSnapshot().width + 'px'
+        this.sandBox.style.height = this.getSnapshot().height + 'px'
         this.sandBoxDoc = this.sandBox.contentDocument!
         this.sandBoxDoc.open()
-        this.sandBoxDoc.write('<!DOCTYPE html><html><head></head><body></body></html>')
+
+        const doctype = this.getSnapshot().doctype
+        const doc = `<!DOCTYPE ${doctype.name} ${doctype.publicId ? 'PUBLIC ' + '"' + doctype.publicId + '"' : ''} ${
+            doctype.systemId ? '"' + doctype.systemId + '"' : ''
+        }><html><head></head><body></body></html>`
+        this.sandBoxDoc.write(doc)
         this.sandBoxDoc.close()
         disableScrolling(this.sandBox.contentWindow!)
         this.setViewState()
     }
 
     setViewState() {
-        const child = convertVNode(this.vNode, null)
+        nodeStore.reset()
+        const child = convertVNode(this.getSnapshot().vNode)
+
         if (child) {
             const [head] = child.getElementsByTagName('head')
             if (head) {
-                head.insertBefore(this.createStyle(FIXED), head.firstChild)
+                head.insertBefore(this.createStyle('cat-css-fix', FIXED), head.firstChild)
             }
             const documentElement = this.sandBoxDoc.documentElement
-            documentElement.scrollLeft = window.__ReplayData__.scrollLeft
-            documentElement.scrollTop = window.__ReplayData__.scrollTop
+            documentElement.scrollLeft = this.getSnapshot().scrollLeft
+            documentElement.scrollTop = this.getSnapshot().scrollTop
             this.sandBoxDoc.replaceChild(child, documentElement)
         }
     }
 
     initTemplate() {
-        document.head.appendChild(this.createStyle(STYLE))
-        document.body.appendChild(this.createContainer())
+        document.head.append(this.createStyle('cat-css', CSS))
+        document.body.append(this.createContainer('cat-main', HTML))
     }
 
-    createContainer() {
+    createContainer(id: string, html: string) {
         const parser = new DOMParser()
-        const element = parser.parseFromString(filteringTemplate(HTML), 'text/html').body.firstChild as HTMLElement
-        element.style.width = this.width + 'px'
-        element.style.height = this.height + 'px'
+        const element = parser.parseFromString(filteringTemplate(html), 'text/html').body.firstChild as HTMLElement
+        element.id = id
+        element.style.width = this.getSnapshot().width + 'px'
+        element.style.height = this.getSnapshot().height + 'px'
         element.style.position = 'relative'
         element.style.margin = '0 auto'
         return (this.container = element)
     }
 
-    createStyle(s: string) {
+    createStyle(id: string, s: string) {
         const style = document.createElement('style')
+        style.id = id
         style.innerHTML = s
         return style
     }

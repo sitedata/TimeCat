@@ -1,4 +1,4 @@
-import { State } from '../create-store'
+import { State } from "../types"
 
 let initState = {
     speed: null
@@ -10,7 +10,7 @@ export enum PlayerTypes {
 
 export type PlayerState = typeof PlayerTypes
 
-export default function playerReducer(state: State, action: any) {
+export default function playerReducer(state: State, action: { type: string; data: any }) {
     if (!state) {
         state = initState
     }

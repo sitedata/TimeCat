@@ -1,8 +1,9 @@
 import { isDev } from './common'
 
-const origin = () => (window.__ReplayData__ && window.__ReplayData__.origin) || location.origin
+const snapshot = () => window.__ReplayData__ && window.__ReplayData__.snapshot
+const origin = () => (snapshot() && snapshot().origin) || location.origin
 const protocol = () => origin().match(/.*?\/\//)![0] || location.protocol
-const href = () => origin() + ((window.__ReplayData__ && window.__ReplayData__.pathname) || location.pathname)
+const href = () => origin() + ((snapshot() && snapshot().pathname) || location.pathname)
 
 export function filteringTemplate(tpl: string) {
     const reg = /<!--env-->[\s\S]*<!--env-->/g
@@ -10,10 +11,6 @@ export function filteringTemplate(tpl: string) {
         tpl = tpl.replace(reg, '')
     }
     return tpl
-}
-
-export function isCommentStr(str: string) {
-    return str.startsWith('<!--') && str.endsWith('-->')
 }
 
 export function isCommentNode(node: Node) {
@@ -26,14 +23,6 @@ export function isElementNode(node: Node) {
 
 export function isTextNode(node: Node) {
     return node.nodeType === Node.TEXT_NODE
-}
-
-export function createCommentText(str: string) {
-    return `<!--` + str + `-->`
-}
-
-export function getPos(node: Node) {
-    return [...node.parentNode!.childNodes].indexOf(node as Element)
 }
 
 export function filteringScriptTag(str: string) {
@@ -49,13 +38,23 @@ function startsWithDoubleSlash(str: string) {
     return /^\/\//.test(str)
 }
 
+export function proxyResource(url: string) {
+    const { proxy } = window.__ReplayOptions__
+
+    if (proxy) {
+        const proxyUrl = proxy.endsWith('/') ? proxy + url : proxy + '/' + url
+        return proxyUrl
+    }
+    return url
+}
+
 export function completionCssHref(str: string) {
     return str.replace(/(url\()['"]?((\/{1,2})[^'"]*?)['"]?(?=\))/g, (a, b, c) => {
         let url: string = ''
         if (startsWithDoubleSlash(c)) {
             url = protocol() + c.substring(2)
         } else if (startsWithSlash(c)) {
-            url = origin + c.substring(1)
+            url = origin() + c.substring(1)
         }
         if (url) {
             return a.replace(c, url)
@@ -85,52 +84,11 @@ export function completionAttrHref(str: string) {
         if (str.startsWith('./')) {
             return href() + str.substring(1)
         } else {
-            return href() + str
+            return origin() + '/' + str
         }
     }
 
     return str
-}
-
-export function removeItem(array: any[], item: any) {
-    if (!Array.isArray(array)) {
-        return
-    }
-    const index = array.indexOf(item)
-    if (~index) {
-        array.splice(index, 1)
-    }
-}
-
-export function swapNode(nodeA: Node, nodeB: Node) {
-    if (nodeA && nodeB) {
-        const parentNodeA = nodeA.parentNode!
-        const tempA = document.createElement('span')
-        parentNodeA.insertBefore(tempA, nodeA)
-
-        const parentNodeB = nodeB.parentNode!
-        const tempB = document.createElement('span')
-        parentNodeB.insertBefore(tempB, nodeB)
-
-        parentNodeA.insertBefore(nodeB, tempA)
-        parentNodeB.insertBefore(nodeA, tempB)
-
-        parentNodeA.removeChild(tempA)
-        parentNodeB.removeChild(tempB)
-    }
-}
-
-export function getAllChildNodes(nodes: Node[], resultSet: Set<Node> = new Set()) {
-    if (!nodes || !nodes.length) {
-        return resultSet
-    }
-    nodes.forEach(node => {
-        resultSet.add(node)
-        if (node.childNodes) {
-            getAllChildNodes([...node.childNodes], resultSet)
-        }
-    })
-    return resultSet
 }
 
 export function isHideComment(node: Node | null) {
@@ -138,4 +96,8 @@ export function isHideComment(node: Node | null) {
         return false
     }
     return node.nodeType === Node.COMMENT_NODE && node.textContent === 'hidden'
+}
+
+export function isExistingNode(node: Node) {
+    return node.ownerDocument && !!node.ownerDocument.contains(node)
 }

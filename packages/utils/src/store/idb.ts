@@ -1,4 +1,5 @@
-import { SnapshotData, WindowObserveData, DOMSnapshotData } from '@WebReplay/snapshot'
+import { SnapshotData } from '@TimeCat/snapshot'
+import { RecordData } from '@TimeCat/record'
 
 export class IndexedDBOperator {
     db: IDBDatabase
@@ -51,27 +52,17 @@ export class IndexedDBOperator {
         objectStore.clear()
     }
 
-    async readAll(): Promise<SnapshotData[]> {
+    async readAllRecords(): Promise<(SnapshotData | RecordData)[]> {
         const objectStore = this.db.transaction([`${this.storeName}`], 'readwrite').objectStore(`${this.storeName}`)
         return new Promise(resolve => {
             objectStore.getAll().onsuccess = event => {
-                const result = event!.target!.result as SnapshotData[]
-                resolve(result)
+                resolve(event!.target!.result as (SnapshotData | RecordData)[])
             }
         })
     }
 
-    async getData() {
-        const all = await this.readAll()
-
-        const [window, virtualNode, ...data] = all
-        const [WindowData, { vNode }] = [window.data, virtualNode.data] as [WindowObserveData, DOMSnapshotData]
-
-        return {
-            ...WindowData,
-            vNode,
-            data
-        }
+    async getRecords() {
+        return await this.readAllRecords()
     }
 }
 

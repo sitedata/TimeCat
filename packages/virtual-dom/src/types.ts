@@ -1,10 +1,23 @@
-export interface VNode {
-    attrs: { [key: string]: string }
-    children: (VNode | string)[]
-    tag: string
+type Attrs = { [key: string]: string }
+
+type Extra = {
+    props?: { [key: string]: string | number | boolean }
+    isSVG?: boolean
+}
+
+type Children = (VNode | VSNode)[]
+
+export interface VSNode {
     id: number
-    extra: {
-        props?: { [key: string]: any }
-        isSVG?: boolean
-    }
+    type: number
+    value: string
+}
+
+export interface VNode {
+    type: number
+    id: number
+    tag: string
+    attrs: Attrs
+    children: Children
+    extra: Extra
 }

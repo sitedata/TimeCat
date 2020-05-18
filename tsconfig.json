@@ -24,12 +24,11 @@
             "dom.iterable"
         ],
         "types": [
-            "@types/chrome",
             "@types/node"
         ],
         "rootDir": ".",
         "paths": {
-            "@WebReplay/*": [
+            "@TimeCat/*": [
                 "packages/*/src"
             ]
         }

@@ -1,4 +1,4 @@
-import { setAttribute } from '@WebReplay/virtual-dom'
+import { setAttribute } from '@TimeCat/virtual-dom'
 
 export class PointerComponent {
     x = 0
@@ -10,7 +10,7 @@ export class PointerComponent {
     }
 
     initPointer() {
-        this.pointer = document.getElementById('wr-pointer') as HTMLElement
+        this.pointer = document.getElementById('cat-pointer') as HTMLElement
         this.move(0, 0)
     }
 
@@ -26,6 +26,6 @@ export class PointerComponent {
         setAttribute(this.pointer, 'active', '')
         setTimeout(() => {
             setAttribute(this.pointer, 'active', null)
-        }, 20)
+        }, 400)
     }
 }

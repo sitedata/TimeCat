@@ -1,42 +1,99 @@
 import {
-    SnapshotData,
-    MouseSnapshotData,
-    FormElementObserveData,
-    SnapshotType,
+    RecordData,
+    MouseRecordData,
+    FormElementWatcherData,
+    RecordType,
     MouseEventType,
     CharacterDataUpdateData,
     AttributesUpdateData,
     FormElementEvent,
-    WindowObserveData,
-    AddedUpdateData,
-    removedUpdateData,
+    WindowWatcherData,
+    UpdateNodeData,
+    RemoveUpdateData,
     DOMUpdateDataType,
-    movedUpdateData
-} from '@WebReplay/snapshot'
+    ScrollWatcherData
+} from '@TimeCat/record'
 import { PlayerComponent } from './player'
-import { nodeStore, isCommentStr, swapNode, getPos } from '@WebReplay/utils'
-import { convertVNode, setAttribute } from '@WebReplay/virtual-dom'
+import { nodeStore, isElementNode, isExistingNode } from '@TimeCat/utils'
+import { setAttribute, VNode, VSNode, createNode, createSpecialNode } from '@TimeCat/virtual-dom'
 
-export function updateDom(this: PlayerComponent, snapshot: SnapshotData) {
-    const { type, data } = snapshot
+function isVNode(n: VNode | VSNode) {
+    return !!(n as any).tag
+}
+
+function insertOrMoveNode(data: UpdateNodeData) {
+    const { parentId, nextId, node } = data
+    const parentNode = nodeStore.getNode(parentId!)
+
+    if (parentNode) {
+        const nextNode = findNextNode(nextId)
+        const n = node as VNode | VSNode
+
+        let refNode: Node
+        if (typeof node === 'number') {
+            refNode = nodeStore.getNode(node)!
+        } else if (isVNode(n)) {
+            refNode = createNode(n as VNode)
+        } else {
+            refNode = createSpecialNode(n as VSNode)
+        }
+
+        if (nextNode) {
+            if (isChildNode(parentNode, nextNode)) {
+                parentNode.insertBefore(refNode, nextNode)
+            } else {
+                return 'revert'
+            }
+        } else {
+            parentNode.appendChild(refNode)
+        }
+    }
+}
+
+function isChildNode(parentNode: Node, childNode: Node) {
+    if (isElementNode(parentNode)) {
+        const childNodes = parentNode.childNodes
+        return [...childNodes].indexOf(childNode as ChildNode) !== -1
+    }
+    return false
+}
+
+function findNextNode(nextId: number | null): Node | null {
+    return nextId ? nodeStore.getNode(nextId) : null
+}
+
+export function updateDom(this: PlayerComponent, Record: RecordData) {
+    const { type, data } = Record
     switch (type) {
-        case SnapshotType.WINDOW:
-            const { scrollLeft, scrollTop } = data as WindowObserveData
-            this.c.sandBoxDoc.documentElement.scrollTo(scrollLeft, scrollTop)
+        case RecordType.SCROLL: {
+            const { top, left, id } = data as ScrollWatcherData
+            let target = (id as number | null)
+                ? (nodeStore.getNode(id) as HTMLElement)
+                : this.c.sandBoxDoc.documentElement
+            target.scrollTo(left, top)
             break
-        case SnapshotType.MOUSE:
-            const { x, y, type } = data as MouseSnapshotData
+        }
+        case RecordType.WINDOW: {
+            const { width, height, id } = data as WindowWatcherData
+            let target = (id as number | null) ? (nodeStore.getNode(id) as HTMLElement) : this.c.sandBoxDoc.body
+            if (target) {
+                ;(target as HTMLElement).style.width = width + 'px'
+                ;(target as HTMLElement).style.height = height + 'px'
+            }
+            break
+        }
+        case RecordType.MOUSE:
+            const { x, y, type } = data as MouseRecordData
             if (type === MouseEventType.MOVE) {
                 this.pointer.move(x, y)
             } else if (type === MouseEventType.CLICK) {
                 this.pointer.click(x, y)
             }
             break
-        case SnapshotType.DOM_UPDATE:
-            const { addedList, removedList, removedAllList, movedList, attrs, texts } = data as DOMUpdateDataType
-
-            removedList.forEach((item: removedUpdateData) => {
-                const { parentId, id } = item
+        case RecordType.DOM_UPDATE:
+            const { addedNodes, removedNodes, attrs, texts } = data as DOMUpdateDataType
+            removedNodes.forEach((data: RemoveUpdateData) => {
+                const { parentId, id } = data
                 const parentNode = nodeStore.getNode(parentId)
                 const node = nodeStore.getNode(id)
                 if (node && parentNode && parentNode.contains(node)) {
@@ -44,48 +101,18 @@ export function updateDom(this: PlayerComponent, snapshot: SnapshotData) {
                 }
             })
 
-            removedAllList.forEach(id => {
-                const node = nodeStore.getNode(id) as HTMLElement
-                if (node) {
-                    node.innerHTML = ''
-                }
-            })
-
-            addedList.forEach((item: AddedUpdateData) => {
-                const { parentId, vNode, pos } = item
-                const parentNode = nodeStore.getNode(parentId)
-                if (parentNode) {
-                    let node: Node
-                    if (typeof vNode === 'string') {
-                        const text = vNode as string
-                        if (isCommentStr(vNode)) {
-                            node = document.createComment(text.substring(4, text.length - 3))
-                        } else {
-                            node = document.createTextNode(text)
-                        }
-                    } else {
-                        node = convertVNode(vNode, null) as Node
-                    }
-
-                    if (node) {
-                        parentNode.insertBefore(node, parentNode.childNodes[pos])
+            const addedList = addedNodes.slice()
+            const maxRevertCount = addedList.length
+            let revertCount = 0
+            while (addedList.length) {
+                const addData = addedList.shift()
+                if (addData) {
+                    const revertSignal = insertOrMoveNode(addData)
+                    if (revertSignal === 'revert' && revertCount++ < maxRevertCount) {
+                        addedList.push(addData)
                     }
                 }
-            })
-
-            movedList.forEach((moved: movedUpdateData) => {
-                const { id, parentId, pos } = moved
-                if (id && parentId) {
-                    const node = nodeStore.getNode(id)!
-                    const curPos = getPos(node)
-
-                    if (curPos !== pos) {
-                        const parentNode = nodeStore.getNode(parentId)!
-                        const shouldSwapNode = parentNode.childNodes[pos]
-                        swapNode(node, shouldSwapNode)
-                    }
-                }
-            })
+            }
 
             attrs.forEach((attr: AttributesUpdateData) => {
                 const { id, key, value } = attr
@@ -97,22 +124,21 @@ export function updateDom(this: PlayerComponent, snapshot: SnapshotData) {
             })
 
             texts.forEach((text: CharacterDataUpdateData) => {
-                const { pos, value, parentId } = text
-                const parentEl = nodeStore.getNode(parentId) as HTMLElement
+                const { id, value, parentId } = text
+                const parentNode = nodeStore.getNode(parentId) as HTMLElement
+                const node = nodeStore.getNode(id) as HTMLElement
 
-                if (parentEl) {
-                    if (pos !== null) {
-                        const target = parentEl.childNodes[pos as number]
-                        parentEl.replaceChild(document.createTextNode(value), target)
-                    } else {
-                        parentEl.innerText = value
+                if (parentNode && node) {
+                    if (isExistingNode(node)) {
+                        node.textContent = value
+                        return
                     }
+                    parentNode.innerText = value
                 }
             })
-
             break
-        case SnapshotType.FORM_EL_UPDATE:
-            const { id, key, type: formType, value } = data as FormElementObserveData
+        case RecordType.FORM_EL_UPDATE:
+            const { id, key, type: formType, value } = data as FormElementWatcherData
             const node = nodeStore.getNode(id) as HTMLInputElement | undefined
 
             if (node) {
@@ -122,9 +148,9 @@ export function updateDom(this: PlayerComponent, snapshot: SnapshotData) {
                     node.focus()
                 } else if (formType === FormElementEvent.BLUR) {
                     node.blur()
-                } else if (formType === FormElementEvent.ATTR) {
+                } else if (formType === FormElementEvent.PROP) {
                     if (key) {
-                        setAttribute(node, key, value as string)
+                        ;(node as any)[key] = value
                     }
                 }
             }

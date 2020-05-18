@@ -1,12 +1,16 @@
 import { PointerComponent } from './pointer'
-import { SnapshotData } from '@WebReplay/snapshot'
 import { updateDom } from './dom'
-import { reduxStore, PlayerTypes, ProgressState, getTime } from '@WebReplay/utils'
+import { reduxStore, PlayerTypes, ProgressState, getTime, isSnapshot } from '@TimeCat/utils'
 import { ProgressComponent } from './progress'
 import { ContainerComponent } from './container'
+import { RecordData } from '@TimeCat/record'
 
 export class PlayerComponent {
-    data: SnapshotData[]
+    c: ContainerComponent
+    pointer: PointerComponent
+    progress: ProgressComponent
+    progressState: ProgressState
+    data: RecordData[]
     speed = 0
     index = 0
     frameIndex = 0
@@ -15,34 +19,91 @@ export class PlayerComponent {
     frames: number[]
     requestID: number
     startTime: number
-    c: ContainerComponent
-    pointer: PointerComponent
-    progress: ProgressComponent
-    progressState: ProgressState
 
-    constructor(data: SnapshotData[], c: ContainerComponent, pointer: PointerComponent, progress: ProgressComponent) {
-        this.data = data
+    curViewEndTime: number
+    curViewDiffTime: number = 0
+
+    constructor(c: ContainerComponent, pointer: PointerComponent, progress: ProgressComponent) {
+        this.initViewState()
+
         this.c = c
         this.pointer = pointer
         this.progress = progress
 
-        reduxStore.subscribe('player', state => {
-            this.progressState = reduxStore.getState()['progress']
-            const speed = state.speed
-            this.speed = speed
-            if (speed > 0) {
-                this.play()
-            } else {
-                this.pause()
-            }
-            this.frames = this.getAccuratelyFrame()
-        })
+        if (!this.data.length) {
+            // is live mode
+            window.addEventListener('record-data', this.streamHandle.bind(this))
+        } else {
+            reduxStore.subscribe('player', state => {
+                this.progressState = reduxStore.getState()['progress']
+                const speed = state.speed
+                this.speed = speed
+                if (speed > 0) {
+                    this.play()
+                } else {
+                    this.pause()
+                }
+                this.frames = this.getAccuratelyFrame()
+            })
+        }
+    }
+
+    streamHandle(this: PlayerComponent, e: CustomEvent) {
+        const frame = e.detail as RecordData
+        if (isSnapshot(frame)) {
+            window.__ReplayData__.snapshot = frame
+            this.c.setViewState()
+            return
+        }
+        this.execFrame(frame)
+    }
+
+    initViewState() {
+        const { __ReplayDataList__: list } = window
+        const firstData = list[0]
+        this.data = firstData.records
+
+        // live mode
+        if (!this.data.length) {
+            return
+        }
+
+        this.curViewEndTime = +this.data.slice(-1)[0].time
+        this.curViewDiffTime = 0
+        window.__ReplayData__ = { index: 0, ...firstData }
+    }
+
+    switchNextView() {
+        const { __ReplayData__: rData, __ReplayDataList__: list } = window
+
+        if (!this.data) {
+            return
+        }
+
+        const nextIndex = rData.index + 1
+        if (nextIndex > list.length - 1) {
+            return
+        }
+
+        const nextData = list[nextIndex]
+
+        const curEndTime = +this.data.slice(-1)[0].time
+        const nextStartTime = +nextData.records[0].time
+        this.curViewDiffTime += nextStartTime - curEndTime
+
+        window.__ReplayData__ = { index: nextIndex, ...nextData }
+        this.data = nextData.records
+        this.curViewEndTime = +this.data.slice(-1)[0].time
+        this.index = 0
+        this.c.setViewState()
     }
 
     play() {
         if (this.index === 0) {
             this.progress.resetThumb()
             if (!this.isFirstTimePlay) {
+                // Indicates the second times play
+                this.initViewState()
                 this.c.setViewState()
             }
             this.isFirstTimePlay = false
@@ -66,6 +127,10 @@ export class PlayerComponent {
             const currTime = this.startTime + timeStamp * this.speed
             const nextTime = Number(this.frames[this.frameIndex])
 
+            if (nextTime > this.curViewEndTime - this.curViewDiffTime) {
+                this.switchNextView()
+            }
+
             if (currTime >= nextTime) {
                 this.renderEachFrame(currTime)
             }
@@ -79,8 +144,9 @@ export class PlayerComponent {
         this.progress.updateTimer((time - startTime) / 1000)
         const progress = (this.frameIndex / (this.frames.length - 1)) * 100
         this.progress.updateProgress(progress)
-        let data: SnapshotData
-        while (+(data = this.data[this.index]).time <= this.frames[this.frameIndex]) {
+        let data: RecordData
+
+        while (+(data = this.data[this.index]).time - this.curViewDiffTime <= this.frames[this.frameIndex]) {
             this.execFrame.call(this, data)
             this.index++
             if (this.index === this.data.length) {
@@ -108,8 +174,8 @@ export class PlayerComponent {
         this.pause()
     }
 
-    execFrame(this: PlayerComponent, snapshot: SnapshotData) {
-        updateDom.call(this, snapshot)
+    execFrame(this: PlayerComponent, record: RecordData) {
+        updateDom.call(this, record)
     }
 
     getPercentInterval() {

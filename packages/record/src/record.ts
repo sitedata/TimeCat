@@ -1,22 +1,35 @@
-import { snapshots, SnapshotData } from '@WebReplay/snapshot'
-import { RecordOptions } from './types'
-import { listenerStore } from '@WebReplay/utils'
-
+import { watchers } from './watcher'
+import { RecordData, RecordEvent } from './types'
+import { listenerStore, IndexedDBOperator, DBPromise } from '@TimeCat/utils'
+import { snapshots, SnapshotData } from '@TimeCat/snapshot'
 const ctrl = {
-    uninstall: () => {
+    unsubscribe: () => {
         Array.from(listenerStore.values()).forEach(un => un())
     }
 }
 
-function recordAll(emitter?: (e: SnapshotData) => void) {
-    const recordTasks: Function[] = [...Object.values(snapshots)]
-
-    recordTasks.forEach(task => {
-        task(emitter)
-    })
+function getSnapshotData(emit: RecordEvent<SnapshotData>): void {
+    const { getInitInfo, DOMSnapshot } = snapshots
+    const initInfo = getInitInfo()
+    const snapshot = DOMSnapshot()
+    emit({ ...initInfo, ...snapshot })
 }
 
-export const record = ({ emitter }: RecordOptions = {}) => {
-    recordAll(emitter)
+function recordAll(emitter?: (data: RecordData & SnapshotData) => void) {
+    const recordTasks: Function[] = [getSnapshotData, ...Object.values(watchers)]
+    recordTasks.forEach(task => task(emitter))
+}
+
+export const record = (fn?: (data: RecordData, db: IndexedDBOperator) => void) => {
+    DBPromise.then(db => {
+        db.clear()
+        recordAll(data => {
+            if (fn) {
+                fn(data, db)
+                return
+            }
+            db.add(data)
+        })
+    })
     return ctrl
 }

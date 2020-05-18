@@ -5,8 +5,8 @@ import replace from '@rollup/plugin-replace'
 
 function filteringTemplate(tpl) {
     const reg = /<!--env-->[\s\S]*<!--env-->/g
-    const isProd = process.env.NODE_ENV === 'production'
-    if (!isProd) {
+    const isDev = process.env.NODE_ENV === 'development'
+    if (isDev) {
         tpl = tpl.replace(reg, '')
     }
     return tpl
@@ -28,6 +28,10 @@ export const htmlExamples = () => {
         html({
             fileName: 'replay.html',
             template: () => filteringTemplate(fs.readFileSync('examples/player.html', 'utf8'))
+        }),
+        html({
+            fileName: 'live.html',
+            template: () => filteringTemplate(fs.readFileSync('examples/live.html', 'utf8'))
         }),
         html({
             fileName: 'test.html',

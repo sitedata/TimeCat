@@ -12,7 +12,7 @@ const html = parser.parseFromString(TPL, 'text/html')
 export async function exportReplay(opts: Opts = {}) {
     await injectData()
     await initOptions(opts)
-    createAndDownloadFile(`WebReplay-${Date.now()}`, html.documentElement.outerHTML)
+    createAndDownloadFile(`TimeCat-${Date.now()}`, html.documentElement.outerHTML)
 }
 
 function createAndDownloadFile(fileName: string, content: string) {
@@ -30,8 +30,8 @@ async function initOptions(opts: Opts) {
     const scriptList = scripts || ([] as ScriptItem[])
     if (autoPlay) {
         scriptList.push({
-            name: 'web-replay-init',
-            src: `wr.replay()`
+            name: 'time-cat-init',
+            src: `cat.replay()`
         })
     }
     await injectScripts(scriptList)
@@ -67,7 +67,7 @@ async function getScript(src: string) {
 
 async function injectData() {
     const dataScript = document.createElement('script')
-    const data = window.__ReplayData__ || (await (await DB).getData())
+    const data = window.__ReplayData__ || (await (await DB).getRecords())
     const jsonStrData = JSON.stringify(data)
     const zipArray = pako.gzip(jsonStrData)
     const scriptContent = `var __ReplayStrData__ = ${"'" + zipArray.toString() + "'"}`

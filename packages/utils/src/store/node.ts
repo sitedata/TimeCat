@@ -1,12 +1,26 @@
+import { isDev } from '../tools/common'
 class NodeStore {
-    private nodeId = 1
-    private nodeMap: Map<number, Node> = new Map()
-    private idMap: WeakMap<Node, number> = new WeakMap()
+    private static nodeId = 1
+    private nodeMap: Map<number, Node>
+    private idMap: WeakMap<Node, number>
 
-    public createNodeId = () => this.nodeId++
+    constructor() {
+        this.init()
+    }
+
+    private init() {
+        this.nodeMap = new Map()
+        this.idMap = new WeakMap()
+    }
+
+    public reset() {
+        this.nodeMap.clear()
+    }
+
+    public createNodeId = () => NodeStore.nodeId++
 
     public getNode(id: number) {
-        return this.nodeMap.get(id)
+        return this.nodeMap.get(id) || null
     }
 
     public addNode(node: Node, id: number = this.createNodeId()) {
@@ -31,3 +45,7 @@ class NodeStore {
 }
 
 export const nodeStore = new NodeStore()
+
+if (isDev) {
+    ;(window as any).ns = nodeStore
+}

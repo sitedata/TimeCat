@@ -9,19 +9,21 @@ export default [
         input: 'index.ts',
         output: [
             {
-                name: 'wr',
+                name: 'cat',
                 format: 'iife',
-                file: 'dist/replay.min.js'
+                file: 'dist/timecat.min.js'
             },
             {
-                name: 'wr',
+                name: 'cat',
                 format: 'iife',
-                file: 'dist/chrome/replay.min.js'
+                file: 'dist/chrome/timecat.min.js'
             }
         ],
         plugins: [
             ts(),
-            node(),
+            node({
+                browser: true
+            }),
             commonjs(),
             ...env(),
             ...htmlExamples(),

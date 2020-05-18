@@ -1,5 +1,6 @@
-import 'mutationobserver-shim'
+import { retrieveMO } from '@TimeCat/utils'
+retrieveMO()
 
-export { record } from '@WebReplay/record'
-export { replay } from '@WebReplay/player'
-export { exportReplay, DBPromise as DB } from '@WebReplay/utils'
+export { record } from '@TimeCat/record'
+export { replay } from '@TimeCat/player'
+export { exportReplay } from '@TimeCat/utils'
