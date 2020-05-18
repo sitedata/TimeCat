@@ -22,8 +22,8 @@
 
         #replay {
             border: 1px solid grey;
-            padding: 5px 10px;
-            font-size: 22px;
+            padding: 2px 5px;
+            font-size: 18px;
             color: red;
             font-weight: bold;
             cursor: pointer;
@@ -36,15 +36,15 @@
             border-color: rgb(205, 203, 203);
         }
 
-
-        #replay.hide {
+        #replay.hide,
+        a[title="查看源代码"] {
             visibility: hidden;
         }
     </style>
 </head>
 
 <body>
-    <a style="position: absolute; z-index: 100; right: 0" href="https://github.com/oct16/WebReplay">
+    <a style="position: absolute; z-index: 100; right: 0" href="https://github.com/oct16/TimeCat">
         <img width="100" height="100"
             src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149"
             alt="Fork me on GitHub" />
@@ -56,23 +56,15 @@
     </div>
     <!--hidden--><button id="replay" class="locked">Replay</button>
     <script type="text/javascript" src="https://chvin.github.io/react-tetris/app-1.0.1.js"></script>
-    <script id="web-replay" src="./replay.min.js"></script>
+    <script id="time-cat" src="./timecat.min.js"></script>
 
     <script>
-        const { record, DB } = wr
-        DB.then(db => {
-            db.clear()
-            const ctr = record({
-                emitter: data => {
-                    db.add(data)
-                }
-            })
+        const { record } = cat
+        ctrl = record()
+        handleReplay(ctrl)
 
-            handleReplay(ctr)
-        })
-
-        function handleReplay(ctr) {
-            function IsPC() {
+        function handleReplay(ctrl) {
+            function isPC() {
                 var userAgentInfo = navigator.userAgent;
                 var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
                 var flag = true;
@@ -85,14 +77,14 @@
             setTimeout(() => {
                 replayButton.className = ''
             }, 5000);
-            document.addEventListener(IsPC() ? 'click' : 'touchstart', e => {
+            document.addEventListener(isPC() ? 'click' : 'touchstart', e => {
                 if (e.target === replayButton) {
                     if (replayButton.className) {
                         return
                     }
                     replayButton.className = 'hide'
-                    ctr.uninstall()
-                    if (IsPC()) {
+                    ctrl.unsubscribe()
+                    if (isPC()) {
                         window.open('replay.html')
                     } else {
                         location.href = './replay.html'

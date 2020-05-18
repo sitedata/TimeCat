@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebReplay</title>
+    <title>TimeCat</title>
     <style>
         label {
             margin-left: 10px;
@@ -13,18 +13,18 @@
 </head>
 
 <body>
-
     <div id="test-app">
-        <div>
+        <section>
             <button @click="plus">plus</button>
-            <button @click="insert">insertBefore</button>
-            <button @click="append">append</button>
-            <button @click="remove">remove</button>
-            <button @click="reverse">reverse</button>
-        </div>
+            <button @click="shuffle">shuffle</button>
+            <button @click="move1">move1</button>
+            <button @click="move2">move2</button>
+        </section>
 
         <ul>
-            <li :key="item.id" v-for="item in list" v-text="item.value"></li>
+            <li :key="item.id" v-for="item in list">
+                <span v-text="item.value"></span>
+            </li>
         </ul>
     </div>
 
@@ -42,52 +42,55 @@
                     { id: 3, value: 3 },
                     { id: 4, value: 4 },
                     { id: 5, value: 5 }
-                ]
+                ],
             },
             methods: {
                 plus() {
                     this.list = this.list.map(item => { item.value += 1; return item })
                 },
-                insert() {
-                    this.list.unshift({ id: 0, value: 0 })
-                },
+                shuffle() {
+                    const newList = []
 
-                append() {
-                    this.list.push({ id: 10, value: 10 })
-                },
+                    while (this.list.length) {
+                        const i = Math.floor(Math.random() * this.list.length)
+                        newList.push(...this.list.splice(i, 1))
+                    }
 
-                remove() {
-                    this.list.splice(3, 1)
+                    this.list = newList
                 },
+                move1() {
+                    const ul = document.querySelector('ul')
+                    const liList = ul.querySelectorAll('li')
+                    const child1 = document.createElement('child-1')
+                    child1.appendChild(document.createComment('i am a comment'))
+                    liList[0].appendChild(child1)
+                    const child2 = document.createElement('child-2')
+                    child2.innerText = 'child-content-2'
+                    child1.appendChild(child2)
+                    liList[4].insertBefore(child2, liList[4].lastChild)
+                    child1.removeChild(child1.firstChild)
 
-                reverse() {
-                    this.list.sort((a, b) => b.id - a.id)
                 },
+                move2() {
 
+                },
             }
         })
         // mount
         app.$mount('#test-app')
     </script>
 
-    <script src="http://localhost:4321/replay.min.js"></script>
+    <script src="http://localhost:4321/timecat.min.js"></script>
     <script>
-        const { record, DB } = wr
-        DB.then(db => {
-            db.clear()
-            const ctr = record({
-                emitter: data => {
-                    db.add(data)
-                }
-            })
-            const replayButton = document.getElementById('replay')
-            if (replayButton) {
-                replayButton.onclick = () => {
-                    ctr.uninstall()
-                    window.open('replay.html')
-                }
+        const { record } = cat
+        ctrl = record()
+        const replayButton = document.getElementById('replay')
+        if (replayButton) {
+            replayButton.onclick = () => {
+                ctrl.unsubscribe()
+                window.open('replay.html')
             }
-        })
+        }
     </script>
 
 </body>
