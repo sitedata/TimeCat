@@ -1,4 +1,4 @@
-import { createFlatNode } from '@TimeCat/virtual-dom'
+import { createFlatVNode, VNode, VSNode } from '@TimeCat/virtual-dom'
 import {
     RecordType,
     WindowWatcher,
@@ -16,7 +16,7 @@ import {
     RemoveUpdateData,
     ScrollWatcher
 } from './types'
-import { logger, throttle, isDev, nodeStore, listenerStore, getTime, isExistingNode } from '@TimeCat/utils'
+import { logger, throttle, isDev, nodeStore, listenerStore, getTime, isExistingNode, debounce } from '@TimeCat/utils'
 
 function emitterHook(emit: RecordEvent<RecordData>, data: any) {
     if (isDev) {
@@ -25,10 +25,23 @@ function emitterHook(emit: RecordEvent<RecordData>, data: any) {
     emit(data)
 }
 
-function registerEvent(eventTypes: string[], handleFn: Function, opts: AddEventListenerOptions, throttleTime = 500) {
-    const listenerHandle = throttle(handleFn, throttleTime, {
-        trailing: true
-    })
+function registerEvent(
+    eventTypes: string[],
+    handleFn: (...args: any[]) => void,
+    opts: AddEventListenerOptions,
+    type = 'throttle',
+    waitTime = 500
+) {
+    let listenerHandle: (...args: any[]) => void
+    if (type === 'throttle') {
+        listenerHandle = throttle(handleFn, waitTime, {
+            trailing: true
+        })
+    } else {
+        listenerHandle = debounce(handleFn, waitTime, {
+            isImmediate: false
+        })
+    }
 
     eventTypes
         .map(type => (fn: (e: Event) => void) => {
@@ -112,7 +125,7 @@ function mouseWatcher(emit: RecordEvent<MouseRecord>) {
             })
         }
         const name = 'mousemove'
-        const listenerHandle = throttle(evt, 100, {
+        const listenerHandle = throttle(evt, 300, {
             trailing: true
         })
 
@@ -155,7 +168,9 @@ function mutationCallback(records: MutationRecord[], emit: RecordEvent<DOMWatche
     const moveNodesSet: Set<Node> = new Set()
     const moveMarkSet: Set<string> = new Set()
 
-    const attrNodesMap: Map<Node, string | null> = new Map()
+    // A node may modify multiple attributes, so use array(not set)
+    const attrNodesArray: { key: string; node: Node; oldValue: string | null }[] = []
+
     const textNodesSet: Set<Node> = new Set()
 
     function deepAdd(n: Node, target?: Node) {
@@ -204,10 +219,10 @@ function mutationCallback(records: MutationRecord[], emit: RecordEvent<DOMWatche
     }
 
     records.forEach(record => {
-        const { target, addedNodes, removedNodes, type, attributeName } = record
+        const { target, addedNodes, removedNodes, type, attributeName, oldValue } = record
         switch (type) {
             case 'attributes':
-                attrNodesMap.set(target, attributeName)
+                attrNodesArray.push({ key: attributeName!, node: target, oldValue })
                 break
             case 'characterData':
                 textNodesSet.add(target)
@@ -222,14 +237,26 @@ function mutationCallback(records: MutationRecord[], emit: RecordEvent<DOMWatche
     })
 
     const addedNodes: UpdateNodeData[] = []
-
+    const addedVNodesMap: Map<number, VNode> = new Map()
     addNodesSet.forEach(node => {
         const nodeId = nodeStore.getNodeId(node)
+        const parentId = nodeStore.getNodeId(node.parentNode!)!
+
+        const parentVn = addedVNodesMap.get(parentId)
+
+        const isParentSVG = parentVn && parentVn.extra.isSVG
+
+        let vn: VNode | VSNode = createFlatVNode(node as Element, isParentSVG)
+
         addedNodes.push({
-            parentId: nodeStore.getNodeId(node.parentNode!)!,
+            parentId,
             nextId: nodeStore.getNodeId(node.nextSibling!) || null,
-            node: nodeId || createFlatNode(node as Element)
+            node: nodeId || vn
         })
+
+        if (isVNode(vn)) {
+            addedVNodesMap.set(vn.id, vn as VNode)
+        }
     })
 
     moveNodesSet.forEach(node => {
@@ -237,7 +264,7 @@ function mutationCallback(records: MutationRecord[], emit: RecordEvent<DOMWatche
         addedNodes.push({
             parentId: nodeStore.getNodeId(node.parentNode!)!,
             nextId: nodeStore.getNodeId(node.nextSibling!) || null,
-            node: nodeId || createFlatNode(node as Element)
+            node: nodeId || createFlatVNode(node as Element)
         })
     })
     const removedNodes: RemoveUpdateData[] = []
@@ -253,14 +280,19 @@ function mutationCallback(records: MutationRecord[], emit: RecordEvent<DOMWatche
         }
     })
 
-    const attrs: AttributesUpdateData[] = [...attrNodesMap.entries()]
+    const attrs: AttributesUpdateData[] = attrNodesArray
         .map(data => {
-            const [node, key] = data
+            const { node, key, oldValue } = data
             if (isExistingNode(node as Element)) {
+                const value = (node as Element).getAttribute(key)
+                if (oldValue === value) {
+                    return null
+                }
+                const id = nodeStore.getNodeId(node)
                 return {
-                    id: nodeStore.getNodeId(node),
+                    id,
                     key,
-                    value: key ? (node as Element).getAttribute(key) : ''
+                    value
                 } as AttributesUpdateData
             }
         })
@@ -421,6 +453,10 @@ function kidnapInputs(emit: RecordEvent<FormElementWatcher>) {
             time: getTime().toString()
         })
     }
+}
+
+function isVNode(n: VNode | VSNode) {
+    return !!(n as any).tag
 }
 
 export const watchers = {

@@ -1,15 +1,31 @@
 body {
     margin: 0;
+    background-color: #f6f6f6;
+}
+
+#cat-main {
+    box-shadow: 0 2px 3px rgba(26, 26, 26, .1);
+    transition: all 500ms ease-in-out;
+    -webkit-transition: all 500ms ease-in-out;
+    transform-origin: top left;
+    -webkit-transform-origin: top left;
+    opacity: 0;
+    position: relative;
+    overflow: hidden;
 }
 
 #cat-sandbox {
     background: white;
     vertical-align: top;
     border: 0;
+    width: 100%;
+    height: 100%;
 }
 
 #cat-player {
     position: relative;
+    width: inherit;
+    height: inherit;
 }
 
 #cat-pointer {
@@ -23,6 +39,8 @@ body {
     width: 15px;
     position: absolute;
     z-index: 100;
+    top: -5px;
+    left: -3px;
 }
 
 #cat-pointer .loading {
