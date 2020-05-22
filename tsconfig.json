@@ -15,7 +15,7 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "removeComments": true,
-        "declaration": true,
+        "declaration": false,
         "jsx": "preserve",
         "skipLibCheck": true,
         "lib": [
