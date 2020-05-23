@@ -14,39 +14,45 @@ import {
     ScrollWatcherData
 } from '@TimeCat/record'
 import { PlayerComponent } from './player'
-import { nodeStore, isElementNode, isExistingNode, delay } from '@TimeCat/utils'
+import { nodeStore, isElementNode, isExistingNode, delay, isVNode } from '@TimeCat/utils'
 import { setAttribute, VNode, VSNode, createNode, createSpecialNode } from '@TimeCat/virtual-dom'
 
-function isVNode(n: VNode | VSNode) {
-    return !!(n as any).tag
-}
-
-function insertOrMoveNode(data: UpdateNodeData) {
+function insertOrMoveNode(data: UpdateNodeData, orderSet: Set<number>) {
     const { parentId, nextId, node } = data
     const parentNode = nodeStore.getNode(parentId!)
 
     if (parentNode && isElementNode(parentNode)) {
-        const nextNode = findNextNode(nextId)
-        const n = node as VNode | VSNode
+        let nextNode: Node | null = null
 
-        let refNode: Node
-        if (typeof node === 'number') {
-            refNode = nodeStore.getNode(node)!
-        } else if (isVNode(n)) {
-            refNode = createNode(n as VNode)
-        } else {
-            refNode = createSpecialNode(n as VSNode)
-        }
-
-        if (nextNode) {
-            if (isChildNode(parentNode, nextNode)) {
-                parentNode.insertBefore(refNode, nextNode)
-            } else {
+        if (nextId) {
+            // Must wait for the relation node inserted first
+            if (orderSet.has(nextId)) {
                 return 'revert'
             }
-        } else {
-            parentNode.appendChild(refNode)
+
+            nextNode = findNextNode(nextId)
+            if (!nextNode) {
+                return 'revert'
+            }
         }
+        const n = node as VNode | VSNode
+
+        let insertNode: Node
+        if (typeof node === 'number') {
+            insertNode = nodeStore.getNode(node)!
+
+            if (orderSet.has(node)) {
+                orderSet.delete(node)
+            }
+        } else if (isVNode(n)) {
+            insertNode = createNode(n as VNode)
+        } else {
+            insertNode = createSpecialNode(n as VSNode)
+        }
+
+        parentNode.insertBefore(insertNode, nextNode)
+    } else {
+        return 'revert'
     }
 }
 
@@ -107,7 +113,7 @@ export async function updateDom(this: PlayerComponent, Record: RecordData) {
         case RecordType.DOM_UPDATE:
             // Reduce the delay caused by interactive animation
             await delay(200)
-            const { addedNodes, removedNodes, attrs, texts } = data as DOMUpdateDataType
+            const { addedNodes, movedNodes, removedNodes, attrs, texts } = data as DOMUpdateDataType
             removedNodes.forEach((data: RemoveUpdateData) => {
                 const { parentId, id } = data
                 const parentNode = nodeStore.getNode(parentId)
@@ -117,15 +123,47 @@ export async function updateDom(this: PlayerComponent, Record: RecordData) {
                 }
             })
 
-            const addedList = addedNodes.slice()
-            const maxRevertCount = addedList.length
+            const movedList = movedNodes.slice()
+
+            // node1 -> node2 -> node3
+            // insert node2 first
+            // insert node1 last
+            // => if nextId equal id, insert id first
+
+            const orderSet: Set<number> = new Set()
+            movedList.forEach(data => {
+                // Is there a relations between two nodes
+                if (data.nextId) {
+                    if (movedList.some(a => a.id === data.nextId)) {
+                        orderSet.add(data.nextId)
+                    }
+                }
+            })
+
+            const addedList = movedList
+                .map(item => {
+                    const { id, parentId, nextId } = item
+                    return {
+                        node: id,
+                        parentId,
+                        nextId
+                    } as UpdateNodeData
+                })
+                .concat(addedNodes.slice())
+
+            // Math Termial
+            const n = addedList.length
+            const maxRevertCount = n > 0 ? (n * n + n) / 2 : 0
             let revertCount = 0
+
             while (addedList.length) {
                 const addData = addedList.shift()
                 if (addData) {
-                    const revertSignal = insertOrMoveNode(addData)
-                    if (revertSignal === 'revert' && revertCount++ < maxRevertCount) {
-                        addedList.push(addData)
+                    const revertSignal = insertOrMoveNode(addData, orderSet)
+                    if (revertSignal === 'revert') {
+                        if (revertCount++ < maxRevertCount) {
+                            addedList.push(addData)
+                        }
                     }
                 }
             }

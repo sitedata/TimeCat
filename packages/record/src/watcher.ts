@@ -14,9 +14,20 @@ import {
     DOMUpdateDataType,
     UpdateNodeData,
     RemoveUpdateData,
-    ScrollWatcher
+    ScrollWatcher,
+    movedNodesData
 } from './types'
-import { logger, throttle, isDev, nodeStore, listenerStore, getTime, isExistingNode, debounce } from '@TimeCat/utils'
+import {
+    logger,
+    throttle,
+    isDev,
+    nodeStore,
+    listenerStore,
+    getTime,
+    isExistingNode,
+    debounce,
+    isVNode
+} from '@TimeCat/utils'
 
 function emitterHook(emit: RecordEvent<RecordData>, data: any) {
     if (isDev) {
@@ -176,9 +187,11 @@ function mutationCallback(records: MutationRecord[], emit: RecordEvent<DOMWatche
     function deepAdd(n: Node, target?: Node) {
         const id = nodeStore.getNodeId(n)
         if (id) {
-            // if exist, go to move
-            moveNodesSet.add(n)
             if (target) {
+                // if exist, go to move and delete in removedSet
+                moveNodesSet.add(n)
+                removeNodesMap.delete(n)
+
                 const targetId = nodeStore.getNodeId(target)
                 if (targetId) {
                     // mark as entry
@@ -236,22 +249,32 @@ function mutationCallback(records: MutationRecord[], emit: RecordEvent<DOMWatche
         }
     })
 
+    const addedSiblingMap: Map<Node, VNode | VSNode> = new Map()
+    addNodesSet.forEach(node => {
+        const vn: VNode | VSNode = createFlatVNode(node as Element)
+        addedSiblingMap.set(node, vn)
+    })
+
     const addedNodes: UpdateNodeData[] = []
     const addedVNodesMap: Map<number, VNode> = new Map()
+
     addNodesSet.forEach(node => {
-        const nodeId = nodeStore.getNodeId(node)
         const parentId = nodeStore.getNodeId(node.parentNode!)!
 
         const parentVn = addedVNodesMap.get(parentId)
 
         const isParentSVG = parentVn && parentVn.extra.isSVG
 
-        let vn: VNode | VSNode = createFlatVNode(node as Element, isParentSVG)
+        let vn = addedSiblingMap.get(node)!
+
+        if (isParentSVG && isVNode(vn)) {
+            ;(vn as VNode).extra.isSVG = true
+        }
 
         addedNodes.push({
             parentId,
             nextId: nodeStore.getNodeId(node.nextSibling!) || null,
-            node: nodeId || vn
+            node: vn
         })
 
         if (isVNode(vn)) {
@@ -259,14 +282,16 @@ function mutationCallback(records: MutationRecord[], emit: RecordEvent<DOMWatche
         }
     })
 
+    const movedNodes: movedNodesData[] = []
     moveNodesSet.forEach(node => {
-        const nodeId = nodeStore.getNodeId(node)
-        addedNodes.push({
+        const nodeId = nodeStore.getNodeId(node)!
+        movedNodes.push({
             parentId: nodeStore.getNodeId(node.parentNode!)!,
             nextId: nodeStore.getNodeId(node.nextSibling!) || null,
-            node: nodeId || createFlatVNode(node as Element)
+            id: nodeId
         })
     })
+
     const removedNodes: RemoveUpdateData[] = []
     removeNodesMap.forEach((parent, node) => {
         const id = nodeStore.getNodeId(node)!
@@ -309,8 +334,10 @@ function mutationCallback(records: MutationRecord[], emit: RecordEvent<DOMWatche
             }
         })
         .filter(Boolean) as CharacterDataUpdateData[]
+
     const data = {
         addedNodes,
+        movedNodes,
         removedNodes,
         attrs,
         texts
@@ -453,10 +480,6 @@ function kidnapInputs(emit: RecordEvent<FormElementWatcher>) {
             time: getTime().toString()
         })
     }
-}
-
-function isVNode(n: VNode | VSNode) {
-    return !!(n as any).tag
 }
 
 export const watchers = {
