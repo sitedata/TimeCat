@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MouseRecord | TimeCat</title>
+	<title>RecorderOptions | TimeCat</title>
 	<meta name="description" content="Documentation for TimeCat">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="mouserecord.html">MouseRecord</a>
+					<a href="recorderoptions.html">RecorderOptions</a>
 				</li>
 			</ul>
-			<h1>Interface MouseRecord</h1>
+			<h1>Interface RecorderOptions</h1>
 		</div>
 	</div>
 </header>
@@ -66,7 +66,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">MouseRecord</span>
+						<span class="target">RecorderOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -77,9 +77,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mouserecord.html#data" class="tsd-kind-icon">data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mouserecord.html#time" class="tsd-kind-icon">time</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mouserecord.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recorderoptions.html#channelcount" class="tsd-kind-icon">channel<wbr>Count</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recorderoptions.html#samplebits" class="tsd-kind-icon">sample<wbr>Bits</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recorderoptions.html#samplerate" class="tsd-kind-icon">sample<wbr>Rate</a></li>
 							</ul>
 						</section>
 					</div>
@@ -88,32 +88,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="data" class="tsd-anchor"></a>
-					<h3>data</h3>
-					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <a href="mouserecorddata.html" class="tsd-signature-type">MouseRecordData</a></div>
+					<a name="channelcount" class="tsd-anchor"></a>
+					<h3>channel<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">channel<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">2</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/types.ts#L51">packages/record/src/types.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/types.ts#L155">packages/record/src/types.ts:155</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="time" class="tsd-anchor"></a>
-					<h3>time</h3>
-					<div class="tsd-signature tsd-kind-icon">time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="samplebits" class="tsd-anchor"></a>
+					<h3>sample<wbr>Bits</h3>
+					<div class="tsd-signature tsd-kind-icon">sample<wbr>Bits<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">8</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">16</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/types.ts#L52">packages/record/src/types.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/types.ts#L153">packages/record/src/types.ts:153</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="type" class="tsd-anchor"></a>
-					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/recordtype.html#mouse" class="tsd-signature-type">MOUSE</a></div>
+					<a name="samplerate" class="tsd-anchor"></a>
+					<h3>sample<wbr>Rate</h3>
+					<div class="tsd-signature tsd-kind-icon">sample<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">8000</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">16000</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">22050</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">24000</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">44100</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">48000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/types.ts#L50">packages/record/src/types.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/types.ts#L154">packages/record/src/types.ts:154</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -132,16 +132,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="mouserecord.html" class="tsd-kind-icon">Mouse<wbr>Record</a>
+						<a href="recorderoptions.html" class="tsd-kind-icon">Recorder<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="mouserecord.html#data" class="tsd-kind-icon">data</a>
+								<a href="recorderoptions.html#channelcount" class="tsd-kind-icon">channel<wbr>Count</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="mouserecord.html#time" class="tsd-kind-icon">time</a>
+								<a href="recorderoptions.html#samplebits" class="tsd-kind-icon">sample<wbr>Bits</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="mouserecord.html#type" class="tsd-kind-icon">type</a>
+								<a href="recorderoptions.html#samplerate" class="tsd-kind-icon">sample<wbr>Rate</a>
 							</li>
 						</ul>
 					</li>

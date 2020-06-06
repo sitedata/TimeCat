@@ -1,1 +1,0 @@
-export declare const TPL = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta http-equiv=\"Content-Security-Policy-Report-Only\" />\n    <title>Time Cat</title>\n</head>\n<body>\n</body>\n</html>\n";
