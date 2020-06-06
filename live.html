@@ -9,23 +9,14 @@
 </head>
 
 <body>
-    <script id="time-cat" src="./timecat.min.js"></script>
+    <script id="time-cat" src="./timecatjs.min.js"></script>
     <script id="time-cat-init">
-        cat.replay({
+        timecat.replay({
             socketUrl: 'http://localhost:9528',
             // proxy: 'https://yacdn.org/serve/'
         })
     </script>
-    <!--env-->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151180797-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-151180797-1');
-    </script>
-    <!--env-->
+    
 </body>
 
 </html>
