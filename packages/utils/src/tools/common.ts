@@ -1,4 +1,4 @@
-import { RecordData } from '@TimeCat/record'
+import { RecordData, AudioData, AudioWatcher, AudioStrList, RecorderOptions } from '@TimeCat/record'
 import { SnapshotData } from '@TimeCat/snapshot'
 import { VNode, VSNode } from '@TimeCat/virtual-dom'
 
@@ -21,20 +21,53 @@ export function secondToDate(ms: number) {
     return timeStr.replace(/^00\:/, '')
 }
 
+export function toTimeStamp(timeStr: string) {
+    const parts = timeStr.split(':')
+    if (parts.length === 2) {
+        const [min, sec] = parts
+        return (+min * 60 + +sec) * 1000
+    }
+
+    const [hour, min, sec] = parts
+    return (+hour * 3600 + +min * 60 + +sec) * 1000
+}
+
 export function isSnapshot(frame: RecordData | SnapshotData) {
     return !!(frame as SnapshotData).vNode
 }
 
 export function classifyRecords(data: (SnapshotData | RecordData)[]) {
-    const dataList: { snapshot: SnapshotData; records: RecordData[] }[] = []
+    const dataList: { snapshot: SnapshotData; records: RecordData[]; audio: AudioData }[] = []
 
-    let viewData: { snapshot: SnapshotData; records: RecordData[] }
+    function isAudioBufferStr(frame: AudioWatcher) {
+        return frame.data.type === 'base64'
+    }
+    function isAudio(frame: RecordData | SnapshotData) {
+        return (frame as RecordData).type === 'AUDIO'
+    }
+
+    let dataBasket: { snapshot: SnapshotData; records: RecordData[]; audio: AudioData }
     data.forEach(item => {
         if (isSnapshot(item)) {
-            viewData = { snapshot: item as SnapshotData, records: [] }
-            dataList.push(viewData)
+            dataBasket = {
+                snapshot: item as SnapshotData,
+                records: [],
+                audio: {
+                    bufferStrList: [],
+                    subtitles: [],
+                    opts: {} as RecorderOptions
+                }
+            }
+            dataList.push(dataBasket)
+        } else if (isAudio(item)) {
+            if (isAudioBufferStr(item as AudioWatcher)) {
+                const audioData = item as AudioWatcher
+                dataBasket.audio.bufferStrList.push(...(audioData.data as AudioStrList).data)
+            } else {
+                dataBasket.audio.opts = (item as AudioWatcher).data.data as RecorderOptions
+            }
         } else {
-            viewData.records.push(item as RecordData)
+            dataBasket.records.push(item as RecordData)
         }
     })
 

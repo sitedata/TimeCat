@@ -1,14 +1,19 @@
 import { PointerComponent } from './pointer'
 import { updateDom } from './dom'
-import { reduxStore, PlayerTypes, ProgressState, getTime, isSnapshot, delay } from '@TimeCat/utils'
+import { reduxStore, PlayerTypes, ProgressState, getTime, isSnapshot, delay, toTimeStamp } from '@TimeCat/utils'
 import { ProgressComponent } from './progress'
 import { ContainerComponent } from './container'
-import { RecordData } from '@TimeCat/record'
+import { RecordData, AudioData, base64ToFloat32Array, encodeWAV } from '@TimeCat/record'
+import { BroadcasterComponent } from './broadcaster'
 
 export class PlayerComponent {
     c: ContainerComponent
     pointer: PointerComponent
     progress: ProgressComponent
+    broadcaster: BroadcasterComponent
+    audioNode: HTMLAudioElement
+    audioCurrentTime = 0
+
     progressState: ProgressState
     data: RecordData[]
     speed = 0
@@ -19,16 +24,28 @@ export class PlayerComponent {
     frames: number[]
     requestID: number
     startTime: number
+    elapsedTime = 0
 
     curViewEndTime: number
-    curViewDiffTime: number = 0
+    curViewDiffTime = 0
 
-    constructor(c: ContainerComponent, pointer: PointerComponent, progress: ProgressComponent) {
-        this.initViewState()
+    subtitlesIndex = 0
+    audioData: AudioData
+    audioBlobUrl: string
 
+    constructor(
+        c: ContainerComponent,
+        pointer: PointerComponent,
+        progress: ProgressComponent,
+        broadcaster: BroadcasterComponent
+    ) {
         this.c = c
         this.pointer = pointer
         this.progress = progress
+        this.broadcaster = broadcaster
+        this.audioNode = new Audio()
+
+        this.initViewState()
 
         if (!this.data.length) {
             // is live mode
@@ -48,6 +65,23 @@ export class PlayerComponent {
         }
     }
 
+    initAudio() {
+        if (!this.audioData || !this.audioData.bufferStrList.length) {
+            return
+        }
+
+        const bufferStrList = this.audioData.bufferStrList
+        const dataArray: Float32Array[] = []
+        for (let i = 0; i < bufferStrList.length; i++) {
+            const data = base64ToFloat32Array(bufferStrList[i])
+            dataArray.push(data)
+        }
+
+        const audioBlob = encodeWAV(dataArray, this.audioData.opts)
+        const audioBlobUrl = URL.createObjectURL(audioBlob)
+        this.audioBlobUrl = audioBlobUrl
+    }
+
     streamHandle(this: PlayerComponent, e: CustomEvent) {
         const frame = e.detail as RecordData
         if (isSnapshot(frame)) {
@@ -63,10 +97,16 @@ export class PlayerComponent {
         const firstData = list[0]
         this.data = firstData.records
 
+        this.audioData = firstData.audio
+        this.initAudio()
+
         // live mode
         if (!this.data.length) {
             return
         }
+
+        this.subtitlesIndex = 0
+        this.broadcaster.cleanText()
 
         this.curViewEndTime = +this.data.slice(-1)[0].time
         this.curViewDiffTime = 0
@@ -93,12 +133,15 @@ export class PlayerComponent {
 
         window.__ReplayData__ = { index: nextIndex, ...nextData }
         this.data = nextData.records
+        this.audioData = nextData.audio
+        this.initAudio()
         this.curViewEndTime = +this.data.slice(-1)[0].time
         this.index = 0
         this.c.setViewState()
     }
 
     play() {
+        this.playAudio()
         if (this.index === 0) {
             this.progress.resetThumb()
             if (!this.isFirstTimePlay) {
@@ -130,7 +173,7 @@ export class PlayerComponent {
             if (nextTime > this.curViewEndTime - this.curViewDiffTime) {
                 // why delay 200ms here? cause we need to wait for all frame finished
                 await delay(200)
-                
+
                 this.switchNextView()
             }
 
@@ -138,7 +181,42 @@ export class PlayerComponent {
                 this.renderEachFrame(currTime)
             }
 
+            this.elapsedTime = (currTime - this.frames[0]) / 1000
+
             this.requestID = requestAnimationFrame(loop.bind(this))
+        }
+    }
+
+    playAudio() {
+        if (!this.audioData || !this.audioData.bufferStrList.length) {
+            return
+        }
+
+        if (!this.audioBlobUrl) {
+            this.pauseAudio()
+        }
+        if (this.audioNode) {
+            if (!this.audioNode.src || this.audioNode.src !== this.audioBlobUrl) {
+                this.audioNode.src = this.audioBlobUrl
+            }
+
+            // for pause and forward
+            if (this.audioCurrentTime) {
+                this.audioNode.currentTime = this.elapsedTime + 0.5
+            }
+
+            if (this.speed > 1) {
+                this.audioNode.pause()
+            } else {
+                this.audioNode.play()
+            }
+        }
+    }
+
+    pauseAudio() {
+        if (this.audioNode) {
+            this.audioNode.pause()
+            this.audioCurrentTime = this.audioNode.currentTime
         }
     }
 
@@ -156,6 +234,21 @@ export class PlayerComponent {
                 break
             }
         }
+
+        if (this.audioData && this.audioData.subtitles.length) {
+            const subtitles = this.audioData.subtitles
+            const cur = this.frames[this.frameIndex] - this.startTime
+            const { start, end, text } = subtitles[this.subtitlesIndex]
+            const audioStartTime = toTimeStamp(start)
+            const audioEndTime = toTimeStamp(end)
+            if (cur > audioEndTime) {
+                this.broadcaster.cleanText()
+                this.subtitlesIndex++
+            } else if (cur > audioStartTime) {
+                this.broadcaster.updateText(text)
+            }
+        }
+
         this.frameIndex++
     }
 
@@ -167,6 +260,7 @@ export class PlayerComponent {
                 speed: 0
             }
         })
+        this.pauseAudio()
     }
 
     stop() {
@@ -174,7 +268,10 @@ export class PlayerComponent {
         this.index = 0
         this.frameIndex = 0
         this.lastPercentage = 0
+        this.elapsedTime = 0 // unit: sec
         this.pause()
+
+        this.audioCurrentTime = 0
     }
 
     execFrame(this: PlayerComponent, record: RecordData) {

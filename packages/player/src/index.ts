@@ -13,7 +13,7 @@ import { Panel } from './panel'
 import pako from 'pako'
 import io from 'socket.io-client'
 import { SnapshotData } from '@TimeCat/snapshot'
-import { RecordData } from '@TimeCat/record'
+import { RecordData, AudioData, RecorderOptions } from '@TimeCat/record'
 import { ReplayOptions } from './types'
 
 function getGZipData() {
@@ -24,18 +24,26 @@ function getGZipData() {
     if (!data) {
         return null
     }
-    const arrayData = (data.split(',') as unknown) as number[]
-    const str = pako.ungzip(arrayData, {
+
+    const codeArray: number[] = []
+    const strArray = data.split('')
+    for (let i = 0; i < strArray.length; i++) {
+        const num = strArray[i].charCodeAt(0)
+        codeArray.push(num >= 300 ? num - 300 : num)
+    }
+
+    const str = pako.ungzip(codeArray, {
         to: 'string'
     })
-    const dataArray = JSON.parse(str) as Array<{
+    const replayData = JSON.parse(str) as Array<{
         snapshot: SnapshotData
         records: RecordData[]
+        audio: AudioData
     }>
     if (isDev) {
-        ;(window as any).data = dataArray
+        ;(window as any).data = replayData
     }
-    return dataArray
+    return replayData
 }
 
 function dispatchEvent(type: string, data: RecordData) {
@@ -43,7 +51,9 @@ function dispatchEvent(type: string, data: RecordData) {
     window.dispatchEvent(event)
 }
 
-async function getAsyncDataFromSocket(uri: string): Promise<Array<{ snapshot: SnapshotData; records: [] }>> {
+async function getAsyncDataFromSocket(
+    uri: string
+): Promise<Array<{ snapshot: SnapshotData; records: RecordData[]; audio: AudioData }>> {
     var socket = io(uri)
     return await new Promise(resolve => {
         let initialized = false
@@ -52,7 +62,13 @@ async function getAsyncDataFromSocket(uri: string): Promise<Array<{ snapshot: Sn
                 dispatchEvent('record-data', data as RecordData)
             } else {
                 if (data && isSnapshot(data)) {
-                    resolve([{ snapshot: data as SnapshotData, records: [] }])
+                    resolve([
+                        {
+                            snapshot: data as SnapshotData,
+                            records: [],
+                            audio: { bufferStrList: [], subtitles: [], opts: {} as RecorderOptions }
+                        }
+                    ])
                     fmp.observe()
                     initialized = true
                 }
@@ -63,7 +79,7 @@ async function getAsyncDataFromSocket(uri: string): Promise<Array<{ snapshot: Sn
 
 async function getDataFromDB() {
     const indexedDB = await DBPromise
-    const data = await indexedDB.getRecords()
+    const data = await indexedDB.readAllRecords()
     return classifyRecords(data)
 }
 
@@ -97,11 +113,11 @@ export async function replay(options: ReplayOptions = {}) {
         return
     }
 
-    const { records } = replayData
+    const { records, audio } = replayData
 
     const c = new ContainerComponent()
 
-    fmp.ready(() => {
+    fmp.ready(async () => {
         new Panel(c)
 
         if (records.length) {
@@ -127,6 +143,12 @@ export async function replay(options: ReplayOptions = {}) {
                 }
             })
 
+            if (audio && audio.bufferStrList.length) {
+                await waitStart()
+            } else {
+                removeStartPage()
+            }
+
             reduxStore.dispatch({
                 type: PlayerTypes.SPEED,
                 data: { speed: 1 }
@@ -139,5 +161,24 @@ export async function replay(options: ReplayOptions = {}) {
         if (panel) {
             panel.setAttribute('style', 'display: none')
         }
+    }
+
+    function removeStartPage() {
+        const startPage = document.querySelector('#cat-start-page')!
+        startPage.parentElement!.removeChild(startPage)
+    }
+
+    async function waitStart(): Promise<void> {
+        const startPage = document.querySelector('#cat-start-page')! as HTMLElement
+        startPage.setAttribute('style', '')
+        return new Promise(r => {
+            const playBtn = document.querySelector('.play-btn')!
+            playBtn.addEventListener('click', async () => {
+                r()
+                startPage.className = 'clearly'
+                await new Promise(rr => setTimeout(() => rr(), 500))
+                removeStartPage()
+            })
+        })
     }
 }

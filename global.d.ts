@@ -21,19 +21,21 @@ interface Window {
     __ReplayStrData__: string
 
     __ReplayDataList__: Array<{
+        audio: any
         snapshot: any
         records: any[]
     }>
 
     __ReplayData__: {
         index: number
+        audio: any
         snapshot: any
         records: any[]
     }
 
     __ReplayOptions__: any
 
-    cat: {
+    timecat: {
         record: (
             fn?: ((data: SnapshotData, db: IndexedDBOperator) => void) | undefined
         ) => {

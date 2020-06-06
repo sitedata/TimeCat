@@ -1,35 +1,51 @@
 <p align="center">
 <h1 align="center">TimeCat</h1>
-<div align="center">
+<h6 align="center">
 A Magical Web Recorder 🖥 网页录屏器
-</div>
+</h6>
+<h6 align="center">
 
-### Project Description
+[![Analytics](https://ga-beacon.appspot.com/UA-151180797-1/timecat-home)](https://github.com/oct16/timeCat) ![GitHub issues](https://img.shields.io/github/issues-raw/oct16/TimeCat) ![GitHub last commit](https://img.shields.io/github/last-commit/oct16/timecat) ![npm (tag)](https://img.shields.io/npm/v/timecatjs/latest)
 
-English | [中文](https://github.com/oct16/TimeCat/blob/master/README.cn.md)
+<h6>
+
+### Description
+
+English | [中文](./README.cn.md)
 
 [🖥 DEMO](https://oct16.github.io/TimeCat) Chrome Browser
 
-### Features
+### Progress
+    05.24 Beta Core 1.0.0-Beta Released
+    04.26 Live Mode    
+    03.31 Add Chrome Plugin 
 
-04.26 Live Mode    
+### Installation
 
-03.31 Add Chrome Plugin 
-
+#### npm
+```
+npm i timecatjs -D
+```
+#### cdn
+    https://unpkg.com/timecatjs/lib/timecatjs.min.js
 ### Usage
 ```ts
-// In WIP
-import { record, replay } from 'TimeCat';
+import { record, replay } from 'timecatjs';
+// from cdn
+const { record, replay } = window.timecat
 
-record(options) 
+record()
 // or
-replay(options)
-
+replay()
 ```
+
+### API Documentation
+
+[TYPEDOC](https://oct16.github.io/TimeCat/docs/globals.html)
 
 ### TimeCat -- A Magical Web Recorder
 
-If you love to play games, you must have played Warcraft 3. You may be curious about the video files exported by the game. After playing the game for an hour, why the video is only a few hundred KB. But soon you will found another problem, you need to reload the map every time when you import the replay video, otherwise, it will not play.
+If you like playing games, you must have played Warcraft 3. You may be curious about the video files exported by the game. After playing the game for an hour, why the video is only a few hundred KB. But soon you will found another problem, you need to reload the map every time when you import the replay video, otherwise, it will not play.
 
 The data recorded in the video is not a video file, but a series of actions with time stamps. When importing the map, it is actually equivalent to an initial state. On the basis of this state, only the previous actions need to be restored. To restore the previous game process, this is the basic principle of reply
 
@@ -198,10 +214,9 @@ If I use a mouse to trace a track on the page, I may get the coordinate points l
 ![heart1](./assets/heart1.png)
 
 However, for the scenario of recording, on most occasions, we do not require 100% restoration of accurate mouse path, and we only care about two situations:
-```
-1. Where does the mouse click?
-2. Where does the mouse stay?
-```
+
+    1. Where does the mouse click?
+    2. Where does the mouse stay?
 
 After simplifying the mouse path through these two strategies, it takes only about 6 points to draw a 💖, to simulate the virtual path of the mouse through the spline curve
 

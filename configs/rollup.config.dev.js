@@ -9,14 +9,9 @@ export default [
         input: 'index.ts',
         output: [
             {
-                name: 'cat',
+                name: 'timecat',
                 format: 'iife',
-                file: 'dist/timecat.min.js'
-            },
-            {
-                name: 'cat',
-                format: 'iife',
-                file: 'dist/chrome/timecat.min.js'
+                file: 'dist/timecatjs.min.js'
             }
         ],
         plugins: [

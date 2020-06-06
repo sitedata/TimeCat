@@ -80,10 +80,12 @@
         app.$mount('#test-app')
     </script>
 
-    <script src="http://localhost:4321/timecat.min.js"></script>
+    <script src="http://localhost:4321/timecatjs.min.js"></script>
     <script>
-        const { record } = cat
-        ctrl = record()
+        const { record } = timecat
+        ctrl = record({
+            audio: true
+        })
         const replayButton = document.getElementById('replay')
         if (replayButton) {
             replayButton.onclick = () => {

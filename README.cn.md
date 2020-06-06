@@ -1,31 +1,47 @@
 <p align="center">
 <h1 align="center">TimeCat</h1>
-<div align="center">
+<h6 align="center">
 A Magical Web Recorder 🖥 网页录屏器
-</div>
+</h6>
+<h6 align="center">
+
+[![Analytics](https://ga-beacon.appspot.com/UA-151180797-1/timecat-home)](https://github.com/oct16/timeCat) ![GitHub issues](https://img.shields.io/github/issues-raw/oct16/TimeCat) ![GitHub last commit](https://img.shields.io/github/last-commit/oct16/timecat) ![npm (tag)](https://img.shields.io/npm/v/timecatjs/latest)
+
+<h6>
 
 ### 项目简介
 
-中文 | [English](https://github.com/oct16/TimeCat/blob/master/README.md)
+中文 | [English](./README.md)
 
 [🖥 DEMO](https://oct16.github.io/TimeCat) Chrome浏览器
 
-### Features
+### Progress
+    05.24 Beta Core 1.0.0-Beta Released
+    04.26 Live Mode    
+    03.31 Add Chrome Plugin 
 
-04.26 Live Mode    
+### Installation
 
-03.31 Add Chrome Plugin 
-
+#### npm
+```
+npm i timecatjs -D
+```
+#### cdn
+    https://unpkg.com/timecatjs/lib/timecatjs.min.js
 ### Usage
 ```ts
-// In WIP
-import { record, replay } from 'TimeCat';
+import { record, replay } from 'timecatjs';
+// from cdn
+const { record, replay } = window.timecat
 
-record(options) 
+record()
 // or
-replay(options)
-
+replay()
 ```
+
+### API Documentation
+
+[TYPEDOC](https://oct16.github.io/TimeCat/docs/globals.html)
 
 ### TimeCat -- 不可思议的Web录屏器
 
@@ -202,10 +218,9 @@ const elementList: [HTMLElement, string][] = [
 ![heart1](./assets/heart1.png)
 
 但是对于录屏这个业务场景来说，大部分场合我们并不要求100%还原精确的鼠标轨迹，我门只会关心两种情况：
-```
-1. 鼠标在哪里点击?
-2. 鼠标在哪里停留?
-```
+
+    1. 鼠标在哪里点击?
+    2. 鼠标在哪里停留?
 
 那么通过这个两个策略对鼠标轨迹进行精简后，画一个💖大约只需要6个点，通过样条曲线来模拟鼠标的虚拟轨迹，当 t = 0.2 的时候，就可以得到一个下图这样带着弧度的轨迹了
 

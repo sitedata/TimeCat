@@ -3,29 +3,40 @@ import node from '@rollup/plugin-node-resolve'
 import { terser } from 'rollup-plugin-terser'
 import commonjs from '@rollup/plugin-commonjs'
 import { env, htmlExamples } from './rollup.base'
+import ttypescript from 'ttypescript'
 
 export default {
     input: 'index.ts',
     output: [
         {
-            name: 'cat',
+            name: 'timecat',
             format: 'iife',
-            file: 'dist/timecat.min.js'
+            file: 'dist/timecatjs.min.js'
         },
         {
-            name: 'cat',
+            name: 'timecat',
             format: 'cjs',
-            file: 'dist/timecat.cjs.js'
+            file: 'dist/timecatjs.cjs.js'
         },
         {
-            name: 'cat',
+            name: 'timecat',
             format: 'esm',
-            file: 'dist/timecat.esm.js'
+            file: 'dist/timecatjs.esm.js'
         }
     ],
     plugins: [
         ts({
-            tsconfigOverride: { compilerOptions: { declaration: false } }
+            typescript: ttypescript,
+            tsconfigOverride: {
+                compilerOptions: {
+                    plugins: [
+                        {
+                            transform: '@zerollup/ts-transform-paths',
+                            exclude: ['*']
+                        }
+                    ]
+                }
+            }
         }),
         node({
             browser: true,
