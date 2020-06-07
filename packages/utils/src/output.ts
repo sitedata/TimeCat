@@ -1,30 +1,26 @@
 import { TPL } from './tpl'
 import { DBPromise } from './store/idb'
 import { filteringScriptTag } from './tools/dom'
-import { isDev, classifyRecords } from './tools/common'
+import { isDev, classifyRecords, download } from './tools/common'
 import pako from 'pako'
 
 type ScriptItem = { name: string; src: string }
 type Opts = { scripts?: ScriptItem[]; autoPlay?: boolean }
-const parser = new DOMParser()
-const html = parser.parseFromString(TPL, 'text/html')
 
 export async function exportReplay(opts: Opts = {}) {
-    await injectData()
-    await initOptions(opts)
+    const parser = new DOMParser()
+    const html = parser.parseFromString(TPL, 'text/html')
+    await injectData(html)
+    await initOptions(html, opts)
     createAndDownloadFile(`TimeCat-${Date.now()}`, html.documentElement.outerHTML)
 }
 
 function createAndDownloadFile(fileName: string, content: string) {
-    var aTag = document.createElement('a')
-    var blob = new Blob([content], { type: 'text/html' })
-    aTag.download = fileName + '.html'
-    aTag.href = URL.createObjectURL(blob)
-    aTag.click()
-    URL.revokeObjectURL(blob as any)
+    const blob = new Blob([content], { type: 'text/html' })
+    download(blob, fileName + '.html')
 }
 
-async function initOptions(opts: Opts) {
+async function initOptions(html: Document, opts: Opts) {
     const { autoPlay, scripts } = opts
 
     const scriptList = scripts || ([] as ScriptItem[])
@@ -34,10 +30,10 @@ async function initOptions(opts: Opts) {
             src: `timecat.replay()`
         })
     }
-    await injectScripts(scriptList)
+    await injectScripts(html, scriptList)
 }
 
-async function injectScripts(scripts?: ScriptItem[]) {
+async function injectScripts(html: Document, scripts?: ScriptItem[]) {
     if (scripts) {
         for (let scriptItem of scripts) {
             const { src, name } = scriptItem
@@ -71,7 +67,7 @@ async function getDataFromDB() {
     return classifyRecords(data)
 }
 
-async function injectData() {
+async function injectData(html: Document) {
     const dataScript = document.createElement('script')
     const data = window.__ReplayDataList__ || (await getDataFromDB())
     const jsonStrData = JSON.stringify(data)

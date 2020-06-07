@@ -12,7 +12,6 @@ export class PlayerComponent {
     progress: ProgressComponent
     broadcaster: BroadcasterComponent
     audioNode: HTMLAudioElement
-    audioCurrentTime = 0
 
     progressState: ProgressState
     data: RecordData[]
@@ -21,6 +20,7 @@ export class PlayerComponent {
     frameIndex = 0
     lastPercentage = 0
     isFirstTimePlay = true
+    frameInterval = 250
     frames: number[]
     requestID: number
     startTime: number
@@ -179,9 +179,10 @@ export class PlayerComponent {
 
             if (currTime >= nextTime) {
                 this.renderEachFrame(currTime)
+                this.frameIndex++
             }
 
-            this.elapsedTime = (currTime - this.frames[0]) / 1000
+            this.elapsedTime = (currTime - this.frames[0]) / 1000 - Math.max(0, (currTime - nextTime) / 1000)
 
             this.requestID = requestAnimationFrame(loop.bind(this))
         }
@@ -200,10 +201,7 @@ export class PlayerComponent {
                 this.audioNode.src = this.audioBlobUrl
             }
 
-            // for pause and forward
-            if (this.audioCurrentTime) {
-                this.audioNode.currentTime = this.elapsedTime + 0.5
-            }
+            this.audioNode.currentTime = this.elapsedTime + 0.5
 
             if (this.speed > 1) {
                 this.audioNode.pause()
@@ -216,7 +214,6 @@ export class PlayerComponent {
     pauseAudio() {
         if (this.audioNode) {
             this.audioNode.pause()
-            this.audioCurrentTime = this.audioNode.currentTime
         }
     }
 
@@ -237,19 +234,19 @@ export class PlayerComponent {
 
         if (this.audioData && this.audioData.subtitles.length) {
             const subtitles = this.audioData.subtitles
-            const cur = this.frames[this.frameIndex] - this.startTime
             const { start, end, text } = subtitles[this.subtitlesIndex]
             const audioStartTime = toTimeStamp(start)
             const audioEndTime = toTimeStamp(end)
-            if (cur > audioEndTime) {
+
+            if (this.elapsedTime > audioEndTime / 1000) {
                 this.broadcaster.cleanText()
-                this.subtitlesIndex++
-            } else if (cur > audioStartTime) {
+                if (this.subtitlesIndex < subtitles.length - 1) {
+                    this.subtitlesIndex++
+                }
+            } else if (this.elapsedTime > audioStartTime / 1000) {
                 this.broadcaster.updateText(text)
             }
         }
-
-        this.frameIndex++
     }
 
     pause() {
@@ -271,7 +268,7 @@ export class PlayerComponent {
         this.elapsedTime = 0 // unit: sec
         this.pause()
 
-        this.audioCurrentTime = 0
+        this.audioNode.currentTime = 0
     }
 
     execFrame(this: PlayerComponent, record: RecordData) {
@@ -284,7 +281,7 @@ export class PlayerComponent {
         return this.speed * k + b
     }
 
-    getAccuratelyFrame(interval = 250) {
+    getAccuratelyFrame(interval = this.frameInterval) {
         this.progressState = reduxStore.getState()['progress']
         const { startTime, endTime } = this.progressState
 
