@@ -23,12 +23,13 @@ English | [中文](./README.cn.md)
 
 ### Installation
 
-#### npm
-```
-npm i timecatjs -D
-```
-#### cdn
+##### NPM
+
+    npm i timecatjs -D
+
+##### CDN
     https://unpkg.com/timecatjs/lib/timecatjs.min.js
+    https://cdn.jsdelivr.net/npm/timecatjs/lib/timecatjs.cjs.min.js
 ### Usage
 ```ts
 // from module
@@ -37,9 +38,14 @@ import { record, replay } from 'timecatjs';
 // from cdn
 const { record, replay } = window.timecat
 
-record()
-// or
-replay()
+// record page
+record(RecordOptions)
+
+// replay record
+replay(ReplayOptions)
+
+// export html file
+exportReplay(Opts)
 ```
 
 ### API Documentation
