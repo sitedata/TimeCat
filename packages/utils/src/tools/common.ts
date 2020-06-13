@@ -12,6 +12,11 @@ export function getTime() {
     return performance.timing.navigationStart + performance.now()
 }
 
+export function getRandomCode() {
+    const code = (Math.random() * 20 + 16).toString(36).substring(4, 10)
+    return code.toUpperCase()
+}
+
 export function secondToDate(ms: number) {
     if (ms <= 0) {
         ms = 0
@@ -53,6 +58,7 @@ export function classifyRecords(data: (SnapshotData | RecordData)[]) {
                 snapshot: item as SnapshotData,
                 records: [],
                 audio: {
+                    src: '',
                     bufferStrList: [],
                     subtitles: [],
                     opts: {} as RecorderOptions
