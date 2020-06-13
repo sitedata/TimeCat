@@ -83,6 +83,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="progresscomponent.html#currentprogress" class="tsd-kind-icon">current<wbr>Progress</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="progresscomponent.html#progress" class="tsd-kind-icon">progress</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="progresscomponent.html#progressstate" class="tsd-kind-icon">progress<wbr>State</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="progresscomponent.html#rafid" class="tsd-kind-icon">raf<wbr>Id</a></li>
@@ -118,7 +119,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L22">packages/player/src/progress.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L23">packages/player/src/progress.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -135,6 +136,16 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="currentprogress" class="tsd-anchor"></a>
+					<h3>current<wbr>Progress</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Progress<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L6">packages/player/src/progress.ts:6</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="progress" class="tsd-anchor"></a>
 					<h3>progress</h3>
 					<div class="tsd-signature tsd-kind-icon">progress<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
@@ -150,7 +161,7 @@
 					<div class="tsd-signature tsd-kind-icon">progress<wbr>State<span class="tsd-signature-symbol">:</span> <a href="../globals.html#progressstate" class="tsd-signature-type">ProgressState</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L12">packages/player/src/progress.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L13">packages/player/src/progress.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -160,7 +171,7 @@
 					<div class="tsd-signature tsd-kind-icon">raf<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L10">packages/player/src/progress.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L11">packages/player/src/progress.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -170,7 +181,7 @@
 					<div class="tsd-signature tsd-kind-icon">slider<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L8">packages/player/src/progress.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L9">packages/player/src/progress.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,17 +191,17 @@
 					<div class="tsd-signature tsd-kind-icon">speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L9">packages/player/src/progress.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L10">packages/player/src/progress.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="throttletimer" class="tsd-anchor"></a>
 					<h3>throttle<wbr>Timer</h3>
-					<div class="tsd-signature tsd-kind-icon">throttle<wbr>Timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = throttle((percentage: number) &#x3D;&gt; {this.setThumb(percentage)},250,{ trailing: true })</span></div>
+					<div class="tsd-signature tsd-kind-icon">throttle<wbr>Timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = throttle((percentage: number) &#x3D;&gt; {this.setThumb(percentage)},300,{ trailing: true })</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L16">packages/player/src/progress.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L17">packages/player/src/progress.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">thumb<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L6">packages/player/src/progress.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L7">packages/player/src/progress.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -210,7 +221,7 @@
 					<div class="tsd-signature tsd-kind-icon">timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L7">packages/player/src/progress.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L8">packages/player/src/progress.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -220,7 +231,7 @@
 					<div class="tsd-signature tsd-kind-icon">total<wbr>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L14">packages/player/src/progress.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L15">packages/player/src/progress.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -237,7 +248,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L45">packages/player/src/progress.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L48">packages/player/src/progress.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -254,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L41">packages/player/src/progress.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L43">packages/player/src/progress.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -277,7 +288,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L30">packages/player/src/progress.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L32">packages/player/src/progress.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -300,7 +311,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L34">packages/player/src/progress.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L36">packages/player/src/progress.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -332,6 +343,9 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="progresscomponent.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="progresscomponent.html#currentprogress" class="tsd-kind-icon">current<wbr>Progress</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="progresscomponent.html#progress" class="tsd-kind-icon">progress</a>
