@@ -1,3 +1,3 @@
-export { record } from '@TimeCat/record';
-export { replay } from '@TimeCat/player';
-export { exportReplay } from '@TimeCat/utils';
+export { record } from "./packages/record/src";
+export { replay } from "./packages/player/src";
+export { exportReplay } from "./packages/utils/src";

@@ -25,6 +25,7 @@ export default {
             typescript: ttypescript,
             tsconfigOverride: {
                 compilerOptions: {
+                    declaration: true,
                     plugins: [
                         {
                             transform: '@zerollup/ts-transform-paths',
