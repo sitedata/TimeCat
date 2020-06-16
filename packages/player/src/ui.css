@@ -115,23 +115,24 @@ body {
     color: #999;
 }
 
+.cat-export button,
 .cat-keyboard button {
-    margin: 0;
     vertical-align: middle;
     border: none;
     background: none;
     color: white;
     outline: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
+    line-height: 18px;
+    padding: 0 4px;
 }
 
-.play-or-pause {
+button.play-or-pause {
+    padding: 0;
+    text-indent: 1px;
     transform: rotate(90deg);
-    line-height: 16px;
-    width: 21px;
-    text-indent: -3px;
-    margin-right: 4px;
+    width: 18px;
 }
 
 .cat-progress {
@@ -152,15 +153,15 @@ body {
 }
 
 .cat-thumb {
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
     box-sizing: border-box;
     border: 1px solid white;
     background: black;
     border-radius: 100%;
     cursor: pointer;
     position: absolute;
-    left: 0%;
+    left: 0px;
     transform: translate3d(-5px, -4px, 0);
     z-index: 10;
     transition: left .3s linear;
@@ -176,11 +177,12 @@ body {
     transition: width .3s linear;
 }
 
-.cat-timer {
-    margin: 0 8px;
+.cat-timer>time {
+    padding: 0 4px;
     color: white;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 13px;
+    line-height: 18px;
+    height: 18px;
     font-family: Helvetica;
     vertical-align: middle;
 }
@@ -206,14 +208,18 @@ body {
 }
 
 .cat-broadcaster .float-layer {
-    background: green;
-    font-size: 16px;
-    line-height: 24px;
+    margin: 0 10px;
+    line-height: 20px;
     color: #fff;
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 2px;
+    padding: 5px;
     box-shadow: 0px 0px 2px rgba(26, 26, 26, .5);
-    text-indent: 5px;
+    text-align: center;
+}
+
+.cat-broadcaster .float-layer[hidden] {
+    display: none;
 }
 
 #cat-start-page {

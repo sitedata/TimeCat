@@ -1,11 +1,11 @@
 import { TPL, pacmanCss } from './tpl'
-import { DBPromise } from './store/idb'
-import { filteringScriptTag } from './tools/dom'
-import { isDev, classifyRecords, download, getRandomCode } from './tools/common'
+import { getDBOperator } from './store/idb'
+import { isDev, classifyRecords, download, getRandomCode, getTime } from './tools/common'
 import pako from 'pako'
 import { SnapshotData } from '@TimeCat/snapshot'
-import { RecordData, AudioData, RecorderOptions } from '@TimeCat/record'
+import { RecordData, AudioData, RecorderOptions, NONERecord } from '@TimeCat/record'
 import { base64ToFloat32Array, encodeWAV } from './transform'
+import { getScript } from './tools/dom'
 
 type ScriptItem = { name?: string; src: string }
 type ExportOptions = { scripts?: ScriptItem[]; autoplay?: boolean; audioExternal?: boolean; dataExternal?: boolean }
@@ -20,11 +20,21 @@ const downloadAudioConfig = {
 }
 
 export async function exportReplay(exportOptions: ExportOptions) {
+    await addNoneFrame()
     const parser = new DOMParser()
     const html = parser.parseFromString(TPL, 'text/html')
     await injectData(html, exportOptions)
     await initOptions(html, exportOptions)
     downloadFiles(html)
+}
+
+async function addNoneFrame() {
+    const DBOperator = await getDBOperator
+    DBOperator.add({
+        type: 'NONE',
+        data: null,
+        time: getTime().toString()
+    } as NONERecord)
 }
 
 function downloadHTML(content: string) {
@@ -83,15 +93,9 @@ async function injectScripts(html: Document, scripts?: ScriptItem[]) {
     }
 }
 
-async function getScript(src: string) {
-    return await fetch(src)
-        .then(res => res.text())
-        .then(filteringScriptTag)
-}
-
 async function getDataFromDB(exportOptions?: ExportOptions) {
-    const indexedDB = await DBPromise
-    const data = await indexedDB.readAllRecords()
+    const DBOperator = await getDBOperator
+    const data = await DBOperator.readAllRecords()
     const classified = classifyRecords(data)
     return extract(classified, exportOptions)
 }

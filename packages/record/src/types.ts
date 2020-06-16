@@ -7,7 +7,8 @@ export enum RecordType {
     'MOUSE' = 'MOUSE',
     'DOM_UPDATE' = 'DOM_UPDATE',
     'FORM_EL_UPDATE' = 'FORM_EL_UPDATE',
-    'AUDIO' = 'AUDIO'
+    'AUDIO' = 'AUDIO',
+    'NONE' = 'NONE'
 }
 
 export enum FormElementEvent {
@@ -22,7 +23,7 @@ export enum MouseEventType {
     'CLICK' = 'click'
 }
 
-export interface WindowWatcher {
+export interface WindowRecord {
     type: RecordType.WINDOW
     data: WindowWatcherData
     time: string
@@ -34,7 +35,7 @@ export interface WindowWatcherData {
     height: number
 }
 
-export interface ScrollWatcher {
+export interface ScrollRecord {
     type: RecordType.SCROLL
     data: ScrollWatcherData
     time: string
@@ -57,7 +58,7 @@ export interface MouseRecordData {
     y: number
     id?: number
 }
-export interface DOMWatcher {
+export interface DOMRecord {
     type: RecordType.DOM_UPDATE
     data: DOMWatcherData
     time: string
@@ -101,7 +102,7 @@ export interface DOMUpdateDataType {
     texts: CharacterDataUpdateData[]
 }
 
-export interface FormElementWatcher {
+export interface FormElementRecord {
     type: RecordType.FORM_EL_UPDATE
     data: FormElementWatcherData
     time: string
@@ -112,9 +113,17 @@ export interface FormElementWatcherData {
     id: number
     key?: string
     value?: string
+    patches?: FormElementStrPatches[]
 }
 
-export interface AudioWatcher {
+interface FormElementStrPatches {
+    index: number
+    type: 'add' | 'rm'
+    value?: string | undefined
+    len?: number | undefined
+}
+
+export interface AudioRecord {
     type: RecordType.AUDIO
     data: AudioStrList | AudioOptions
     time: string
@@ -128,9 +137,22 @@ export interface AudioStrList {
     data: string[]
 }
 
+export interface NONERecord {
+    type: RecordType.NONE
+    data: null
+    time: string
+}
+
 export type RecordEvent<T> = (e: T) => void
 
-export type RecordData = FormElementWatcher | DOMWatcher | MouseRecord | WindowWatcher | ScrollWatcher | AudioWatcher
+export type RecordData =
+    | FormElementRecord
+    | DOMRecord
+    | MouseRecord
+    | WindowRecord
+    | ScrollRecord
+    | AudioRecord
+    | NONERecord
 
 export interface AudioData {
     src: string

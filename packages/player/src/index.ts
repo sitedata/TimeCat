@@ -1,5 +1,5 @@
 import {
-    DBPromise,
+    getDBOperator,
     ProgressTypes,
     PlayerTypes,
     reduxStore,
@@ -15,95 +15,6 @@ import io from 'socket.io-client'
 import { SnapshotData } from '@TimeCat/snapshot'
 import { RecordData, AudioData, RecorderOptions } from '@TimeCat/record'
 import { ReplayOptions } from './types'
-
-function getGZipData() {
-    if (isDev) {
-        ;(window as any).pako = pako
-    }
-    const data = window.__ReplayStrData__
-    if (!data) {
-        return null
-    }
-
-    const codeArray: number[] = []
-    const strArray = data.split('')
-    for (let i = 0; i < strArray.length; i++) {
-        const num = strArray[i].charCodeAt(0)
-        codeArray.push(num >= 300 ? num - 300 : num)
-    }
-
-    const str = pako.ungzip(codeArray, {
-        to: 'string'
-    })
-    const replayData = JSON.parse(str) as Array<{
-        snapshot: SnapshotData
-        records: RecordData[]
-        audio: AudioData
-    }>
-    if (isDev) {
-        ;(window as any).data = replayData
-    }
-    return replayData
-}
-
-function dispatchEvent(type: string, data: RecordData) {
-    event = new CustomEvent(type, { detail: data })
-    window.dispatchEvent(event)
-}
-
-async function getAsyncDataFromSocket(
-    uri: string
-): Promise<Array<{ snapshot: SnapshotData; records: RecordData[]; audio: AudioData }>> {
-    var socket = io(uri)
-    return await new Promise(resolve => {
-        let initialized = false
-        socket.on('record-data', (data: SnapshotData | RecordData) => {
-            if (initialized) {
-                dispatchEvent('record-data', data as RecordData)
-            } else {
-                if (data && isSnapshot(data)) {
-                    resolve([
-                        {
-                            snapshot: data as SnapshotData,
-                            records: [],
-                            audio: { src: '', bufferStrList: [], subtitles: [], opts: {} as RecorderOptions }
-                        }
-                    ])
-                    fmp.observe()
-                    initialized = true
-                }
-            }
-        })
-    })
-}
-
-async function getDataFromDB() {
-    const indexedDB = await DBPromise
-    const data = await indexedDB.readAllRecords()
-    return classifyRecords(data)
-}
-
-async function getReplayData() {
-    const { socketUrl } = window.__ReplayOptions__
-
-    const replayDataList =
-        (socketUrl && (await getAsyncDataFromSocket(socketUrl))) ||
-        getGZipData() ||
-        (await getDataFromDB()) ||
-        window.__ReplayDataList__
-
-    if (!replayDataList) {
-        return null
-    }
-    window.__ReplayDataList__ = replayDataList
-    window.__ReplayData__ = Object.assign(
-        {
-            index: 0
-        },
-        replayDataList[0]
-    )
-    return window.__ReplayData__
-}
 
 export async function replay(options: ReplayOptions = { autoplay: true }) {
     window.__ReplayOptions__ = options
@@ -183,4 +94,93 @@ export async function replay(options: ReplayOptions = { autoplay: true }) {
             })
         })
     }
+}
+
+function getGZipData() {
+    if (isDev) {
+        ;(window as any).pako = pako
+    }
+    const data = window.__ReplayStrData__
+    if (!data) {
+        return null
+    }
+
+    const codeArray: number[] = []
+    const strArray = data.split('')
+    for (let i = 0; i < strArray.length; i++) {
+        const num = strArray[i].charCodeAt(0)
+        codeArray.push(num >= 300 ? num - 300 : num)
+    }
+
+    const str = pako.ungzip(codeArray, {
+        to: 'string'
+    })
+    const replayData = JSON.parse(str) as Array<{
+        snapshot: SnapshotData
+        records: RecordData[]
+        audio: AudioData
+    }>
+    if (isDev) {
+        ;(window as any).data = replayData
+    }
+    return replayData
+}
+
+function dispatchEvent(type: string, data: RecordData) {
+    event = new CustomEvent(type, { detail: data })
+    window.dispatchEvent(event)
+}
+
+async function getAsyncDataFromSocket(
+    uri: string
+): Promise<Array<{ snapshot: SnapshotData; records: RecordData[]; audio: AudioData }>> {
+    var socket = io(uri)
+    return await new Promise(resolve => {
+        let initialized = false
+        socket.on('record-data', (data: SnapshotData | RecordData) => {
+            if (initialized) {
+                dispatchEvent('record-data', data as RecordData)
+            } else {
+                if (data && isSnapshot(data)) {
+                    resolve([
+                        {
+                            snapshot: data as SnapshotData,
+                            records: [],
+                            audio: { src: '', bufferStrList: [], subtitles: [], opts: {} as RecorderOptions }
+                        }
+                    ])
+                    fmp.observe()
+                    initialized = true
+                }
+            }
+        })
+    })
+}
+
+async function getDataFromDB() {
+    const DBOperator = await getDBOperator
+    const data = await DBOperator.readAllRecords()
+    return classifyRecords(data)
+}
+
+async function getReplayData() {
+    const { socketUrl } = window.__ReplayOptions__
+
+    const replayDataList =
+        (socketUrl && (await getAsyncDataFromSocket(socketUrl))) ||
+        getGZipData() ||
+        (await getDataFromDB()) ||
+        window.__ReplayDataList__
+
+    if (!replayDataList) {
+        return null
+    }
+    window.__ReplayDataList__ = replayDataList
+    window.__ReplayData__ = Object.assign(
+        {
+            index: 0
+        },
+        replayDataList[0]
+    )
+    return window.__ReplayData__
 }

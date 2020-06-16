@@ -4,19 +4,15 @@ import { terser } from 'rollup-plugin-terser'
 import commonjs from '@rollup/plugin-commonjs'
 import { env, htmlExamples } from './rollup.base'
 import ttypescript from 'ttypescript'
+import visualizer from 'rollup-plugin-visualizer'
 
 export default {
     input: 'index.ts',
     output: [
         {
             name: 'timecat',
-            format: 'iife',
+            format: 'umd',
             file: 'dist/timecatjs.min.js'
-        },
-        {
-            name: 'timecat',
-            format: 'cjs',
-            file: 'dist/timecatjs.cjs.js'
         },
         {
             name: 'timecat',
@@ -45,6 +41,20 @@ export default {
         commonjs(),
         ...htmlExamples(),
         ...env(),
-        terser()
+        // https://github.com/terser/terser#minify-options
+        terser({
+            compress: {
+                warnings: false,
+                drop_console: false,
+                dead_code: true,
+                drop_debugger: true
+            },
+            output: {
+                comments: false,
+                beautify: false
+            },
+            mangle: true
+        }),
+        visualizer()
     ]
 }

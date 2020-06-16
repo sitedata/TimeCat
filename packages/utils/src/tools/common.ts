@@ -1,4 +1,5 @@
-import { RecordData, AudioData, AudioWatcher, AudioStrList, RecorderOptions } from '@TimeCat/record'
+import diff from 'diff'
+import { RecordData, AudioData, AudioRecord, AudioStrList, RecorderOptions } from '@TimeCat/record'
 import { SnapshotData } from '@TimeCat/snapshot'
 import { VNode, VSNode } from '@TimeCat/virtual-dom'
 
@@ -44,7 +45,7 @@ export function isSnapshot(frame: RecordData | SnapshotData) {
 export function classifyRecords(data: (SnapshotData | RecordData)[]) {
     const dataList: { snapshot: SnapshotData; records: RecordData[]; audio: AudioData }[] = []
 
-    function isAudioBufferStr(frame: AudioWatcher) {
+    function isAudioBufferStr(frame: AudioRecord) {
         return frame.data.type === 'base64'
     }
     function isAudio(frame: RecordData | SnapshotData) {
@@ -66,11 +67,11 @@ export function classifyRecords(data: (SnapshotData | RecordData)[]) {
             }
             dataList.push(dataBasket)
         } else if (isAudio(item)) {
-            if (isAudioBufferStr(item as AudioWatcher)) {
-                const audioData = item as AudioWatcher
+            if (isAudioBufferStr(item as AudioRecord)) {
+                const audioData = item as AudioRecord
                 dataBasket.audio.bufferStrList.push(...(audioData.data as AudioStrList).data)
             } else {
-                dataBasket.audio.opts = (item as AudioWatcher).data.data as RecorderOptions
+                dataBasket.audio.opts = (item as AudioRecord).data.data as RecorderOptions
             }
         } else {
             dataBasket.records.push(item as RecordData)
@@ -95,4 +96,57 @@ export function download(blob: Blob, name: string) {
     tag.href = URL.createObjectURL(blob)
     tag.click()
     URL.revokeObjectURL(blob as any)
+}
+
+export function getStrDiffPatches(oldStr: string, newStr: string) {
+    return getPatches(diff.diffChars(oldStr, newStr))
+}
+
+export function revertStrByPatches(str: string, changes: ReturnType<typeof getStrDiffPatches>) {
+    changes.forEach((change: any) => {
+        const { type, value, len } = change
+        switch (type) {
+            case 'add':
+                str = str.substring(0, change.index) + value + str.substring(change.index)
+                break
+            case 'rm':
+                str = str.substring(0, change.index) + str.substring(change.index + len)
+                break
+        }
+    })
+    return str
+}
+
+function getPatches(changes: diff.Change[]) {
+    let index = 0
+    const patches = changes
+        .map(change => {
+            const { added: add, removed: rm, value, count } = change
+            const len = count || 0
+            if (add) {
+                const ret = {
+                    index,
+                    type: 'add',
+                    value
+                }
+                index += len
+                return ret
+            } else if (rm) {
+                const ret = {
+                    index: index,
+                    type: 'rm',
+                    len
+                }
+                return ret
+            }
+            index += len
+        })
+        .filter(Boolean)
+
+    return patches as Array<{
+        index: number
+        type: 'add' | 'rm'
+        value?: string
+        len?: number
+    }>
 }

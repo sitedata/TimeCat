@@ -47,7 +47,8 @@ replay(ReplayOptions)
 // export html file
 exportReplay(Opts)
 ```
-Simple Example: [Todo List](https://oct16.github.io/TimeCat/todo.html)
+Simple Example:  
+[Record Todo List](https://github.com/oct16/TimeCat/blob/073c467afc644ce37e4f51937c28eb5000b2a92c/examples/todo.html#L258) and [Replay Todo List](https://github.com/oct16/TimeCat/blob/073c467afc644ce37e4f51937c28eb5000b2a92c/examples/player.html#L14)
 
 ### API Documentation
 
@@ -213,7 +214,7 @@ Usually, due to the limitation of the resources of the recorded website with the
 
 #### Rendering time of SPA web page
 
-Before starting to play, we need to restore the previous data to the real DOM. This will take a certain time and you will see a white page, which depends on your browser performance and recording web page resources. Refer to FMP (First Meaningful Paint), during the loading process, the skeleton map can be dynamically generated from the previously mapped data, and wait for the FMP to send the Ready signal before playing
+Before starting to play, we need to restore the previous data to the real DOM. This will take a certain time and you will see a white page, which depends on your browser performance and recording web page resources. Refer to `FMP (First Meaningful Paint)`, during the loading process, the skeleton map can be dynamically generated from the previously mapped data, and wait for the FMP to send the Ready signal before playing
 
 > Reference article: [Time to First Meaningful Paint](https://docs.google.com/document/d/1BR94tJdZLsin5poeet0XoTW60M0SjvOJQttKT-JK8HI/view#)
 
@@ -235,6 +236,24 @@ After simplifying the mouse path through these two strategies, it takes only abo
 
 After filtering out the key points through the rules, the B-spline curve calculation function is used, When redrawing the mouse position during rendering, you can get a mouse with an approximate curve Track
 
+#### Optimize the data by Diff string
+
+When we constantly taping the content in an input box, our Watcher function will continuously respond to events, through `Event.target.value` you can get the latest value of the current `HTMLInputElement`, you can use the throttling function to filter Some redundant responses are dropped, but it is not enough. For example, the text in a TextArea will be very long and long. Assuming the length of the text is n, we add 10 characters after the text, then the response The length is:
+> 10n + ∑(k=1, n=10)
+
+Visible will produce a lot of data
+
+After passing by Diff Patch, modifying the string `abcd` to `bcde` can be expressed as:
+
+> <h3><del>a</del>bcd<ins>e</ins></h3>
+
+```ts
+const patches = [
+     {type:'delete', index: 0, count: 1},
+     {type:'add', index: 3, value:'e'},
+]
+```
+
 #### Generate heat map from mouse data
 
 Recorded a coordinate info through a mouse event, the heat map can be easily generated for analyzing the user's behavior data by [heatmap.js](https://www.patrick-wied.at/static/heatmapjs/).
@@ -249,7 +268,7 @@ We can obtain and process some personal privacy data through the annotation of t
 
 #### Sandboxing improves safety
 
-The recorded content may be provided by a third party, which means that there may be certain risks. for example: `<div onload="alert('something'); script..."></div>`, or some events in our player may also affect the playback content, so we need a sandbox to isolate the playback environment, Iframe sandbox provided by HTML5 remains a good choice, which can help us easily isolate the environment such as:
+The recorded content may be provided by a third party, which means that there may be certain risks. for example: `<div onload="alert('something'); script..."></div>`, or some events in our player may also affect the playback content, so we need a sandbox to isolate the playback environment, `Iframe Sandbox` provided by HTML5 remains a good choice, which can help us easily isolate the environment such as:
 
 - Script cannot be executed
 - Cannot send ajax request
@@ -261,14 +280,28 @@ The recorded content may be provided by a third party, which means that there ma
 
 #### Play jump and fast forward
 
-- Play: The player will have a accurate timer. The action data is stored in a stack. Each data is a frame. With RAF (RequestAnimationFrame) to exec the next frame
-- Pause: pause timer through cancelAnimationFrame
-Fast forward: double the speed of the acquisition rate
-- Jump: computing by virtualDom
+##### Play
+The player will have a accurate timer. The action data is stored in a stack. Each data is a frame. With `RAF(RequestAnimationFrame)` to exec the next frame
+
+##### Pause
+pause timer through `cancelAnimationFrame`
+
+##### Fast forward
+double the speed of the acquisition rate
+
+##### Jump
+Jumping is a complicated problem. If you want to achieve a Bi-Directional jump that can be forward and backward like a video, due to the constraints of the rendering engine, I did not implement a reverse rendering method but solved it by a special method
+
+To achieve a Bi-Directional jump, the idea here is to calculate the corresponding `S(Snapshot)` and `A (Action)` at a certain distance in memory
+
+| _S_ | `A` | `A` | `A` | _S_ | `A` | `A` | _S_ | `A` | `A` | `A` | ...... |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ------ |
+
+So `[SAAA]` formed a block, when the jump behavior occurs, it will be located in the corresponding block for calculation and rendering
 
 #### Record audio and generate subtitles
 
-Audio recording can be provided by the HTML5 WebRTC. Since it mainly records human voice, it doesn’t not need high standard in recording quality. I thus chose the 8000 sample rate, 8-bit rate and mono PCM recording format to save space. Subtitles will be automatically generated after analyzing the recording files by some third-party services
+Audio recording can be provided by the HTML5 WebRTC. Since it mainly records human voice, it doesn’t not need high standard in recording quality. I thus chose the 8000 sample rate, 8-bit rate and mono PCM recording format, later can be converted into lossy compressed `mp3` format to save space. Subtitles will be automatically generated after analyzing the recording files by some third-party services
 
 #### Gzip on the client
 
@@ -284,7 +317,7 @@ On the client side, the compression based on `Gzip`, As a result I chose [Pako](
 
 #### Data upload
 
-We can use indexedDB to store client data. IndexedDB has much larger storage room than LocalStorage with generally no less than 250MB or even no upper limit. ON top of that, it utilizes object store and is available to transaction. The important point is that it is asynchronous. That means it will not block the operation of the Web Recorder. The data can be uploaded to the OSS server after that
+We can use indexedDB to store client data. IndexedDB has much larger storage room than LocalStorage with generally no less than 250MB or even no upper limit. ON top of that, it utilizes object store and is available to transaction. The important point is that it is asynchronous. That means it will not block the operation of the Web Recorder. The data can be uploaded to the server after that
 
 #### Load SDK
 

@@ -1,4 +1,4 @@
-import { PlayerTypes, reduxStore, exportReplay } from '@TimeCat/utils'
+import { PlayerTypes, reduxStore, exportReplay, getRawScriptContent } from '@TimeCat/utils'
 import { ContainerComponent } from './container'
 
 export class KeyboardComponent {
@@ -21,7 +21,7 @@ export class KeyboardComponent {
         this.controller.addEventListener('click', (e: MouseEvent & { target: HTMLElement & { type: string } }) => {
             if (e.target && e.target.type === 'button') {
                 const speed = Number((e.target as HTMLElement).getAttribute('speed'))
-                this.emitPlaySign(speed)
+                this.dispatchPlay(speed)
             }
         })
 
@@ -30,10 +30,10 @@ export class KeyboardComponent {
             this.setSpeed(state.speed)
         })
 
-        this.listenDefocus()
+        this.detectWindowIsActive()
     }
 
-    emitPlaySign(speed: number) {
+    dispatchPlay(speed: number = 0) {
         reduxStore.dispatch({
             type: PlayerTypes.SPEED,
             data: {
@@ -42,23 +42,12 @@ export class KeyboardComponent {
         })
     }
 
-    listenDefocus() {
-        let hidden: string = 'hidden'
-        let state: string
-        let visibilityChange: string
-        if (typeof (document as any).webkitHidden !== undefined) {
-            visibilityChange = 'webkitvisibilitychange'
-            state = 'webkitVisibilityState'
-        } else {
-            visibilityChange = 'visibilitychange'
-            state = 'visibilityState'
-        }
-
+    detectWindowIsActive() {
         document.addEventListener(
-            visibilityChange,
+            'visibilitychange',
             () => {
-                if (document.visibilityState === hidden) {
-                    this.emitPlaySign(0)
+                if (document.visibilityState === 'hidden') {
+                    this.dispatchPlay()
                 }
             },
             false
@@ -102,13 +91,17 @@ export class KeyboardComponent {
         }
     }
 
-    export() {
-        const mainScript = document.getElementById('time-cat') as HTMLScriptElement
+    async export() {
+        const SDKScript = document.getElementById('time-cat') as HTMLScriptElement
         const initScript = document.getElementById('time-cat-init') as HTMLScriptElement
         const scriptList = []
 
-        if (mainScript) {
-            const source = (mainScript.src || mainScript.textContent)!
+        async function getScriptSource(scriptElement: HTMLScriptElement) {
+            return scriptElement.textContent || (await getRawScriptContent(scriptElement.src.trim()))
+        }
+
+        if (SDKScript) {
+            const source = await getScriptSource(SDKScript)
             scriptList.push({
                 name: 'time-cat',
                 src: source
@@ -116,7 +109,7 @@ export class KeyboardComponent {
         }
 
         if (initScript) {
-            const source = (initScript.src || initScript.textContent)!
+            const source = await getScriptSource(initScript)
             scriptList.push({
                 name: 'time-cat-init',
                 src: source
