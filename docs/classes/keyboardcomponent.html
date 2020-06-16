@@ -92,10 +92,10 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="keyboardcomponent.html#emitplaysign" class="tsd-kind-icon">emit<wbr>Play<wbr>Sign</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="keyboardcomponent.html#detectwindowisactive" class="tsd-kind-icon">detect<wbr>Window<wbr>IsActive</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="keyboardcomponent.html#dispatchplay" class="tsd-kind-icon">dispatch<wbr>Play</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="keyboardcomponent.html#export" class="tsd-kind-icon">export</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="keyboardcomponent.html#init" class="tsd-kind-icon">init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="keyboardcomponent.html#listendefocus" class="tsd-kind-icon">listen<wbr>Defocus</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="keyboardcomponent.html#paly" class="tsd-kind-icon">paly</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="keyboardcomponent.html#setspeed" class="tsd-kind-icon">set<wbr>Speed</a></li>
 							</ul>
@@ -175,10 +175,27 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="emitplaysign" class="tsd-anchor"></a>
-					<h3>emit<wbr>Play<wbr>Sign</h3>
+					<a name="detectwindowisactive" class="tsd-anchor"></a>
+					<h3>detect<wbr>Window<wbr>IsActive</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">emit<wbr>Play<wbr>Sign<span class="tsd-signature-symbol">(</span>speed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">detect<wbr>Window<wbr>IsActive<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/keyboard.ts#L45">packages/player/src/keyboard.ts:45</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="dispatchplay" class="tsd-anchor"></a>
+					<h3>dispatch<wbr>Play</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">dispatch<wbr>Play<span class="tsd-signature-symbol">(</span>speed<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -190,7 +207,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>speed: <span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> speed: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -201,16 +218,16 @@
 					<a name="export" class="tsd-anchor"></a>
 					<h3>export</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">export<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">export<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/keyboard.ts#L105">packages/player/src/keyboard.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/keyboard.ts#L94">packages/player/src/keyboard.ts:94</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -232,23 +249,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="listendefocus" class="tsd-anchor"></a>
-					<h3>listen<wbr>Defocus</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">listen<wbr>Defocus<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/keyboard.ts#L45">packages/player/src/keyboard.ts:45</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="paly" class="tsd-anchor"></a>
 					<h3>paly</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -258,7 +258,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/keyboard.ts#L68">packages/player/src/keyboard.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/keyboard.ts#L57">packages/player/src/keyboard.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -281,7 +281,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/keyboard.ts#L80">packages/player/src/keyboard.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/keyboard.ts#L69">packages/player/src/keyboard.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -327,16 +327,16 @@
 								<a href="keyboardcomponent.html#playorpausebtn" class="tsd-kind-icon">play<wbr>OrPause<wbr>Btn</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="keyboardcomponent.html#emitplaysign" class="tsd-kind-icon">emit<wbr>Play<wbr>Sign</a>
+								<a href="keyboardcomponent.html#detectwindowisactive" class="tsd-kind-icon">detect<wbr>Window<wbr>IsActive</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="keyboardcomponent.html#dispatchplay" class="tsd-kind-icon">dispatch<wbr>Play</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="keyboardcomponent.html#export" class="tsd-kind-icon">export</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="keyboardcomponent.html#init" class="tsd-kind-icon">init</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="keyboardcomponent.html#listendefocus" class="tsd-kind-icon">listen<wbr>Defocus</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="keyboardcomponent.html#paly" class="tsd-kind-icon">paly</a>

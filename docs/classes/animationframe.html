@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BroadcasterComponent | TimeCat</title>
+	<title>AnimationFrame | TimeCat</title>
 	<meta name="description" content="Documentation for TimeCat">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="broadcastercomponent.html">BroadcasterComponent</a>
+					<a href="animationframe.html">AnimationFrame</a>
 				</li>
 			</ul>
-			<h1>Class BroadcasterComponent</h1>
+			<h1>Class AnimationFrame</h1>
 		</div>
 	</div>
 </header>
@@ -66,7 +66,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">BroadcasterComponent</span>
+						<span class="target">AnimationFrame</span>
 					</li>
 				</ul>
 			</section>
@@ -77,23 +77,22 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="broadcastercomponent.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="animationframe.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="broadcastercomponent.html#broadcaster" class="tsd-kind-icon">broadcaster</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="broadcastercomponent.html#floatlayer" class="tsd-kind-icon">float<wbr>Layer</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="broadcastercomponent.html#subtitle" class="tsd-kind-icon">subtitle</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="animationframe.html#animate" class="tsd-kind-icon">animate</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="animationframe.html#fps" class="tsd-kind-icon">fps</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="animationframe.html#requestid" class="tsd-kind-icon">requestID</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastercomponent.html#cleantext" class="tsd-kind-icon">clean<wbr>Text</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastercomponent.html#init" class="tsd-kind-icon">init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastercomponent.html#updatetext" class="tsd-kind-icon">update<wbr>Text</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="animationframe.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="animationframe.html#stop" class="tsd-kind-icon">stop</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,16 +104,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Broadcaster<wbr>Component<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="broadcastercomponent.html" class="tsd-signature-type">BroadcasterComponent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Animation<wbr>Frame<span class="tsd-signature-symbol">(</span>animate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, fps<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="animationframe.html" class="tsd-signature-type">AnimationFrame</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/broadcaster.ts#L4">packages/player/src/broadcaster.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/animationFrame.ts#L4">packages/player/src/animationFrame.ts:4</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="broadcastercomponent.html" class="tsd-signature-type">BroadcasterComponent</a></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>animate: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> fps: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 60</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="animationframe.html" class="tsd-signature-type">AnimationFrame</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -122,32 +130,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="broadcaster" class="tsd-anchor"></a>
-					<h3>broadcaster</h3>
-					<div class="tsd-signature tsd-kind-icon">broadcaster<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<a name="animate" class="tsd-anchor"></a>
+					<h3>animate</h3>
+					<div class="tsd-signature tsd-kind-icon">animate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/broadcaster.ts#L2">packages/player/src/broadcaster.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/animationFrame.ts#L4">packages/player/src/animationFrame.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="floatlayer" class="tsd-anchor"></a>
-					<h3>float<wbr>Layer</h3>
-					<div class="tsd-signature tsd-kind-icon">float<wbr>Layer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<a name="fps" class="tsd-anchor"></a>
+					<h3>fps</h3>
+					<div class="tsd-signature tsd-kind-icon">fps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/broadcaster.ts#L3">packages/player/src/broadcaster.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/animationFrame.ts#L3">packages/player/src/animationFrame.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="subtitle" class="tsd-anchor"></a>
-					<h3>subtitle</h3>
-					<div class="tsd-signature tsd-kind-icon">subtitle<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<a name="requestid" class="tsd-anchor"></a>
+					<h3>requestID</h3>
+					<div class="tsd-signature tsd-kind-icon">requestID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/broadcaster.ts#L4">packages/player/src/broadcaster.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/animationFrame.ts#L2">packages/player/src/animationFrame.ts:2</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -155,16 +163,16 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="cleantext" class="tsd-anchor"></a>
-					<h3>clean<wbr>Text</h3>
+					<a name="start" class="tsd-anchor"></a>
+					<h3>start</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">clean<wbr>Text<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/broadcaster.ts#L24">packages/player/src/broadcaster.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/animationFrame.ts#L10">packages/player/src/animationFrame.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -172,41 +180,18 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="init" class="tsd-anchor"></a>
-					<h3>init</h3>
+					<a name="stop" class="tsd-anchor"></a>
+					<h3>stop</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/broadcaster.ts#L9">packages/player/src/broadcaster.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/animationFrame.ts#L27">packages/player/src/animationFrame.ts:27</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="updatetext" class="tsd-anchor"></a>
-					<h3>update<wbr>Text</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Text<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/broadcaster.ts#L15">packages/player/src/broadcaster.ts:15</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>text: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -226,28 +211,25 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="broadcastercomponent.html" class="tsd-kind-icon">Broadcaster<wbr>Component</a>
+						<a href="animationframe.html" class="tsd-kind-icon">Animation<wbr>Frame</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="broadcastercomponent.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="animationframe.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="broadcastercomponent.html#broadcaster" class="tsd-kind-icon">broadcaster</a>
+								<a href="animationframe.html#animate" class="tsd-kind-icon">animate</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="broadcastercomponent.html#floatlayer" class="tsd-kind-icon">float<wbr>Layer</a>
+								<a href="animationframe.html#fps" class="tsd-kind-icon">fps</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="broadcastercomponent.html#subtitle" class="tsd-kind-icon">subtitle</a>
+								<a href="animationframe.html#requestid" class="tsd-kind-icon">requestID</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="broadcastercomponent.html#cleantext" class="tsd-kind-icon">clean<wbr>Text</a>
+								<a href="animationframe.html#start" class="tsd-kind-icon">start</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="broadcastercomponent.html#init" class="tsd-kind-icon">init</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="broadcastercomponent.html#updatetext" class="tsd-kind-icon">update<wbr>Text</a>
+								<a href="animationframe.html#stop" class="tsd-kind-icon">stop</a>
 							</li>
 						</ul>
 					</li>
