@@ -6,6 +6,7 @@ import { SnapshotData } from '@TimeCat/snapshot'
 import { RecordData, AudioData, RecorderOptions, NONERecord } from '@TimeCat/record'
 import { base64ToFloat32Array, encodeWAV } from './transform'
 import { getScript } from './tools/dom'
+import { recoverNative } from './tools/recover-native'
 
 type ScriptItem = { name?: string; src: string }
 type ExportOptions = { scripts?: ScriptItem[]; autoplay?: boolean; audioExternal?: boolean; dataExternal?: boolean }
@@ -20,12 +21,23 @@ const downloadAudioConfig = {
 }
 
 export async function exportReplay(exportOptions: ExportOptions) {
+    recoveryMethods()
     await addNoneFrame()
     const parser = new DOMParser()
     const html = parser.parseFromString(TPL, 'text/html')
     await injectData(html, exportOptions)
     await initOptions(html, exportOptions)
     downloadFiles(html)
+}
+
+function recoveryMethods() {
+    const methods = [
+        // 'HTMLElement.prototype.insertBefore',
+        // 'HTMLElement.prototype.append',
+        'HTMLElement.prototype.appendChild'
+    ]
+
+    methods.forEach(recoverNative.recoverMethod.bind(recoverNative))
 }
 
 async function addNoneFrame() {
@@ -48,6 +60,15 @@ function downloadFiles(html: Document) {
 }
 
 function downloadAudios() {
+    if (window.__ReplayData__) {
+        const replayData = window.__ReplayData__
+        if (replayData.audio) {
+            const { src } = replayData.audio
+            download(src, src)
+            return
+        }
+    }
+
     downloadAudioConfig.extractAudioDataList.forEach(extractedData => {
         const floatArray = extractedData.source.map(data => base64ToFloat32Array(data))
         const audioBlob = encodeWAV(floatArray, downloadAudioConfig.opts)
@@ -61,10 +82,13 @@ async function initOptions(html: Document, exportOptions: ExportOptions) {
     const { scripts, autoplay } = exportOptions
     const options = { autoplay }
     const scriptList = scripts || ([] as ScriptItem[])
-    scriptList.push({
-        name: 'time-cat-init',
-        src: `timecat.replay(${JSON.stringify(options)})`
-    })
+
+    if (!scriptList.some(item => item.name === 'time-cat-init')) {
+        scriptList.push({
+            name: 'time-cat-init',
+            src: `timecat.replay(${JSON.stringify(options)})`
+        })
+    }
 
     await injectScripts(html, scriptList)
 }
@@ -145,13 +169,12 @@ async function injectData(html: Document, exportOptions: ExportOptions) {
         outputStr += String.fromCharCode(num)
     }
 
-    const scriptContent = `var __ReplayStrData__ =  '${outputStr}'`
-
+    const replayData = `var __ReplayStrData__ =  '${outputStr}'`
     const loadingScriptContent = `const loadingNode = document.createElement('div')
     loadingNode.className = 'pacman-box';
     loadingNode.innerHTML = '<style>${pacmanCss}<\/style><div class="pacman"><div><\/div><div><\/div><div><\/div><div><\/div><div><\/div><\/div>'
     loadingNode.setAttribute('style', 'text-align: center;vertical-align: middle;line-height: 100vh;')
     document.body.insertBefore(loadingNode, document.body.firstChild);window.addEventListener('DOMContentLoaded', () => loadingNode.parentNode.removeChild(loadingNode))`
     injectScripts(html, [{ src: loadingScriptContent }])
-    injectScripts(html, [{ src: scriptContent }])
+    injectScripts(html, [{ src: replayData }])
 }

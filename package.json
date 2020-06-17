@@ -1,7 +1,7 @@
 {
     "name": "timecatjs",
     "author": "oct16",
-    "version": "1.0.5",
+    "version": "1.0.8",
     "description": "TimeCat Web Recorder",
     "main": "lib/timecatjs.min.js",
     "module": "lib/timecatjs.esm.js",
@@ -55,6 +55,7 @@
         "rollup-plugin-browsersync": "^1.1.0",
         "rollup-plugin-copy": "^3.3.0",
         "rollup-plugin-delete": "^1.2.0",
+        "rollup-plugin-scss": "^2.5.0",
         "rollup-plugin-string": "^3.0.0",
         "rollup-plugin-terser": "^5.3.0",
         "rollup-plugin-typescript2": "^0.26.0",
