@@ -1,4 +1,4 @@
-import { secondToDate } from '@TimeCat/utils'
+import { secondToDate, delay } from '@TimeCat/utils'
 import { ContainerComponent } from './container'
 
 export class ProgressComponent {
@@ -16,8 +16,33 @@ export class ProgressComponent {
         this.slider = this.progress.querySelector('.cat-slider-bar') as HTMLElement
     }
 
-    updateProgress(percentage: number) {
-        this.setThumb(percentage)
+    async setProgressAnimation(index: number, total: number, interval: number, speed: number) {
+        // progress end
+        if (!index && !speed) {
+            return
+        }
+
+        // set width 100%
+        this.currentProgress.classList.remove('active')
+
+        // fix change class not trigger animate
+        await delay(20)
+
+        this.currentProgress.style.removeProperty('transition')
+
+        // pause
+        if (!speed) {
+            this.currentProgress.style.width = this.currentProgress.offsetWidth + 'px'
+            this.currentProgress.style.setProperty('transition', 'none')
+            return
+        }
+
+        // remind animation seconds
+        const duration = ((total - index) * interval) / speed / 1000
+        this.currentProgress.style.transitionDuration = duration + 's'
+
+        // animate
+        this.currentProgress.classList.add('active')
     }
 
     updateTimer(second: number) {
@@ -27,20 +52,11 @@ export class ProgressComponent {
         }
     }
 
-    setThumb(percentage: number) {
-        const x = (percentage / 100) * (this.progress.offsetWidth - 10)
-        this.thumb.style.left = x + 'px'
-        this.currentProgress.style.width = x + 'px'
-    }
-
     resetThumb() {
-        const thumb = this.thumb.cloneNode(true) as HTMLElement
+        this.currentProgress.classList.remove('active')
         const currentProgress = this.currentProgress.cloneNode(true) as HTMLElement
-        this.thumb.parentNode!.replaceChild(thumb, this.thumb)
         this.currentProgress.parentNode!.replaceChild(currentProgress, this.currentProgress)
-        thumb.style.left = '0px'
-        currentProgress.style.width = '0px'
-        this.thumb = thumb as HTMLElement
+        currentProgress.style.width = '0'
         this.currentProgress = currentProgress as HTMLElement
     }
 }
