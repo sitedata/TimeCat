@@ -94,8 +94,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="progresscomponent.html#resetthumb" class="tsd-kind-icon">reset<wbr>Thumb</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="progresscomponent.html#setthumb" class="tsd-kind-icon">set<wbr>Thumb</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="progresscomponent.html#updateprogress" class="tsd-kind-icon">update<wbr>Progress</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="progresscomponent.html#setprogressanimation" class="tsd-kind-icon">set<wbr>Progress<wbr>Animation</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="progresscomponent.html#updatetimer" class="tsd-kind-icon">update<wbr>Timer</a></li>
 							</ul>
 						</section>
@@ -193,7 +192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L36">packages/player/src/progress.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L55">packages/player/src/progress.ts:55</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -201,33 +200,10 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setthumb" class="tsd-anchor"></a>
-					<h3>set<wbr>Thumb</h3>
+					<a name="setprogressanimation" class="tsd-anchor"></a>
+					<h3>set<wbr>Progress<wbr>Animation</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Thumb<span class="tsd-signature-symbol">(</span>percentage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L30">packages/player/src/progress.ts:30</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>percentage: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="updateprogress" class="tsd-anchor"></a>
-					<h3>update<wbr>Progress</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Progress<span class="tsd-signature-symbol">(</span>percentage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Progress<wbr>Animation<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, total<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, interval<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, speed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -239,10 +215,19 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>percentage: <span class="tsd-signature-type">number</span></h5>
+									<h5>index: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>total: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>interval: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>speed: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -256,7 +241,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L23">packages/player/src/progress.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/progress.ts#L48">packages/player/src/progress.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -308,10 +293,7 @@
 								<a href="progresscomponent.html#resetthumb" class="tsd-kind-icon">reset<wbr>Thumb</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="progresscomponent.html#setthumb" class="tsd-kind-icon">set<wbr>Thumb</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="progresscomponent.html#updateprogress" class="tsd-kind-icon">update<wbr>Progress</a>
+								<a href="progresscomponent.html#setprogressanimation" class="tsd-kind-icon">set<wbr>Progress<wbr>Animation</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="progresscomponent.html#updatetimer" class="tsd-kind-icon">update<wbr>Timer</a>
