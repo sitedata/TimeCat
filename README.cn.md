@@ -13,42 +13,102 @@ A Magical Web Recorder 🖥 网页录屏器
 
 中文 | [English](./README.md)
 
+TimeCat 是一套网页录屏的解决方案，利用其独特的算法，提供超高性能，超高压缩比的网页无损录制。可以广泛运作于监控系统，行为分析，案例复盘，远程教育，低流量视频协同等场景
+
 [🖥 DEMO](https://oct16.github.io/TimeCat) Chrome浏览器
 
 ### Progress
     06.07 Support Audio
-    05.24 Beta Core 1.0.0-Beta Released
+    05.24 Beta 1.0.0 Released
     04.26 Live Mode    
     03.31 Add Chrome Plugin 
 
+### Version 
+
+![npm (tag)](https://img.shields.io/npm/v/timecatjs/latest)
+
+###### Browsers Support
+
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Safari |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
 ### Installation
 
-##### NPM
+###### Using [NPM](https://www.npmjs.com/package/timecatjs)
+```shell
+$ npm i timecatjs -D
+```
 
-    npm i timecatjs -D
+###### Import in Browser
 
-##### CDN
-    https://unpkg.com/timecatjs/lib/timecatjs.min.js
-    https://cdn.jsdelivr.net/npm/timecatjs/lib/timecatjs.min.js
+Add script tags in your browser and use the global variable ``timecat``
+
+
+- [jsDelivr](https://cdn.jsdelivr.net/npm/timecatjs@latest/lib/timecatjs.min.js) 
+- [UNPKG](https://unpkg.com/timecatjs)
+
 ### Usage
+
+###### Import SDK
 ```ts
 // from module
 import { record, replay } from 'timecatjs';
 
 // from cdn
 const { record, replay } = window.timecat
-
-// record page
-record(RecordOptions)
-
-// replay record
-replay(ReplayOptions)
-
-// export html file
-exportReplay(Opts)
 ```
-Simple Example:  
-[Record Todo List](https://github.com/oct16/TimeCat/blob/073c467afc644ce37e4f51937c28eb5000b2a92c/examples/todo.html#L258) and [Replay Todo List](https://github.com/oct16/TimeCat/blob/073c467afc644ce37e4f51937c28eb5000b2a92c/examples/player.html#L14)
+
+###### Record Data
+```ts
+// record page
+interface RecordOptions {
+    audio?: boolean // if your want record audio
+    emitter?: (data: RecordData, db: IndexedDBOperator) => void
+}
+
+// default use IndexedDB to save records
+const ctrl = record(RecordOptions)
+
+// if you wanna send the records to server
+const ctrl = record({
+    emitter: (data, db) => fetch(<Server URL>, {
+            body: JSON.stringify(data),
+            method: 'POST',
+            ContentType: 'application/json'
+        })
+})
+
+// if you want stop record
+ctrl.unsubscribe()
+```
+- [Record Example](https://github.com/oct16/TimeCat/blob/073c467afc644ce37e4f51937c28eb5000b2a92c/examples/todo.html#L258) 
+
+###### Replay
+
+```ts
+// replay record
+interface ReplayOptions {
+    socketUrl?: string // if live mode
+    proxy?: string // if cross domain
+    autoplay?: boolean // autoplay when data loaded
+}
+
+replay(ReplayOptions)
+```
+- [Replay example](https://github.com/oct16/TimeCat/blob/4c91fe2e9dc3786921cd23288e26b421f6ea0848/examples/player.html#L14)
+
+
+###### Export
+```ts
+// export html file
+interface ExportOptions {
+    scripts?: ScriptItem[] // inject script in html
+    autoplay?: boolean // autoplay when data loaded
+    audioExternal?: boolean // export audio as a file, default is inline
+    dataExternal?: boolean // export data json as a file, default is inline
+}
+exportReplay(ExportOptions)
+```
 
 ### API Documentation
 
@@ -186,16 +246,25 @@ const elementList: [HTMLElement, string][] = [
         })
     })
 ```
+#### MutationObserver
 
-#### MutationObserver的优化
+###### 优化改进
 
 由于 DOM 的 Diff Patch 是借助 MutationObserver 来实现的，需要对发生更变的记录进行收集处理，这涉及到一些关键问题：例如DOM更变的时序是有先后的，Mutation只归纳为新增和删除，但是在调用insertBefore或者appendChild的时候，会造成移动，要对这些节点进行处理，标记为移动，否则节点的引用丢失就可能会导致渲染错误
 
-#### MutationObserver的兼容性
+
+###### 兼容性处理
 
 [Can I Use MutationObserver](https://caniuse.com/#search=mutationObserver) 表示只在IE11及以上，安卓4.4及以上可以使用，对于老浏览器的兼容可以通过[mutationobserver-shim](https://www.npmjs.com/package/mutationobserver-shim)的方式来支持，但是使用shim可能会因为收集的数据致精度不足从而产生一些致命Bug，另外还有一种情况是某些网站可能会屏蔽的掉MutationObserver这个API，遇到这种清空可以通过创建Iframe的方式来还原``Native Code``
 
-#### 跨域时外链的处理
+#### Canvas、Iframe、Video等元素的处理
+
+- Canvas：通过猴子补丁的方式去扩展或修改相应的API，从而获取到对应的动作
+- Iframe：在非跨域的状态下，也可以直接访问内部的节点进行录制，类似的还有Shadow Dom
+- Video：利用HTMLVideoElement获取并且记录视频的状态信息
+- Flash：通过截屏的方式进行录制
+
+#### 外链的处理
 
 加载HTML以后会引用很多外界的资源，通常会有多种形式
 
@@ -242,7 +311,7 @@ const elementList: [HTMLElement, string][] = [
 
 #### 通过Diff字符串优化数据长度
 
-当我们在一个输入框中不断的敲击内容时，我们的Watcher函数会源源不断的事件响应，通过`Event.target.value`可以拿到当前`HTMLInputElement`最新的值，利用节流函数可以过滤掉一些冗余的响应，但是还不够，例如在一个TextArea中的文本会非常的长长长长长，假设文本的长度的长度是n，我们在文本后面添加了是10个字符，那么响应的长度是：
+当我们在一个输入框中不断的敲击内容时，我们的Watcher函数会源源不断的事件响应，通过`Event.target.value`可以拿到当前`HTMLInputElement`最新的值，利用节流函数可以过滤掉一些冗余的响应，但是还不够，例如在一个TextArea中的文本会非常的长长长长长，假设文本的长度是n，我们在文本后面添加了10个字符，每次输入响应1次，那么响应的长度是：
 > 10n + ∑(k=1, n=10)
 
 可见会产生大量的数据
@@ -253,8 +322,8 @@ const elementList: [HTMLElement, string][] = [
 
 ```ts
 const patches = [
-    {type: 'delete', index: 0, count: 1},
-    {type: 'add', index: 3, value: 'e'},
+    { type: 'delete', index: 0, count: 1 },
+    { type: 'add', index: 3, value: 'e' }
 ]
 ```
 
@@ -322,16 +391,29 @@ Gzip的核心是Deflate, 而Deflate又是基于LZ77和哈夫曼树的，通过Gz
 
 #### 数据上传
 
-对于客户端的数据，可以利用浏览器提供的indexedDB进行存储，毕竟indexedDB会比LocalStorage容量大得多，一般来说不少于 250MB，甚至没有上限，此外它使用object store存储，而且支持transaction，另外很重要的一点它是异步的，意味着不会阻塞录屏器的运行
-之后数据可以通过WebSocket或其他方式持续上传到服务器中，由于数据是分块进行传输的，在同步之后还可以增加数据校验码来保证一致性避免错误
+对于客户端的数据，可以利用浏览器提供的indexedDB进行存储，毕竟indexedDB会比LocalStorage容量大得多，一般来说不少于 250MB，甚至没有上限，此外它使用object store存储，而且支持transaction，另外很重要的一点它是异步的，意味着不会阻塞录屏器的运行，之后数据可以通过WebSocket或http方式持续上传到服务器中，由于数据是分块进行传输的，在同步之后还可以增加数据校验码来保证一致性避免错误
 
 #### 加载SDK
 
-通过RollUp打包器可以生成多种格式版本，例如``IIFE``与``ESM``等
-在项目中加载SDK或者利用Chrome的插件注入IIFE模块，可以很方便的注入代码，控制数据录制的过程
-
+通过RollUp打包器可以生成多种格式版本，例如``UMD``与``ESM``等
+在项目中加载SDK或者利用Chrome的插件注入UMD模块，可以很方便的加载代码，控制数据录制的过程
 
 #### 致谢
 
 感谢阿里的XREPLAY的启发   
 感谢RRWEB的技术分享   
+
+#### 寻求工作机会
+
+如有伯乐
+若不介意学历因素
+请与我联系：
+
+微信：
+```js
+62809912 >> 2
+```
+邮箱：见Github个人主页
+职位：前端工程师
+方向：应用工具/大型网站
+地点：天南海北
