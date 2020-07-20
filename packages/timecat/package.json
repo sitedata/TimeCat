@@ -1,0 +1,16 @@
+{
+    "name": "timecat",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.esm.js",
+    "types": "dist/index.d.ts",
+    "scripts": {},
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@timecat/record": "^1.0.0",
+        "@timecat/player": "^1.0.0",
+        "@timecat/utils": "^1.0.0"
+    },
+    "devDependencies": {}
+}

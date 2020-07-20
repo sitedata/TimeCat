@@ -1,4 +1,4 @@
-import { PlayerTypes, reduxStore, exportReplay, getRawScriptContent } from '@TimeCat/utils'
+import { PlayerTypes, reduxStore, exportReplay, getRawScriptContent } from '@timecat/utils'
 import { ContainerComponent } from './container'
 
 export class KeyboardComponent {
@@ -26,8 +26,10 @@ export class KeyboardComponent {
         })
 
         reduxStore.subscribe('player', state => {
-            this.paly(state.speed)
-            this.setSpeed(state.speed)
+            if (state) {
+                this.paly(state.speed)
+                this.setSpeed(state.speed)
+            }
         })
 
         this.detectWindowIsActive()

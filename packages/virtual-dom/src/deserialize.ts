@@ -1,6 +1,6 @@
 import { setAttribute } from './dom'
-import { nodeStore, isDev, isHideComment, completionCssHref } from '@TimeCat/utils'
-import { VNode, VSNode } from './types'
+import { nodeStore, isDev, isHideComment, completionCssHref } from '@timecat/utils'
+import { VNode, VSNode } from '@timecat/share'
 
 export function convertVNode(vNode: VNode | VSNode | null, parent?: VNode): Element | null {
     if (vNode === null || vNode === undefined) {
@@ -51,13 +51,23 @@ function createProps(vNode: VNode, node: Element): void {
 }
 
 function createAttributes(vNode: VNode, node: Element): void {
-    const { attrs } = vNode
+    const attrs = getAttributes(vNode)
+
     for (const [name, val] of Object.entries(attrs)) {
         setAttribute(node as HTMLElement, name, val)
     }
     if (vNode.tag === 'a') {
         setAttribute(node as HTMLElement, 'target', '_blank')
     }
+}
+
+function getAttributes(vNode: VNode) {
+    const attrs = { ...vNode.attrs }
+    if (vNode.tag === 'iframe') {
+        attrs['disabled-src'] = attrs.src
+        delete attrs.src
+    }
+    return attrs
 }
 
 export function createSpecialNode(vsNode: VSNode) {
@@ -83,16 +93,14 @@ export function createNode(vNode: VNode): Element {
     let output: Element
     const tagName = transformTagName(vNode.tag)
     if (isSVG) {
-        console.log(tagName)
-
         output = document.createElementNS('http://www.w3.org/2000/svg', tagName)
     } else {
         output = document.createElement(tagName)
     }
 
-    // if (isDev) {
-    //     setAttribute(output as HTMLElement, 'vid', id.toString())
-    // }
+    if (isDev) {
+        setAttribute(output as HTMLElement, 'vid', id.toString())
+    }
     createAttributes(vNode, output)
     createProps(vNode, output)
     nodeStore.updateNode(id, output)

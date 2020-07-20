@@ -1,14 +1,10 @@
 {
-    "name": "@timecat/virtual-dom",
+    "name": "@timecat/share",
     "version": "1.0.0",
     "description": "",
     "main": "dist/index.esm.js",
     "types": "dist/index.d.ts",
     "scripts": {},
-    "dependencies": {
-        "@timecat/utils": "^1.0.0",
-        "@timecat/share": "^1.0.0"
-    },
     "author": "",
     "license": "ISC"
 }

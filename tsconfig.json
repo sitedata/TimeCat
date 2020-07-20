@@ -17,6 +17,7 @@
         "declaration": false,
         "jsx": "preserve",
         "skipLibCheck": true,
+        "composite": true,
         "lib": [
             "ES2019",
             "dom",
@@ -24,23 +25,15 @@
         ],
         "types": [
             "node",
-            "jest"
+            "jest",
         ],
-        "rootDir": ".",
         "paths": {
-            "@TimeCat/*": [
+            "@timecat/*": [
                 "packages/*/src"
+            ],
+            "timecat": [
+                "packages/timecat/src"
             ]
         }
-    },
-    "include": [
-        "global.d.ts",
-        "packages/*/src",
-        "index.ts",
-        "examples/*",
-        "test/**/*"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
+    }
 }

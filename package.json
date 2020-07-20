@@ -1,9 +1,9 @@
 {
     "name": "timecatjs",
     "author": "oct16",
-    "version": "1.0.13",
+    "version": "1.0.16",
     "description": "TimeCat Web Recorder",
-    "main": "lib/timecatjs.min.js",
+    "main": "lib/timecatjs.cjs.js",
     "module": "lib/timecatjs.esm.js",
     "types": "lib/timecatjs.d.ts",
     "keywords": [
@@ -24,14 +24,14 @@
     "scripts": {
         "dev": "node scripts/dev.js",
         "build": "node scripts/build.js",
-        "test": "jest",
         "live": "node scripts/live.js",
         "lib": "node scripts/lib.js",
+        "test": "jest",
         "f": "npx code-formatter --path packages",
         "gh": "git push origin `git subtree split --prefix dist gh`:gh-pages --force",
         "doc": "npx typedoc",
-        "embed": "npm run build && cd dist && cp timecatjs.min.js ../../TimeCatChrome/src/assets/",
-        "count": "find . -type f -not -path './node_modules/*' -not -path './dist/*'  -name '*.ts' | xargs wc -l"
+        "embed": "cp packages/timecat/dist/timecatjs.min.js ../TimeCatChrome/src/assets/",
+        "count": "find ./packages -type f -not -path **/*.spec.ts -not -path **/global.* -not -path './node_modules/*' -not -path '**/dist/*'  -name '*.ts' | xargs wc -l"
     },
     "devDependencies": {
         "@microsoft/api-extractor": "^7.8.9",
@@ -50,6 +50,7 @@
         "execa": "^4.0.0",
         "fs-extra": "^8.1.0",
         "jest": "^26.0.1",
+        "minimist": "^1.2.5",
         "pako": "^1.0.11",
         "rollup": "^1.32.0",
         "rollup-plugin-browsersync": "^1.1.0",
@@ -75,8 +76,5 @@
     "homepage": "https://github.com/oct16/TimeCat#readme",
     "files": [
         "lib"
-    ],
-    "dependencies": {
-        "http-proxy": "^1.18.1"
-    }
+    ]
 }

@@ -11,11 +11,15 @@ import {
     UpdateNodeData,
     RemoveUpdateData,
     DOMUpdateDataType,
-    ScrollWatcherData
-} from '@TimeCat/record'
+    ScrollWatcherData,
+    VNode,
+    VSNode,
+    SnapshotData,
+    LocationRecordData
+} from '@timecat/share'
 import { PlayerComponent } from './player'
-import { nodeStore, isElementNode, isExistingNode, delay, isVNode, revertStrByPatches } from '@TimeCat/utils'
-import { setAttribute, VNode, VSNode, createNode, createSpecialNode } from '@TimeCat/virtual-dom'
+import { nodeStore, isElementNode, isExistingNode, delay, isVNode, revertStrByPatches } from '@timecat/utils'
+import { setAttribute, createNode, createSpecialNode, convertVNode } from '@timecat/virtual-dom'
 
 function insertOrMoveNode(data: UpdateNodeData, orderSet: Set<number>) {
     const { parentId, nextId, node } = data
@@ -68,19 +72,33 @@ function findNextNode(nextId: number | null): Node | null {
     return nextId ? nodeStore.getNode(nextId) : null
 }
 
-export async function updateDom(this: PlayerComponent, Record: RecordData) {
+export async function updateDom(this: PlayerComponent, Record: RecordData | SnapshotData) {
     const { type, data } = Record
     switch (type) {
+        case RecordType.SNAPSHOT: {
+            const snapshotData = data as SnapshotData['data']
+            const { frameId, vNode } = snapshotData
+
+            if (frameId) {
+                const iframeNode = nodeStore.getNode(frameId) as HTMLIFrameElement
+                if (iframeNode) {
+                    const contentDocument = iframeNode.contentDocument!
+                    createIframeDOM(contentDocument, snapshotData)
+                    injectIframeContent(contentDocument, snapshotData)
+                }
+            }
+
+            break
+        }
+
         case RecordType.SCROLL: {
             const { top, left, id } = data as ScrollWatcherData
-            let target = (id as number | null)
-                ? (nodeStore.getNode(id) as HTMLElement)
-                : this.c.sandBoxDoc.documentElement
+            let target = id ? (nodeStore.getNode(id) as HTMLElement) : this.c.sandBoxDoc.documentElement
 
             const curTop = target.scrollTop
 
             // prevent jump too long distance
-            const behavior = Math.abs(top - curTop) > window.__ReplayData__.snapshot.height * 3 ? 'auto' : 'smooth'
+            const behavior = Math.abs(top - curTop) > window.__ReplayData__.snapshot.data.height * 3 ? 'auto' : 'smooth'
             target.scrollTo({
                 top,
                 left,
@@ -150,7 +168,7 @@ export async function updateDom(this: PlayerComponent, Record: RecordData) {
                     } as UpdateNodeData
                 })
                 .concat(addedNodes.slice())
-
+                
             // Math Termial
             const n = addedList.length
             const maxRevertCount = n > 0 ? (n * n + n) / 2 : 0
@@ -198,12 +216,12 @@ export async function updateDom(this: PlayerComponent, Record: RecordData) {
             const node = nodeStore.getNode(id) as HTMLInputElement | undefined
 
             if (node) {
-                if (formType === FormElementEvent.INPUT) {
-                    if (value) {
-                        node.value = value!
-                    } else if (patches && patches.length) {
+                if (formType === FormElementEvent.INPUT || formType === FormElementEvent.CHANGE) {
+                    if (patches && patches.length) {
                         const newValue = revertStrByPatches(node.value, patches)
                         node.value = newValue
+                    } else if (key) {
+                        ;(node as any)[key] = value
                     }
                 } else if (formType === FormElementEvent.FOCUS) {
                     node.focus()
@@ -216,6 +234,15 @@ export async function updateDom(this: PlayerComponent, Record: RecordData) {
                 }
             }
             break
+
+        case RecordType.LOCATION:
+            const { path, hash, contextNodeId } = data as LocationRecordData
+            const contextNode = nodeStore.getNode(contextNodeId)
+            
+            if (contextNode) {
+                const context = contextNode.ownerDocument!.defaultView!
+                context.__ReplayLocation__ = { ...context.__ReplayLocation__, ...{ path, hash } }
+            }
         default: {
             break
         }
@@ -248,4 +275,23 @@ export async function waitStart(): Promise<void> {
             r()
         })
     })
+}
+
+export function createIframeDOM(contentDocument: Document, snapshotData: SnapshotData['data']) {
+    contentDocument.open()
+    const doctype = snapshotData.doctype
+    const doc = `<!DOCTYPE ${doctype.name} ${doctype.publicId ? 'PUBLIC ' + '"' + doctype.publicId + '"' : ''} ${
+        doctype.systemId ? '"' + doctype.systemId + '"' : ''
+    }><html><head></head><body></body></html>`
+    contentDocument.write(doc)
+}
+
+export function injectIframeContent(contentDocument: Document, snapshotData: SnapshotData['data']) {
+    const child = convertVNode(snapshotData.vNode)
+    if (child) {
+        const documentElement = contentDocument.documentElement
+        child.scrollLeft = snapshotData.scrollLeft
+        child.scrollTop = snapshotData.scrollTop
+        contentDocument.replaceChild(child, documentElement)
+    }
 }

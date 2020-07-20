@@ -7,14 +7,12 @@ import {
     isSnapshot,
     classifyRecords,
     isDev
-} from '@TimeCat/utils'
+} from '@timecat/utils'
 import { ContainerComponent } from './container'
 import { Panel } from './panel'
 import pako from 'pako'
 import io from 'socket.io-client'
-import { SnapshotData } from '@TimeCat/snapshot'
-import { RecordData, AudioData, RecorderOptions } from '@TimeCat/record'
-import { ReplayOptions } from './types'
+import { SnapshotData, ReplayOptions, RecordData, AudioData, RecorderOptions } from '@timecat/share'
 import { waitStart, removeStartPage, showStartMask } from './dom'
 
 export async function replay(options: ReplayOptions = { autoplay: true }) {
@@ -22,7 +20,7 @@ export async function replay(options: ReplayOptions = { autoplay: true }) {
     const replayData = await getReplayData()
 
     if (!replayData) {
-        return
+        throw new Error("window.__ReplayDataList__ not found, you should inject to the global or DB, see demos: https://oct16.github.io/TimeCat");
     }
 
     const { records, audio } = replayData
@@ -143,7 +141,12 @@ async function getAsyncDataFromSocket(
 async function getDataFromDB() {
     const DBOperator = await getDBOperator
     const data = await DBOperator.readAllRecords()
-    return classifyRecords(data)
+
+    if (data) {
+        return classifyRecords(data)
+    }
+
+    return null
 }
 
 async function getReplayData() {
@@ -155,15 +158,15 @@ async function getReplayData() {
         (await getDataFromDB()) ||
         window.__ReplayDataList__
 
-    if (!replayDataList) {
-        return null
+    if (replayDataList) {
+        window.__ReplayDataList__ = replayDataList
+        window.__ReplayData__ = Object.assign(
+            {
+                index: 0
+            },
+            replayDataList[0]
+        )
+        return window.__ReplayData__
     }
-    window.__ReplayDataList__ = replayDataList
-    window.__ReplayData__ = Object.assign(
-        {
-            index: 0
-        },
-        replayDataList[0]
-    )
-    return window.__ReplayData__
+    return null
 }

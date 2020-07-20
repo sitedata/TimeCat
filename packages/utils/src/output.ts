@@ -2,12 +2,19 @@ import { TPL, pacmanCss } from './tpl'
 import { getDBOperator } from './store/idb'
 import { isDev, classifyRecords, download, getRandomCode, getTime, isVNode } from './tools/common'
 import pako from 'pako'
-import { SnapshotData } from '@TimeCat/snapshot'
-import { RecordData, AudioData, RecorderOptions, NONERecord, RecordType } from '@TimeCat/record'
+import {
+    VNode,
+    VSNode,
+    RecordData,
+    AudioData,
+    RecorderOptions,
+    NONERecord,
+    SnapshotData,
+    RecordType
+} from '@timecat/share'
 import { base64ToFloat32Array, encodeWAV } from './transform'
 import { getScript } from './tools/dom'
 import { recoverNative } from './tools/recover-native'
-import { VNode, VSNode } from '@TimeCat/virtual-dom'
 import { nodeStore } from './store/node'
 
 type ScriptItem = { name?: string; src: string }
@@ -27,6 +34,7 @@ export async function exportReplay(exportOptions: ExportOptions) {
     await addNoneFrame()
     const parser = new DOMParser()
     const html = parser.parseFromString(TPL, 'text/html')
+    await injectLoading(html)
     await injectData(html, exportOptions)
     await initOptions(html, exportOptions)
     downloadFiles(html)
@@ -44,11 +52,16 @@ function recoveryMethods() {
 
 async function addNoneFrame() {
     const DBOperator = await getDBOperator
-    DBOperator.add({
-        type: 'NONE',
-        data: null,
-        time: getTime().toString()
-    } as NONERecord)
+
+    const count = await DBOperator.count()
+
+    if (count) {
+        DBOperator.add({
+            type: 'NONE',
+            data: null,
+            time: getTime().toString()
+        } as NONERecord)
+    }
 }
 
 function downloadHTML(content: string) {
@@ -122,8 +135,11 @@ async function injectScripts(html: Document, scripts?: ScriptItem[]) {
 async function getDataFromDB(exportOptions?: ExportOptions) {
     const DBOperator = await getDBOperator
     const data = await DBOperator.readAllRecords()
-    const classified = classifyRecords(data)
-    return extract(classified, exportOptions)
+    if (data) {
+        const classified = classifyRecords(data)
+        return extract(classified, exportOptions)
+    }
+    return null
 }
 
 function extract(
@@ -155,8 +171,25 @@ function extractAudio(audio: AudioData) {
     return audio
 }
 
+async function injectLoading(html: Document) {
+    const loadingScriptContent = `const loadingNode = document.createElement('div')
+    loadingNode.className = 'pacman-box';
+    loadingNode.innerHTML = '<style>${pacmanCss}<\/style><div class="pacman"><div><\/div><div><\/div><div><\/div><div><\/div><div><\/div><\/div>'
+    loadingNode.setAttribute('style', 'text-align: center;vertical-align: middle;line-height: 100vh;')
+    document.body.insertBefore(loadingNode, document.body.firstChild);window.addEventListener('DOMContentLoaded', () => loadingNode.parentNode.removeChild(loadingNode))`
+    injectScripts(html, [{ src: loadingScriptContent }])
+}
+
 async function injectData(html: Document, exportOptions: ExportOptions) {
-    const data = window.__ReplayDataList__ || (await getDataFromDB(exportOptions))
+    const data = (window.__ReplayDataList__ || (await getDataFromDB(exportOptions))) as {
+        snapshot: SnapshotData
+        records: RecordData[]
+        audio: AudioData
+    }[]
+
+    if (!data) {
+        return
+    }
 
     const extractedData = await makeCssInline(data) // some link cross origin
 
@@ -176,12 +209,7 @@ async function injectData(html: Document, exportOptions: ExportOptions) {
     }
 
     const replayData = `var __ReplayStrData__ =  '${outputStr}'`
-    const loadingScriptContent = `const loadingNode = document.createElement('div')
-    loadingNode.className = 'pacman-box';
-    loadingNode.innerHTML = '<style>${pacmanCss}<\/style><div class="pacman"><div><\/div><div><\/div><div><\/div><div><\/div><div><\/div><\/div>'
-    loadingNode.setAttribute('style', 'text-align: center;vertical-align: middle;line-height: 100vh;')
-    document.body.insertBefore(loadingNode, document.body.firstChild);window.addEventListener('DOMContentLoaded', () => loadingNode.parentNode.removeChild(loadingNode))`
-    injectScripts(html, [{ src: loadingScriptContent }])
+
     injectScripts(html, [{ src: replayData }])
 }
 
@@ -191,7 +219,7 @@ async function makeCssInline(dataList: { snapshot: SnapshotData; records: Record
     for (let k = 0; k < dataList.length; k++) {
         const data = dataList[k]
         const { snapshot, records } = data
-        const tasks = [snapshot.vNode]
+        const tasks = [snapshot.data.vNode]
         let node
         while ((node = tasks.shift())) {
             if (isVNode(node)) {
@@ -202,7 +230,7 @@ async function makeCssInline(dataList: { snapshot: SnapshotData; records: Record
 
         for (let i = 0; i < records.length; i++) {
             const record = records[i]
-            if (record.type === 'DOM_UPDATE') {
+            if (record.type === RecordType.DOM_UPDATE) {
                 const { addedNodes } = record.data
                 for (let j = 0; j < addedNodes.length; j++) {
                     const node = addedNodes[j].node

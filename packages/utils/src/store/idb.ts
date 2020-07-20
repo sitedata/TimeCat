@@ -1,5 +1,4 @@
-import { SnapshotData } from '@TimeCat/snapshot'
-import { RecordData } from '@TimeCat/record'
+import { SnapshotData, TransactionMode, RecordData } from '@timecat/share'
 
 export class IndexedDBOperator {
     db: IDBDatabase
@@ -13,11 +12,11 @@ export class IndexedDBOperator {
         this.storeName = storeName
 
         const request = window.indexedDB.open(DBName, version)
-        request.onerror = e => {
+        request.onerror = () => {
             console.error('open indexedDB on error')
         }
 
-        request.onsuccess = e => {
+        request.onsuccess = () => {
             this.db = request.result
             callback(this.db)
         }
@@ -34,26 +33,58 @@ export class IndexedDBOperator {
         }
     }
 
-    add(data: SnapshotData | RecordData) {
-        const request = this.db
-            .transaction([`${this.storeName}`], 'readwrite')
-            .objectStore(`${this.storeName}`)
-            .add(data)
-        request.onerror = e => {
-            throw new Error('write indexedDB on error')
-        }
+    private withIDBStore(type: IDBTransactionMode): Promise<IDBObjectStore> {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction(this.storeName, type)
+            transaction.oncomplete = () => {}
+            transaction.onabort = transaction.onerror = () => {
+                reject(transaction.error)
+                throw new Error('process indexedDB on error')
+            }
+            resolve(transaction.objectStore(this.storeName))
+        })
     }
 
-    clear() {
-        const objectStore = this.db.transaction([`${this.storeName}`], 'readwrite').objectStore(`${this.storeName}`)
-        objectStore.clear()
+    private getStore() {
+        return this.withIDBStore(TransactionMode.READWRITE)
     }
 
-    async readAllRecords(): Promise<(SnapshotData | RecordData)[]> {
-        const objectStore = this.db.transaction([`${this.storeName}`], 'readwrite').objectStore(`${this.storeName}`)
+    async add(data: SnapshotData | RecordData) {
+        const store = await this.getStore()
+        store.add(data)
+    }
+
+    async clear() {
+        const store = await this.getStore()
+        store.clear()
+    }
+
+    async readAllRecords(): Promise<(SnapshotData | RecordData)[] | null> {
+        const store = await this.getStore()
+
+        const records: (SnapshotData | RecordData)[] = []
+        // This would be store.getAll(), but it isn't supported by IE now.
         return new Promise(resolve => {
-            objectStore.getAll().onsuccess = event => {
-                resolve(event!.target!.result)
+            store.openCursor().onsuccess = event => {
+                const cursor = event!.target!.result
+
+                if (cursor) {
+                    records.push(cursor.value)
+                    cursor.continue()
+                    return
+                }
+                resolve(records)
+            }
+        }).then((arr: (SnapshotData | RecordData)[]) => (arr.length ? arr : null))
+    }
+
+    async count(): Promise<number> {
+        const store = await this.getStore()
+
+        return new Promise(resolve => {
+            store.count().onsuccess = event => {
+                const count = event!.target!.result
+                resolve(count)
             }
         })
     }

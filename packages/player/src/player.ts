@@ -10,10 +10,10 @@ import {
     toTimeStamp,
     base64ToFloat32Array,
     encodeWAV
-} from '@TimeCat/utils'
+} from '@timecat/utils'
 import { ProgressComponent } from './progress'
 import { ContainerComponent } from './container'
-import { RecordData, AudioData } from '@TimeCat/record'
+import { RecordData, AudioData } from '@timecat/share'
 import { BroadcasterComponent } from './broadcaster'
 import { AnimationFrame } from './animationFrame'
 
@@ -66,18 +66,20 @@ export class PlayerComponent {
             window.addEventListener('record-data', this.streamHandle.bind(this))
         } else {
             reduxStore.subscribe('player', state => {
-                this.progressState = reduxStore.getState()['progress']
-                const speed = state.speed
-                this.speed = speed
-                this.frames = this.getAccuratelyFrame()
+                if (state) {
+                    this.progressState = reduxStore.getState('progress')
+                    const speed = state.speed
+                    this.speed = speed
+                    this.frames = this.getAccuratelyFrame()
 
-                if (speed > 0) {
-                    this.play()
-                } else {
-                    this.pause()
+                    if (speed > 0) {
+                        this.play()
+                    } else {
+                        this.pause()
+                    }
+
+                    this.setProgress()
                 }
-
-                this.setProgress()
             })
         }
     }

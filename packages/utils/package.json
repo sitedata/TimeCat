@@ -1,13 +1,11 @@
 {
-    "name": "@timecat/snapshot",
+    "name": "@timecat/utils",
     "version": "1.0.0",
     "description": "",
     "main": "dist/index.esm.js",
     "types": "dist/index.d.ts",
     "scripts": {},
     "dependencies": {
-        "@timecat/utils": "^1.0.0",
-        "@timecat/virtual-dom": "^1.0.0",
         "@timecat/share": "^1.0.0"
     },
     "author": "",

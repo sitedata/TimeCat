@@ -1,12 +1,57 @@
-import { VNode, VSNode } from '@TimeCat/virtual-dom'
-import { IndexedDBOperator } from '@TimeCat/utils'
+export type ValueOf<T> = T[keyof T]
+export type ValueOfKey<T, K extends keyof T> = T[K]
+
+export interface InfoData {
+    doctype: DocumentType
+    origin: string
+    pathname: string
+    width: number
+    height: number
+    scrollLeft: number
+    scrollTop: number
+    frameId: number | null
+}
+
+export interface SnapshotData {
+    type: RecordType.SNAPSHOT
+    data: {
+        vNode: VNode
+    } & InfoData
+    time: string
+}
+
+type Attrs = { [key: string]: string }
+
+type Extra = {
+    props?: { [key: string]: string | number | boolean }
+    isSVG?: boolean
+}
+
+type Children = (VNode | VSNode)[]
+
+export interface VSNode {
+    id: number
+    type: number
+    value: string
+}
+
+export interface VNode {
+    type: number
+    id: number
+    tag: string
+    attrs: Attrs
+    children: Children
+    extra: Extra
+}
 
 export enum RecordType {
+    'SNAPSHOT' = 'SNAPSHOT',
     'WINDOW' = 'WINDOW',
     'SCROLL' = 'SCROLL',
     'MOUSE' = 'MOUSE',
     'DOM_UPDATE' = 'DOM_UPDATE',
     'FORM_EL_UPDATE' = 'FORM_EL_UPDATE',
+    'LOCATION' = 'LOCATION',
     'AUDIO' = 'AUDIO',
     'NONE' = 'NONE'
 }
@@ -30,7 +75,7 @@ export interface WindowRecord {
 }
 
 export interface WindowWatcherData {
-    id: number
+    id: number | null
     width: number
     height: number
 }
@@ -42,7 +87,7 @@ export interface ScrollRecord {
 }
 
 export interface ScrollWatcherData {
-    id: number
+    id: number | null
     top: number
     left: number
 }
@@ -143,6 +188,18 @@ export interface NONERecord {
     time: string
 }
 
+export interface LocationRecord {
+    type: RecordType.LOCATION
+    data: LocationRecordData
+    time: string
+}
+
+export interface LocationRecordData {
+    path?: string
+    hash?: string
+    contextNodeId: number
+}
+
 export type RecordEvent<T> = (e: T) => void
 
 export type RecordData =
@@ -153,6 +210,7 @@ export type RecordData =
     | ScrollRecord
     | AudioRecord
     | NONERecord
+    | LocationRecord
 
 export interface AudioData {
     src: string
@@ -168,8 +226,10 @@ interface SubtitlesData {
 }
 
 export interface RecordOptions {
+    context?: Window
     audio?: boolean
-    emitter?: (data: RecordData, db: IndexedDBOperator) => void
+    emitter?: (data: RecordData | SnapshotData, db: any) => void
+    // emitter?: (data: RecordData, db: IndexedDBOperator) => void
 }
 
 export interface RecorderOptions {
@@ -179,3 +239,17 @@ export interface RecorderOptions {
 }
 
 export type IRecorderStatus = 'PAUSE' | 'RECORDING' | 'STOP'
+
+export interface ReplayOptions {
+    socketUrl?: string
+    proxy?: string
+    autoplay?: boolean
+}
+
+export enum TransactionMode {
+    'READONLY' = 'readonly',
+    'READWRITE' = 'readwrite',
+    'VERSIONCHANGE' = 'versionchange'
+}
+
+export type WatcherOptions<T> = { context: Window; emit: RecordEvent<T> }

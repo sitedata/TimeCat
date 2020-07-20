@@ -1,3 +1,4 @@
+import path from 'path'
 import ts from 'rollup-plugin-typescript2'
 import node from '@rollup/plugin-node-resolve'
 import { terser } from 'rollup-plugin-terser'
@@ -6,19 +7,30 @@ import { env, htmlExamples } from './rollup.base'
 import ttypescript from 'ttypescript'
 import visualizer from 'rollup-plugin-visualizer'
 import scss from 'rollup-plugin-scss'
+import { string } from 'rollup-plugin-string'
 
+const packagesDir = path.resolve(__dirname, '../packages')
+const packageDir = path.resolve(packagesDir, process.env.TARGET)
+const resolve = p => path.resolve(packageDir, p)
+
+const outputName = `${process.env.TARGET}js`
 export default {
-    input: 'index.ts',
+    input: resolve('src/index.ts'),
     output: [
         {
             name: 'timecat',
-            format: 'umd',
-            file: 'dist/timecatjs.min.js'
+            format: 'iife',
+            file: resolve(`dist/${outputName}.min.js`)
+        },
+        {
+            name: 'timecat',
+            format: 'cjs',
+            file: resolve(`dist/${outputName}.cjs.js`)
         },
         {
             name: 'timecat',
             format: 'esm',
-            file: 'dist/timecatjs.esm.js'
+            file: resolve(`dist/${outputName}.esm.js`)
         }
     ],
     plugins: [
@@ -45,6 +57,10 @@ export default {
             mainFields: ['module', 'main']
         }),
         commonjs(),
+        string({
+            include: ['**/*.html', '**/*.css'],
+            exclude: ['**/index.html', '**/index.css']
+        }),
         ...htmlExamples(),
         ...env(),
         // https://github.com/terser/terser#minify-options

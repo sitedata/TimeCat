@@ -1,7 +1,15 @@
 import diff from 'diff'
-import { RecordData, AudioData, AudioRecord, AudioStrList, RecorderOptions } from '@TimeCat/record'
-import { SnapshotData } from '@TimeCat/snapshot'
-import { VNode, VSNode } from '@TimeCat/virtual-dom'
+import {
+    VNode,
+    VSNode,
+    SnapshotData,
+    RecordData,
+    AudioData,
+    AudioRecord,
+    AudioStrList,
+    RecorderOptions,
+    RecordType
+} from '@timecat/share'
 
 export const isDev = process.env.NODE_ENV === 'development'
 
@@ -39,7 +47,7 @@ export function toTimeStamp(timeStr: string) {
 }
 
 export function isSnapshot(frame: RecordData | SnapshotData) {
-    return !!(frame as SnapshotData).vNode
+    return (frame as SnapshotData).type === RecordType.SNAPSHOT && !(frame as SnapshotData).data.frameId
 }
 
 export function classifyRecords(data: (SnapshotData | RecordData)[]) {
@@ -49,7 +57,7 @@ export function classifyRecords(data: (SnapshotData | RecordData)[]) {
         return frame.data.type === 'base64'
     }
     function isAudio(frame: RecordData | SnapshotData) {
-        return (frame as RecordData).type === 'AUDIO'
+        return (frame as RecordData).type === RecordType.AUDIO
     }
 
     let dataBasket: { snapshot: SnapshotData; records: RecordData[]; audio: AudioData }
