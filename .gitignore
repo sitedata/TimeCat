@@ -104,6 +104,7 @@ typings/
 
 .DS_Store
 dist/packages
+packages/*/dist
 stats.html
 */test.html
 */test-*.html
