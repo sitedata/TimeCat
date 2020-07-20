@@ -87,6 +87,9 @@
 					<li class=" tsd-kind-enum">
 						<a href="enums/recordtype.html" class="tsd-kind-icon">Record<wbr>Type</a>
 					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/transactionmode.html" class="tsd-kind-icon">Transaction<wbr>Mode</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/animationframe.html" class="tsd-kind-icon">Animation<wbr>Frame</a>
 					</li>
@@ -148,9 +151,6 @@
 						<a href="interfaces/domrecord.html" class="tsd-kind-icon">DOMRecord</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/domsnapshotdata.html" class="tsd-kind-icon">DOMSnapshot<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="interfaces/domupdatedatatype.html" class="tsd-kind-icon">DOMUpdate<wbr>Data<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -167,6 +167,12 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/infodata.html" class="tsd-kind-icon">Info<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/locationrecord.html" class="tsd-kind-icon">Location<wbr>Record</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/locationrecorddata.html" class="tsd-kind-icon">Location<wbr>Record<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/mouserecord.html" class="tsd-kind-icon">Mouse<wbr>Record</a>
@@ -194,6 +200,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/scrollwatcherdata.html" class="tsd-kind-icon">Scroll<wbr>Watcher<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshotdata.html" class="tsd-kind-icon">Snapshot<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/subtitlesdata.html" class="tsd-kind-icon">Subtitles<wbr>Data</a>
@@ -238,6 +247,9 @@
 						<a href="globals.html#options" class="tsd-kind-icon">Options</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#playerstate" class="tsd-kind-icon">Player<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#procedure" class="tsd-kind-icon">Procedure</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
@@ -256,10 +268,22 @@
 						<a href="globals.html#scriptitem" class="tsd-kind-icon">Script<wbr>Item</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#snapshotdata" class="tsd-kind-icon">Snapshot<wbr>Data</a>
+						<a href="globals.html#statemap" class="tsd-kind-icon">State<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#state" class="tsd-kind-icon">State</a>
+						<a href="globals.html#states" class="tsd-kind-icon">States</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#topicname" class="tsd-kind-icon">Topic<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#valueof" class="tsd-kind-icon">Value<wbr>Of</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#valueofkey" class="tsd-kind-icon">Value<wbr>OfKey</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#watcheroptions" class="tsd-kind-icon">Watcher<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#export_name_label" class="tsd-kind-icon">EXPORT_<wbr>NAME_<wbr>LABEL</a>
@@ -295,22 +319,28 @@
 						<a href="globals.html#reduxstore" class="tsd-kind-icon">redux<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#domrecord" class="tsd-kind-icon">DOMRecord</a>
-					</li>
-					<li class=" tsd-kind-function">
 						<a href="globals.html#domsnapshot" class="tsd-kind-icon">DOMSnapshot</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#formelementrecord" class="tsd-kind-icon">Form<wbr>Element<wbr>Record</a>
+						<a href="globals.html#domwatcher" class="tsd-kind-icon">DOMWatcher</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#formelementwatcher" class="tsd-kind-icon">Form<wbr>Element<wbr>Watcher</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#locationwatcher" class="tsd-kind-icon">Location<wbr>Watcher</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#mousewatcher" class="tsd-kind-icon">Mouse<wbr>Watcher</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#playerreducer" class="tsd-kind-icon">Player<wbr>Reducer</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#scrollrecord" class="tsd-kind-icon">Scroll<wbr>Record</a>
+						<a href="globals.html#scrollwatcher" class="tsd-kind-icon">Scroll<wbr>Watcher</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#windowrecord" class="tsd-kind-icon">Window<wbr>Record</a>
+						<a href="globals.html#windowwatcher" class="tsd-kind-icon">Window<wbr>Watcher</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#addnoneframe" class="tsd-kind-icon">add<wbr>None<wbr>Frame</a>
@@ -344,6 +374,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#createflatvnode" class="tsd-kind-icon">create<wbr>FlatVNode</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#createiframedom" class="tsd-kind-icon">create<wbr>IframeDOM</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#createnode" class="tsd-kind-icon">create<wbr>Node</a>
@@ -430,6 +463,9 @@
 						<a href="globals.html#getattr" class="tsd-kind-icon">get<wbr>Attr</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#getattributes" class="tsd-kind-icon">get<wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#getdatafromdb" class="tsd-kind-icon">get<wbr>Data<wbr>FromDB</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -440,6 +476,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getinitinfo" class="tsd-kind-icon">get<wbr>Init<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getoffsetposition" class="tsd-kind-icon">get<wbr>Offset<wbr>Position</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getpatches" class="tsd-kind-icon">get<wbr>Patches</a>
@@ -479,6 +518,12 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#injectdata" class="tsd-kind-icon">inject<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#injectiframecontent" class="tsd-kind-icon">inject<wbr>Iframe<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#injectloading" class="tsd-kind-icon">inject<wbr>Loading</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#injectscripts" class="tsd-kind-icon">inject<wbr>Scripts</a>
@@ -529,9 +574,6 @@
 						<a href="globals.html#mergearray" class="tsd-kind-icon">merge<wbr>Array</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#mousewatcher" class="tsd-kind-icon">mouse<wbr>Watcher</a>
-					</li>
-					<li class=" tsd-kind-function">
 						<a href="globals.html#mutationcallback" class="tsd-kind-icon">mutation<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -554,6 +596,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#recordaudio" class="tsd-kind-icon">record<wbr>Audio</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#recordframes" class="tsd-kind-icon">record<wbr>Frames</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#recoverymethods" class="tsd-kind-icon">recovery<wbr>Methods</a>
@@ -586,6 +631,9 @@
 						<a href="globals.html#snapshot" class="tsd-kind-icon">snapshot</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#startrecord" class="tsd-kind-icon">start<wbr>Record</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#startswithdoubleslash" class="tsd-kind-icon">starts<wbr>With<wbr>Double<wbr>Slash</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -610,13 +658,16 @@
 						<a href="globals.html#updatedom" class="tsd-kind-icon">update<wbr>Dom</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#updatenodeattrhref" class="tsd-kind-icon">update<wbr>Node<wbr>Attr<wbr>Href</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#waitstart" class="tsd-kind-icon">wait<wbr>Start</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#writeutfbytes" class="tsd-kind-icon">writeUTFBytes</a>
+						<a href="globals.html#waitingframesloaded" class="tsd-kind-icon">waiting<wbr>Frames<wbr>Loaded</a>
 					</li>
-					<li class=" tsd-kind-object-literal">
-						<a href="globals.html#ctrl" class="tsd-kind-icon">ctrl</a>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#writeutfbytes" class="tsd-kind-icon">writeUTFBytes</a>
 					</li>
 					<li class=" tsd-kind-object-literal">
 						<a href="globals.html#downloadaudioconfig" class="tsd-kind-icon">download<wbr>Audio<wbr>Config</a>

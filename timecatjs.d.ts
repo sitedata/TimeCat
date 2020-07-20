@@ -39,10 +39,6 @@ declare interface DOMRecord {
     time: string;
 }
 
-declare interface DOMSnapshotData {
-    vNode: VNode;
-}
-
 declare interface DOMUpdateDataType {
     addedNodes: UpdateNodeData[];
     movedNodes: movedNodesData[];
@@ -99,17 +95,6 @@ declare interface FormElementWatcherData {
     patches?: FormElementStrPatches[];
 }
 
-declare class IndexedDBOperator {
-    db: IDBDatabase;
-    DBName: string;
-    version: number;
-    storeName: string;
-    constructor(DBName: string, version: number, storeName: string, callback: (db: IDBDatabase) => void);
-    add(data: SnapshotData | RecordData): void;
-    clear(): void;
-    readAllRecords(): Promise<(SnapshotData | RecordData)[]>;
-}
-
 declare interface InfoData {
     doctype: DocumentType;
     origin: string;
@@ -118,6 +103,19 @@ declare interface InfoData {
     height: number;
     scrollLeft: number;
     scrollTop: number;
+    frameId: number | null;
+}
+
+declare interface LocationRecord {
+    type: RecordType.LOCATION;
+    data: LocationRecordData;
+    time: string;
+}
+
+declare interface LocationRecordData {
+    path?: string;
+    hash?: string;
+    contextNodeId: number;
 }
 
 declare enum MouseEventType {
@@ -154,7 +152,7 @@ export declare const record: (options: RecordOptions) => {
     unsubscribe: () => void;
 };
 
-declare type RecordData = FormElementRecord | DOMRecord | MouseRecord | WindowRecord | ScrollRecord | AudioRecord | NONERecord;
+declare type RecordData = FormElementRecord | DOMRecord | MouseRecord | WindowRecord | ScrollRecord | AudioRecord | NONERecord | LocationRecord;
 
 declare interface RecorderOptions {
     sampleBits: 8 | 16;
@@ -163,16 +161,19 @@ declare interface RecorderOptions {
 }
 
 declare interface RecordOptions {
+    context?: Window;
     audio?: boolean;
-    emitter?: (data: RecordData, db: IndexedDBOperator) => void;
+    emitter?: (data: RecordData | SnapshotData, db: any) => void;
 }
 
 declare enum RecordType {
+    'SNAPSHOT' = "SNAPSHOT",
     'WINDOW' = "WINDOW",
     'SCROLL' = "SCROLL",
     'MOUSE' = "MOUSE",
     'DOM_UPDATE' = "DOM_UPDATE",
     'FORM_EL_UPDATE' = "FORM_EL_UPDATE",
+    'LOCATION' = "LOCATION",
     'AUDIO' = "AUDIO",
     'NONE' = "NONE"
 }
@@ -202,12 +203,18 @@ declare interface ScrollRecord {
 }
 
 declare interface ScrollWatcherData {
-    id: number;
+    id: number | null;
     top: number;
     left: number;
 }
 
-declare type SnapshotData = DOMSnapshotData & InfoData;
+declare interface SnapshotData {
+    type: RecordType.SNAPSHOT;
+    data: {
+        vNode: VNode;
+    } & InfoData;
+    time: string;
+}
 
 declare interface UpdateNodeData {
     parentId: number;
@@ -237,7 +244,7 @@ declare interface WindowRecord {
 }
 
 declare interface WindowWatcherData {
-    id: number;
+    id: number | null;
     width: number;
     height: number;
 }
