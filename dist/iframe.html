@@ -19,7 +19,7 @@
             max-width: 100%;
             width: 280px;
             display: inline-block;
-            padding: 30px
+            margin: 30px
         }
 
         @media only screen and (max-width: 500px) {
@@ -83,7 +83,7 @@
             target.height = target.contentDocument.documentElement.offsetHeight
         }
         window.onresize = function () {
-            resizeIframe();
+            setTimeout(() => resizeIframe(), 250)
         }
 
         const { record } = timecat
