@@ -417,17 +417,15 @@ Gzip的核心是Deflate, 而Deflate又是基于LZ77和哈夫曼树的，通过Gz
 感谢阿里的XREPLAY的启发   
 感谢RRWEB的技术分享   
 
-#### 寻求工作机会
+#### 维护者
 
-如有伯乐
-若不介意学历因素
-请与我联系：
+[@oct16](https://github.com/oct16)
 
-微信：
-```js
-62809912 >> 2
-```
-邮箱：见Github个人主页
-职位：前端工程师
-方向：应用工具/大型网站
-地点：天南海北
+#### 如何贡献
+非常欢迎你的加入！[提一个 Issue](https://github.com/oct16/TimeCat/issues/new) 或者提交一个 Pull Request。
+
+标准 Readme 遵循 [Contributor Covenant](https://www.contributor-covenant.org/version/2/0/code_of_conduct/)  行为规范。
+
+
+#### 使用许可
+[GPL-3.0](LICENSE)
