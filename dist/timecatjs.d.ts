@@ -25,6 +25,27 @@ declare interface AudioStrList {
     data: string[];
 }
 
+declare interface CanvasInitRecordData {
+    id: number;
+    src: string;
+}
+
+declare interface CanvasMutationRecordData {
+    id: number;
+    strokes: {
+        name: keyof CanvasRenderingContext2D;
+        args: any[];
+    }[];
+}
+
+declare interface CanvasRecord {
+    type: RecordType.CANVAS;
+    data: CanvasRecordData;
+    time: string;
+}
+
+declare type CanvasRecordData = CanvasMutationRecordData | CanvasInitRecordData;
+
 declare interface CharacterDataUpdateData {
     parentId: number;
     value: string;
@@ -152,7 +173,7 @@ export declare const record: (options: RecordOptions) => {
     unsubscribe: () => void;
 };
 
-declare type RecordData = FormElementRecord | DOMRecord | MouseRecord | WindowRecord | ScrollRecord | AudioRecord | NONERecord | LocationRecord;
+declare type RecordData = FormElementRecord | DOMRecord | MouseRecord | WindowRecord | ScrollRecord | AudioRecord | NONERecord | LocationRecord | CanvasRecord;
 
 declare interface RecorderOptions {
     sampleBits: 8 | 16;
@@ -175,6 +196,7 @@ declare enum RecordType {
     'FORM_EL_UPDATE' = "FORM_EL_UPDATE",
     'LOCATION' = "LOCATION",
     'AUDIO' = "AUDIO",
+    'CANVAS' = "CANVAS",
     'NONE' = "NONE"
 }
 

@@ -100,6 +100,9 @@
 								<li class="tsd-kind-interface"><a href="interfaces/audiooptions.html" class="tsd-kind-icon">Audio<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/audiorecord.html" class="tsd-kind-icon">Audio<wbr>Record</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/audiostrlist.html" class="tsd-kind-icon">Audio<wbr>Str<wbr>List</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/canvasinitrecorddata.html" class="tsd-kind-icon">Canvas<wbr>Init<wbr>Record<wbr>Data</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/canvasmutationrecorddata.html" class="tsd-kind-icon">Canvas<wbr>Mutation<wbr>Record<wbr>Data</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/canvasrecord.html" class="tsd-kind-icon">Canvas<wbr>Record</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/characterdataupdatedata.html" class="tsd-kind-icon">Character<wbr>Data<wbr>Update<wbr>Data</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/domrecord.html" class="tsd-kind-icon">DOMRecord</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/domupdatedatatype.html" class="tsd-kind-icon">DOMUpdate<wbr>Data<wbr>Type</a></li>
@@ -134,6 +137,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias"><a href="globals.html#action" class="tsd-kind-icon">Action</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#attrs" class="tsd-kind-icon">Attrs</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#canvasrecorddata" class="tsd-kind-icon">Canvas<wbr>Record<wbr>Data</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#children" class="tsd-kind-icon">Children</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#exportoptions" class="tsd-kind-icon">Export<wbr>Options</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#extra" class="tsd-kind-icon">Extra</a></li>
@@ -142,6 +146,7 @@
 								<li class="tsd-kind-type-alias"><a href="globals.html#playerstate" class="tsd-kind-icon">Player<wbr>State</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#procedure" class="tsd-kind-icon">Procedure</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#progressstate" class="tsd-kind-icon">Progress<wbr>State</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#prop" class="tsd-kind-icon">Prop</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#recorddata" class="tsd-kind-icon">Record<wbr>Data</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#recordevent" class="tsd-kind-icon">Record<wbr>Event</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#reducer" class="tsd-kind-icon">Reducer</a></li>
@@ -149,6 +154,7 @@
 								<li class="tsd-kind-type-alias"><a href="globals.html#statemap" class="tsd-kind-icon">State<wbr>Map</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#states" class="tsd-kind-icon">States</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#topicname" class="tsd-kind-icon">Topic<wbr>Name</a></li>
+								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#uniontointersection" class="tsd-kind-icon">Union<wbr>ToIntersection</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#valueof" class="tsd-kind-icon">Value<wbr>Of</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#valueofkey" class="tsd-kind-icon">Value<wbr>OfKey</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#watcheroptions" class="tsd-kind-icon">Watcher<wbr>Options</a></li>
@@ -162,17 +168,18 @@
 								<li class="tsd-kind-variable"><a href="globals.html#fmp" class="tsd-kind-icon">fmp</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#getdboperator" class="tsd-kind-icon">getDBOperator</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#isdev" class="tsd-kind-icon">is<wbr>Dev</a></li>
-								<li class="tsd-kind-variable"><a href="globals.html#listenerstore" class="tsd-kind-icon">listener<wbr>Store</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#nodestore" class="tsd-kind-icon">node<wbr>Store</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#pacmancss" class="tsd-kind-icon">pacman<wbr>Css</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#recovernative" class="tsd-kind-icon">recover<wbr>Native</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#reducer" class="tsd-kind-icon">reducer</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#reduxstore" class="tsd-kind-icon">redux<wbr>Store</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#uninstallstore" class="tsd-kind-icon">uninstall<wbr>Store</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function"><a href="globals.html#canvaswatcher" class="tsd-kind-icon">Canvas<wbr>Watcher</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#domsnapshot" class="tsd-kind-icon">DOMSnapshot</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#domwatcher" class="tsd-kind-icon">DOMWatcher</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#formelementwatcher" class="tsd-kind-icon">Form<wbr>Element<wbr>Watcher</a></li>
@@ -182,6 +189,7 @@
 								<li class="tsd-kind-function"><a href="globals.html#scrollwatcher" class="tsd-kind-icon">Scroll<wbr>Watcher</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#windowwatcher" class="tsd-kind-icon">Window<wbr>Watcher</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#addnoneframe" class="tsd-kind-icon">add<wbr>None<wbr>Frame</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#aggregatemanager" class="tsd-kind-icon">aggregate<wbr>Manager</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#base64tofloat32array" class="tsd-kind-icon">base64<wbr>ToFloat32<wbr>Array</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#classifyrecords" class="tsd-kind-icon">classify<wbr>Records</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#combinereducers" class="tsd-kind-icon">combine<wbr>Reducers</a></li>
@@ -334,7 +342,7 @@
 					<div class="tsd-signature tsd-kind-icon">Attrs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L23">packages/share/src/index.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L24">packages/share/src/index.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -347,12 +355,22 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="canvasrecorddata" class="tsd-anchor"></a>
+					<h3>Canvas<wbr>Record<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Canvas<wbr>Record<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="interfaces/canvasmutationrecorddata.html" class="tsd-signature-type">CanvasMutationRecordData</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/canvasinitrecorddata.html" class="tsd-signature-type">CanvasInitRecordData</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L210">packages/share/src/index.ts:210</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="children" class="tsd-anchor"></a>
 					<h3>Children</h3>
 					<div class="tsd-signature tsd-kind-icon">Children<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><a href="interfaces/vnode.html" class="tsd-signature-type">VNode</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/vsnode.html" class="tsd-signature-type">VSNode</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L30">packages/share/src/index.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L31">packages/share/src/index.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -389,7 +407,7 @@
 					<div class="tsd-signature tsd-kind-icon">Extra<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>isSVG<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>props<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L25">packages/share/src/index.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L26">packages/share/src/index.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -410,7 +428,7 @@
 					<div class="tsd-signature tsd-kind-icon">IRecorder<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"PAUSE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"RECORDING"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"STOP"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L241">packages/share/src/index.ts:241</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L263">packages/share/src/index.ts:263</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -484,12 +502,22 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="recorddata" class="tsd-anchor"></a>
-					<h3>Record<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">Record<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="interfaces/formelementrecord.html" class="tsd-signature-type">FormElementRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/domrecord.html" class="tsd-signature-type">DOMRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/mouserecord.html" class="tsd-signature-type">MouseRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/windowrecord.html" class="tsd-signature-type">WindowRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/scrollrecord.html" class="tsd-signature-type">ScrollRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/audiorecord.html" class="tsd-signature-type">AudioRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/nonerecord.html" class="tsd-signature-type">NONERecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/locationrecord.html" class="tsd-signature-type">LocationRecord</a></div>
+					<a name="prop" class="tsd-anchor"></a>
+					<h3>Prop</h3>
+					<div class="tsd-signature tsd-kind-icon">Prop<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">CanvasRenderingContext2D</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L205">packages/share/src/index.ts:205</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/canvas.ts#L8">packages/record/src/watchers/canvas.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="recorddata" class="tsd-anchor"></a>
+					<h3>Record<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Record<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="interfaces/formelementrecord.html" class="tsd-signature-type">FormElementRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/domrecord.html" class="tsd-signature-type">DOMRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/mouserecord.html" class="tsd-signature-type">MouseRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/windowrecord.html" class="tsd-signature-type">WindowRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/scrollrecord.html" class="tsd-signature-type">ScrollRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/audiorecord.html" class="tsd-signature-type">AudioRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/nonerecord.html" class="tsd-signature-type">NONERecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/locationrecord.html" class="tsd-signature-type">LocationRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/canvasrecord.html" class="tsd-signature-type">CanvasRecord</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L226">packages/share/src/index.ts:226</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -499,7 +527,7 @@
 					<div class="tsd-signature tsd-kind-icon">Record<wbr>Event&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L203">packages/share/src/index.ts:203</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L224">packages/share/src/index.ts:224</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -627,6 +655,22 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+					<a name="uniontointersection" class="tsd-anchor"></a>
+					<h3>Union<wbr>ToIntersection</h3>
+					<div class="tsd-signature tsd-kind-icon">Union<wbr>ToIntersection&lt;U&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span>k<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span>k<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> I<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">I</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">never</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L3">packages/share/src/index.ts:3</a></li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>U</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="valueof" class="tsd-anchor"></a>
 					<h3>Value<wbr>Of</h3>
 					<div class="tsd-signature tsd-kind-icon">Value<wbr>Of&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">]</span></div>
@@ -667,7 +711,7 @@
 					<div class="tsd-signature tsd-kind-icon">Watcher<wbr>Options&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Window</span><span class="tsd-signature-symbol">; </span>emit<span class="tsd-signature-symbol">: </span><a href="globals.html#recordevent" class="tsd-signature-type">RecordEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L255">packages/share/src/index.ts:255</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/share/src/index.ts#L277">packages/share/src/index.ts:277</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -742,16 +786,6 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable">
-					<a name="listenerstore" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> listener<wbr>Store</h3>
-					<div class="tsd-signature tsd-kind-icon">listener<wbr>Store<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Set&lt;Function&gt;()</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/store/listener.ts#L1">packages/utils/src/store/listener.ts:1</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="nodestore" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> node<wbr>Store</h3>
 					<div class="tsd-signature tsd-kind-icon">node<wbr>Store<span class="tsd-signature-symbol">:</span> <a href="classes/nodestore.html" class="tsd-signature-type">NodeStore</a><span class="tsd-signature-symbol"> = new NodeStore()</span></div>
@@ -815,9 +849,42 @@
 						</ul>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="uninstallstore" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> uninstall<wbr>Store</h3>
+					<div class="tsd-signature tsd-kind-icon">uninstall<wbr>Store<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Set&lt;Function&gt;()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/store/listener.ts#L1">packages/utils/src/store/listener.ts:1</a></li>
+						</ul>
+					</aside>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="canvaswatcher" class="tsd-anchor"></a>
+					<h3>Canvas<wbr>Watcher</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">Canvas<wbr>Watcher<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="globals.html#watcheroptions" class="tsd-signature-type">WatcherOptions</a><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/canvasrecord.html" class="tsd-signature-type">CanvasRecord</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/canvas.ts#L10">packages/record/src/watchers/canvas.ts:10</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <a href="globals.html#watcheroptions" class="tsd-signature-type">WatcherOptions</a><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/canvasrecord.html" class="tsd-signature-type">CanvasRecord</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="domsnapshot" class="tsd-anchor"></a>
 					<h3>DOMSnapshot</h3>
@@ -851,7 +918,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L396">packages/record/src/watcher.ts:396</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/dom.ts#L197">packages/record/src/watchers/dom.ts:197</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -874,7 +941,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L412">packages/record/src/watcher.ts:412</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/form-element.ts#L4">packages/record/src/watchers/form-element.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -897,7 +964,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L560">packages/record/src/watcher.ts:560</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/location.ts#L4">packages/record/src/watchers/location.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -920,7 +987,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L162">packages/record/src/watcher.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/mouse.ts#L4">packages/record/src/watchers/mouse.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -982,7 +1049,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L109">packages/record/src/watcher.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/scroll.ts#L4">packages/record/src/watchers/scroll.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1005,7 +1072,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L74">packages/record/src/watcher.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/window.ts#L4">packages/record/src/watchers/window.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1036,6 +1103,32 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="aggregatemanager" class="tsd-anchor"></a>
+					<h3>aggregate<wbr>Manager</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">aggregate<wbr>Manager<span class="tsd-signature-symbol">(</span>func<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, wait<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/canvas.ts#L64">packages/record/src/watchers/canvas.ts:64</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>func: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+								<li>
+									<h5>wait: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="base64tofloat32array" class="tsd-anchor"></a>
 					<h3>base64<wbr>ToFloat32<wbr>Array</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -1062,7 +1155,7 @@
 					<a name="classifyrecords" class="tsd-anchor"></a>
 					<h3>classify<wbr>Records</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">classify<wbr>Records<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="interfaces/formelementrecord.html" class="tsd-signature-type">FormElementRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/domrecord.html" class="tsd-signature-type">DOMRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/mouserecord.html" class="tsd-signature-type">MouseRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/windowrecord.html" class="tsd-signature-type">WindowRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/scrollrecord.html" class="tsd-signature-type">ScrollRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/audiorecord.html" class="tsd-signature-type">AudioRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/nonerecord.html" class="tsd-signature-type">NONERecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/locationrecord.html" class="tsd-signature-type">LocationRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/snapshotdata.html" class="tsd-signature-type">SnapshotData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>audio<span class="tsd-signature-symbol">: </span><a href="interfaces/audiodata.html" class="tsd-signature-type">AudioData</a><span class="tsd-signature-symbol">; </span>records<span class="tsd-signature-symbol">: </span><a href="globals.html#recorddata" class="tsd-signature-type">RecordData</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>snapshot<span class="tsd-signature-symbol">: </span><a href="interfaces/snapshotdata.html" class="tsd-signature-type">SnapshotData</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">classify<wbr>Records<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="interfaces/formelementrecord.html" class="tsd-signature-type">FormElementRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/domrecord.html" class="tsd-signature-type">DOMRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/mouserecord.html" class="tsd-signature-type">MouseRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/windowrecord.html" class="tsd-signature-type">WindowRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/scrollrecord.html" class="tsd-signature-type">ScrollRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/audiorecord.html" class="tsd-signature-type">AudioRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/nonerecord.html" class="tsd-signature-type">NONERecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/locationrecord.html" class="tsd-signature-type">LocationRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/canvasrecord.html" class="tsd-signature-type">CanvasRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/snapshotdata.html" class="tsd-signature-type">SnapshotData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>audio<span class="tsd-signature-symbol">: </span><a href="interfaces/audiodata.html" class="tsd-signature-type">AudioData</a><span class="tsd-signature-symbol">; </span>records<span class="tsd-signature-symbol">: </span><a href="globals.html#recorddata" class="tsd-signature-type">RecordData</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>snapshot<span class="tsd-signature-symbol">: </span><a href="interfaces/snapshotdata.html" class="tsd-signature-type">SnapshotData</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1074,7 +1167,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>data: <span class="tsd-signature-symbol">(</span><a href="interfaces/formelementrecord.html" class="tsd-signature-type">FormElementRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/domrecord.html" class="tsd-signature-type">DOMRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/mouserecord.html" class="tsd-signature-type">MouseRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/windowrecord.html" class="tsd-signature-type">WindowRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/scrollrecord.html" class="tsd-signature-type">ScrollRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/audiorecord.html" class="tsd-signature-type">AudioRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/nonerecord.html" class="tsd-signature-type">NONERecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/locationrecord.html" class="tsd-signature-type">LocationRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/snapshotdata.html" class="tsd-signature-type">SnapshotData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>data: <span class="tsd-signature-symbol">(</span><a href="interfaces/formelementrecord.html" class="tsd-signature-type">FormElementRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/domrecord.html" class="tsd-signature-type">DOMRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/mouserecord.html" class="tsd-signature-type">MouseRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/windowrecord.html" class="tsd-signature-type">WindowRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/scrollrecord.html" class="tsd-signature-type">ScrollRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/audiorecord.html" class="tsd-signature-type">AudioRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/nonerecord.html" class="tsd-signature-type">NONERecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/locationrecord.html" class="tsd-signature-type">LocationRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/canvasrecord.html" class="tsd-signature-type">CanvasRecord</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/snapshotdata.html" class="tsd-signature-type">SnapshotData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>audio<span class="tsd-signature-symbol">: </span><a href="interfaces/audiodata.html" class="tsd-signature-type">AudioData</a><span class="tsd-signature-symbol">; </span>records<span class="tsd-signature-symbol">: </span><a href="globals.html#recorddata" class="tsd-signature-type">RecordData</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>snapshot<span class="tsd-signature-symbol">: </span><a href="interfaces/snapshotdata.html" class="tsd-signature-type">SnapshotData</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -1295,7 +1388,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L281">packages/player/src/dom.ts:281</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L312">packages/player/src/dom.ts:312</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1707,7 +1800,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L37">packages/record/src/watcher.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/watcher.ts#L6">packages/utils/src/tools/watcher.ts:6</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1952,7 +2045,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L72">packages/player/src/dom.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L74">packages/player/src/dom.ts:74</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2165,30 +2258,25 @@
 					<a name="getoffsetposition" class="tsd-anchor"></a>
 					<h3>get<wbr>Offset<wbr>Position</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Offset<wbr>Position<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Offset<wbr>Position<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MouseEvent</span>, context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Window</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L148">packages/record/src/watcher.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/watcher.ts#L43">packages/utils/src/tools/watcher.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>element: <span class="tsd-signature-type">HTMLElement</span></h5>
+									<h5>event: <span class="tsd-signature-type">MouseEvent</span></h5>
+								</li>
+								<li>
+									<h5>context: <span class="tsd-signature-type">Window</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter">
-									<h5>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -2242,7 +2330,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L133">packages/utils/src/tools/dom.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L135">packages/utils/src/tools/dom.ts:135</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2259,7 +2347,7 @@
 					<a name="getrecorders" class="tsd-anchor"></a>
 					<h3>get<wbr>Recorders</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Recorders<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="interfaces/recordoptions.html" class="tsd-signature-type">RecordOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="globals.html#windowwatcher" class="tsd-signature-type">WindowWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#scrollwatcher" class="tsd-signature-type">ScrollWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#mousewatcher" class="tsd-signature-type">MouseWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#domwatcher" class="tsd-signature-type">DOMWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#formelementwatcher" class="tsd-signature-type">FormElementWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#locationwatcher" class="tsd-signature-type">LocationWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#getsnapshotdata" class="tsd-signature-type">getSnapshotData</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#recordaudio" class="tsd-signature-type">recordAudio</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Recorders<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="interfaces/recordoptions.html" class="tsd-signature-type">RecordOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="globals.html#domwatcher" class="tsd-signature-type">DOMWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#formelementwatcher" class="tsd-signature-type">FormElementWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#locationwatcher" class="tsd-signature-type">LocationWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#mousewatcher" class="tsd-signature-type">MouseWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#scrollwatcher" class="tsd-signature-type">ScrollWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#windowwatcher" class="tsd-signature-type">WindowWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#canvaswatcher" class="tsd-signature-type">CanvasWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#getsnapshotdata" class="tsd-signature-type">getSnapshotData</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#recordaudio" class="tsd-signature-type">recordAudio</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -2274,7 +2362,7 @@
 									<h5>options: <a href="interfaces/recordoptions.html" class="tsd-signature-type">RecordOptions</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><a href="globals.html#windowwatcher" class="tsd-signature-type">WindowWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#scrollwatcher" class="tsd-signature-type">ScrollWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#mousewatcher" class="tsd-signature-type">MouseWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#domwatcher" class="tsd-signature-type">DOMWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#formelementwatcher" class="tsd-signature-type">FormElementWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#locationwatcher" class="tsd-signature-type">LocationWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#getsnapshotdata" class="tsd-signature-type">getSnapshotData</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#recordaudio" class="tsd-signature-type">recordAudio</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><a href="globals.html#domwatcher" class="tsd-signature-type">DOMWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#formelementwatcher" class="tsd-signature-type">FormElementWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#locationwatcher" class="tsd-signature-type">LocationWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#mousewatcher" class="tsd-signature-type">MouseWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#scrollwatcher" class="tsd-signature-type">ScrollWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#windowwatcher" class="tsd-signature-type">WindowWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#canvaswatcher" class="tsd-signature-type">CanvasWatcher</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#getsnapshotdata" class="tsd-signature-type">getSnapshotData</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#recordaudio" class="tsd-signature-type">recordAudio</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -2305,7 +2393,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L163">packages/utils/src/tools/dom.ts:163</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L165">packages/utils/src/tools/dom.ts:165</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2489,7 +2577,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L290">packages/player/src/dom.ts:290</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L321">packages/player/src/dom.ts:321</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2564,7 +2652,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L25">packages/player/src/dom.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L27">packages/player/src/dom.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2590,7 +2678,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L64">packages/player/src/dom.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L66">packages/player/src/dom.ts:66</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2662,7 +2750,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L129">packages/utils/src/tools/dom.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L131">packages/utils/src/tools/dom.ts:131</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2685,7 +2773,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L122">packages/utils/src/tools/dom.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L124">packages/utils/src/tools/dom.ts:124</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2777,7 +2865,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L154">packages/utils/src/tools/dom.ts:154</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/dom.ts#L156">packages/utils/src/tools/dom.ts:156</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2800,7 +2888,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L510">packages/record/src/watcher.ts:510</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/form-element.ts#L102">packages/record/src/watchers/form-element.ts:102</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2823,7 +2911,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L419">packages/record/src/watcher.ts:419</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/form-element.ts#L11">packages/record/src/watchers/form-element.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2915,7 +3003,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L217">packages/record/src/watcher.ts:217</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/dom.ts#L18">packages/record/src/watchers/dom.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3156,7 +3244,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L44">packages/record/src/watcher.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/utils/src/tools/watcher.ts#L13">packages/utils/src/tools/watcher.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3225,7 +3313,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L265">packages/player/src/dom.ts:265</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L296">packages/player/src/dom.ts:296</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3343,7 +3431,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L258">packages/player/src/dom.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L289">packages/player/src/dom.ts:289</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4>
@@ -3360,7 +3448,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L253">packages/player/src/dom.ts:253</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L284">packages/player/src/dom.ts:284</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3598,7 +3686,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L76">packages/player/src/dom.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L78">packages/player/src/dom.ts:78</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3650,7 +3738,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L270">packages/player/src/dom.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/player/src/dom.ts#L301">packages/player/src/dom.ts:301</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -3853,16 +3941,26 @@
 					<div class="tsd-signature tsd-kind-icon">watchers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L610">packages/record/src/watcher.ts:610</a></li>
+							<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/index.ts#L9">packages/record/src/watchers/index.ts:9</a></li>
 						</ul>
 					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="watchers.canvaswatcher" class="tsd-anchor"></a>
+						<h3>Canvas<wbr>Watcher</h3>
+						<div class="tsd-signature tsd-kind-icon">Canvas<wbr>Watcher<span class="tsd-signature-symbol">:</span> <a href="globals.html#canvaswatcher" class="tsd-signature-type">CanvasWatcher</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/index.ts#L16">packages/record/src/watchers/index.ts:16</a></li>
+							</ul>
+						</aside>
+					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
 						<a name="watchers.domwatcher" class="tsd-anchor"></a>
 						<h3>DOMWatcher</h3>
 						<div class="tsd-signature tsd-kind-icon">DOMWatcher<span class="tsd-signature-symbol">:</span> <a href="globals.html#domwatcher" class="tsd-signature-type">DOMWatcher</a></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L614">packages/record/src/watcher.ts:614</a></li>
+								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/index.ts#L10">packages/record/src/watchers/index.ts:10</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -3872,7 +3970,7 @@
 						<div class="tsd-signature tsd-kind-icon">Form<wbr>Element<wbr>Watcher<span class="tsd-signature-symbol">:</span> <a href="globals.html#formelementwatcher" class="tsd-signature-type">FormElementWatcher</a></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L615">packages/record/src/watcher.ts:615</a></li>
+								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/index.ts#L11">packages/record/src/watchers/index.ts:11</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -3882,7 +3980,7 @@
 						<div class="tsd-signature tsd-kind-icon">Location<wbr>Watcher<span class="tsd-signature-symbol">:</span> <a href="globals.html#locationwatcher" class="tsd-signature-type">LocationWatcher</a></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L616">packages/record/src/watcher.ts:616</a></li>
+								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/index.ts#L12">packages/record/src/watchers/index.ts:12</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -3892,7 +3990,7 @@
 						<div class="tsd-signature tsd-kind-icon">Mouse<wbr>Watcher<span class="tsd-signature-symbol">:</span> <a href="globals.html#mousewatcher" class="tsd-signature-type">MouseWatcher</a></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L613">packages/record/src/watcher.ts:613</a></li>
+								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/index.ts#L13">packages/record/src/watchers/index.ts:13</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -3902,7 +4000,7 @@
 						<div class="tsd-signature tsd-kind-icon">Scroll<wbr>Watcher<span class="tsd-signature-symbol">:</span> <a href="globals.html#scrollwatcher" class="tsd-signature-type">ScrollWatcher</a></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L612">packages/record/src/watcher.ts:612</a></li>
+								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/index.ts#L14">packages/record/src/watchers/index.ts:14</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -3912,7 +4010,7 @@
 						<div class="tsd-signature tsd-kind-icon">Window<wbr>Watcher<span class="tsd-signature-symbol">:</span> <a href="globals.html#windowwatcher" class="tsd-signature-type">WindowWatcher</a></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watcher.ts#L611">packages/record/src/watcher.ts:611</a></li>
+								<li>Defined in <a href="https://github.com/oct16/TimeCat/blob/master/packages/record/src/watchers/index.ts#L15">packages/record/src/watchers/index.ts:15</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -4002,6 +4100,15 @@
 						<a href="interfaces/audiostrlist.html" class="tsd-kind-icon">Audio<wbr>Str<wbr>List</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/canvasinitrecorddata.html" class="tsd-kind-icon">Canvas<wbr>Init<wbr>Record<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/canvasmutationrecorddata.html" class="tsd-kind-icon">Canvas<wbr>Mutation<wbr>Record<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/canvasrecord.html" class="tsd-kind-icon">Canvas<wbr>Record</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/characterdataupdatedata.html" class="tsd-kind-icon">Character<wbr>Data<wbr>Update<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -4089,6 +4196,9 @@
 						<a href="globals.html#attrs" class="tsd-kind-icon">Attrs</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#canvasrecorddata" class="tsd-kind-icon">Canvas<wbr>Record<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#children" class="tsd-kind-icon">Children</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
@@ -4113,6 +4223,9 @@
 						<a href="globals.html#progressstate" class="tsd-kind-icon">Progress<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#prop" class="tsd-kind-icon">Prop</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#recorddata" class="tsd-kind-icon">Record<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
@@ -4132,6 +4245,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#topicname" class="tsd-kind-icon">Topic<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#uniontointersection" class="tsd-kind-icon">Union<wbr>ToIntersection</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="globals.html#valueof" class="tsd-kind-icon">Value<wbr>Of</a>
@@ -4158,9 +4274,6 @@
 						<a href="globals.html#isdev" class="tsd-kind-icon">is<wbr>Dev</a>
 					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#listenerstore" class="tsd-kind-icon">listener<wbr>Store</a>
-					</li>
-					<li class=" tsd-kind-variable">
 						<a href="globals.html#nodestore" class="tsd-kind-icon">node<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-variable">
@@ -4174,6 +4287,12 @@
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#reduxstore" class="tsd-kind-icon">redux<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#uninstallstore" class="tsd-kind-icon">uninstall<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#canvaswatcher" class="tsd-kind-icon">Canvas<wbr>Watcher</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#domsnapshot" class="tsd-kind-icon">DOMSnapshot</a>
@@ -4201,6 +4320,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#addnoneframe" class="tsd-kind-icon">add<wbr>None<wbr>Frame</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#aggregatemanager" class="tsd-kind-icon">aggregate<wbr>Manager</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#base64tofloat32array" class="tsd-kind-icon">base64<wbr>ToFloat32<wbr>Array</a>
