@@ -106,5 +106,4 @@ typings/
 dist/packages
 packages/*/dist
 stats.html
-*/test.html
-*/test-*.html
+*/test*

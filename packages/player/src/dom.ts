@@ -15,7 +15,9 @@ import {
     VNode,
     VSNode,
     SnapshotData,
-    LocationRecordData
+    LocationRecordData,
+    CanvasRecordData,
+    UnionToIntersection
 } from '@timecat/share'
 import FIXED_CSS from './fixed.scss'
 import { PlayerComponent } from './player'
@@ -121,7 +123,7 @@ export async function updateDom(this: PlayerComponent, Record: RecordData | Snap
             }
             break
         }
-        case RecordType.MOUSE:
+        case RecordType.MOUSE: {
             const { x, y, type } = data as MouseRecordData
             if (type === MouseEventType.MOVE) {
                 this.pointer.move(x, y)
@@ -129,7 +131,8 @@ export async function updateDom(this: PlayerComponent, Record: RecordData | Snap
                 this.pointer.click(x, y)
             }
             break
-        case RecordType.DOM_UPDATE:
+        }
+        case RecordType.DOM_UPDATE: {
             // Reduce the delay caused by interactive animation
             await delay(200)
             const { addedNodes, movedNodes, removedNodes, attrs, texts } = data as DOMUpdateDataType
@@ -210,7 +213,8 @@ export async function updateDom(this: PlayerComponent, Record: RecordData | Snap
                 }
             })
             break
-        case RecordType.FORM_EL_UPDATE:
+        }
+        case RecordType.FORM_EL_UPDATE: {
             // Reduce the delay caused by interactive animation
             await delay(200)
             const { id, key, type: formType, value, patches } = data as FormElementWatcherData
@@ -234,9 +238,10 @@ export async function updateDom(this: PlayerComponent, Record: RecordData | Snap
                     }
                 }
             }
-            break
 
-        case RecordType.LOCATION:
+            break
+        }
+        case RecordType.LOCATION: {
             const { path, hash, contextNodeId } = data as LocationRecordData
             const contextNode = nodeStore.getNode(contextNodeId)
 
@@ -244,6 +249,32 @@ export async function updateDom(this: PlayerComponent, Record: RecordData | Snap
                 const context = contextNode.ownerDocument!.defaultView!
                 context.__ReplayLocation__ = { ...context.__ReplayLocation__, ...{ path, hash } }
             }
+            break
+        }
+        case RecordType.CANVAS: {
+            const { src, id, strokes } = data as UnionToIntersection<CanvasRecordData>
+            const target = nodeStore.getNode(id) as HTMLCanvasElement
+            const ctx = target.getContext('2d')!
+
+            if (src) {
+                const image = new Image()
+                image.src = src
+                image.onload = function(this: HTMLImageElement) {
+                    ctx.drawImage(this, 0, 0)
+                }
+            } else {
+                strokes.forEach(stroke => {
+                    const { name, args } = stroke
+                    if (Array.isArray(args)) {
+                        ;(ctx[name] as Function).apply(ctx, args)
+                    } else {
+                        const value = args
+                        ;(ctx[name] as Object) = value
+                    }
+                })
+            }
+        }
+
         default: {
             break
         }
